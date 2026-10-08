@@ -1,0 +1,1588 @@
+<!doctype html><html lang="nl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#15171b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Flagship 26/27 Binder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Vault X 12-pocket Exo-Tec: 20 bladen, 40 kanten, 4x3 per kant.
+   Basisset op kant 1-25, inserts rij-uitgelijnd daarna. Kaartjes zijn eigen illustraties. */
+:root{
+  --bg:#f2f1ee;--panel:#ffffff;--sleeve:#f7f6f3;--ink:#15171b;--muted:#6b6f78;--faint:#a9acb3;--line:#e2e0db;
+  --gold:#a37c17;--have:#1f7a4d;--dup:#2a59b8;
+  --f-display:"Big Shoulders Display","Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Barlow Condensed","Arial Narrow",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111317;--panel:#181b20;--sleeve:#1d2026;--ink:#eef0f3;--muted:#9aa0ab;--faint:#5c626d;--line:#2a2e36;
+  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111317;--panel:#181b20;--sleeve:#1d2026;--ink:#eef0f3;--muted:#9aa0ab;--faint:#5c626d;--line:#2a2e36;
+  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:28px 72px}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px}
+.eyebrow{font-family:var(--f-num);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);line-height:.9;margin:6px 0 0;text-transform:uppercase}
+.sub{font-size:13px;color:var(--muted);margin-top:8px}
+.prog{min-width:min(100%,320px);display:grid;gap:8px}
+.prog .big{font-family:var(--f-display);font-weight:800;font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.prog .big small{font-family:var(--f-num);font-weight:600;font-size:16px;color:var(--muted);margin-left:6px}
+.track{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--have);border-radius:3px;transition:width .4s ease}
+.prog .meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sync{display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+.dot.ok{background:var(--have)}
+
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:28px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:2px;overflow-x:auto}
+.tab{border:0;background:none;padding:10px 12px 12px;font-family:var(--f-display);font-weight:800;font-size:19px;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tab small{font-family:var(--f-num);font-weight:600;font-size:13px;margin-left:5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-block:14px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.search{flex:1 1 240px;min-width:0;padding:9px 12px;border:1px solid var(--line);background:var(--panel);border-radius:8px}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:2px}
+.seg button{border:0;background:none;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.ghost{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 11px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted)}
+.ghost[aria-pressed="true"]{color:var(--dup);border-color:var(--dup)}
+.ghost:hover{color:var(--ink)}
+
+.clubs{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;margin-top:4px}
+.club{display:flex;align-items:center;gap:7px;padding:6px 8px;border:1px solid transparent;border-radius:7px;background:none;cursor:pointer;font-family:var(--f-num);font-weight:600;font-size:14px;color:var(--muted);text-align:left}
+.club:hover{background:var(--panel)}
+.club[aria-pressed="true"]{background:var(--panel);border-color:var(--line);color:var(--ink)}
+.club .sw{width:8px;height:8px;border-radius:2px;background:var(--c);flex:none}
+.club .n{margin-left:auto;font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+.club.full .n{color:var(--have)}
+
+/* vulplan */
+.plan{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.plan h2{margin:0 0 4px;font-family:var(--f-display);font-weight:800;font-size:22px;text-transform:uppercase}
+.plan p{margin:0 0 10px;font-size:13px;color:var(--muted)}
+.strip{display:grid;grid-template-columns:repeat(40,1fr);gap:2px;margin:10px 0 6px}
+.strip i{display:block;height:16px;border-radius:2px;background:var(--pc);opacity:.85;position:relative}
+.strip i.vacant{background:var(--line)}
+.strip i.half{background:linear-gradient(90deg,var(--pc) var(--p),var(--line) var(--p))}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--f-num);font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend b{width:10px;height:10px;border-radius:2px;background:var(--pc);display:inline-block}
+.legend em{font-style:normal;color:var(--faint)}
+
+.binder{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:16px;margin-top:18px}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+.sheet h3{margin:2px 4px 10px;display:flex;justify-content:space-between;gap:8px;font-family:var(--f-num);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.sheet h3 b{color:var(--ink);font-weight:700}
+.sheet h3 .side{color:var(--muted);letter-spacing:.04em;text-transform:none;font-weight:500}
+.sheet.done h3 span:last-child{color:var(--have)}
+.grid12{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.grid12 .blank{aspect-ratio:5/7;border-radius:8px;border:1.5px dashed var(--line);opacity:.55}
+
+.pocket{position:relative;aspect-ratio:5/7;border-radius:8px;border:0;padding:0;background:none;cursor:pointer;display:block;width:100%;text-align:left;transition:transform .12s ease}
+.pocket svg{display:block;width:100%;height:100%;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.14),0 6px 14px -8px rgba(0,0,0,.4)}
+.pocket:hover{transform:translateY(-2px)}
+.slot{position:absolute;inset:0;border:1.5px dashed var(--line);border-radius:8px;background:var(--sleeve);display:flex;flex-direction:column;justify-content:space-between;padding:8px 8px 7px}
+.pocket:hover .slot{border-color:var(--faint)}
+.slot .no{font-family:var(--f-display);font-weight:800;font-size:clamp(18px,2.6vw,26px);line-height:1;color:var(--faint);font-variant-numeric:tabular-nums}
+.slot .nm{font-size:11px;line-height:1.2;color:var(--muted);overflow-wrap:anywhere}
+.slot .nm b{display:block;font-weight:700;font-size:12px;color:var(--ink);opacity:.72}
+.slot .tm{display:flex;align-items:center;gap:5px;font-family:var(--f-num);font-weight:600;font-size:11px;letter-spacing:.06em;color:var(--faint);margin-top:4px}
+.slot .tm i{width:6px;height:6px;border-radius:2px;background:var(--c)}
+.slot .rc{font-family:var(--f-num);font-weight:700;font-size:10px;letter-spacing:.06em;color:var(--gold);margin-left:auto}
+.photo{position:absolute;inset:0;overflow:hidden;border-radius:8px;background:#222;box-shadow:0 1px 2px rgba(0,0,0,.14),0 6px 14px -8px rgba(0,0,0,.4)}
+.photo img{position:absolute;max-width:none;display:block}
+.tools{display:flex;gap:6px;flex-wrap:wrap;margin:-4px 4px 10px}
+.mini{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:4px 9px;font-family:var(--f-num);font-weight:600;font-size:13px;color:var(--muted);cursor:pointer}
+.mini:hover{color:var(--ink)}.mini[aria-pressed="true"]{color:var(--dup);border-color:var(--dup)}
+.crop{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px 14px;align-items:end;margin:0 4px 12px;padding:10px 12px;background:var(--sleeve);border-radius:8px;font-family:var(--f-num);font-size:13px;color:var(--muted)}
+.crop label{display:grid;gap:2px}.crop input{width:100%}.crop label span{font-variant-numeric:tabular-nums;color:var(--faint)}
+.badge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:11px;background:var(--have);color:#fff;display:grid;place-items:center;font-family:var(--f-num);font-weight:700;font-size:12px;padding:0 6px;box-shadow:0 0 0 2px var(--panel)}
+.badge.dup{background:var(--dup)}
+.badge svg{width:12px;height:12px;box-shadow:none;border-radius:0}
+
+.sets{display:grid;gap:10px;margin-top:18px}
+.set{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.set>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 16px}
+.set>summary::-webkit-details-marker{display:none}
+.set .chip{width:12px;height:28px;border-radius:3px;background:var(--sc)}
+.set .st{font-family:var(--f-display);font-weight:800;font-size:20px;text-transform:uppercase;line-height:1.05}
+.set .meta{font-family:var(--f-num);font-size:13px;color:var(--faint);letter-spacing:.04em}
+.set .meta b{color:var(--muted);font-weight:600}
+.set .right{display:grid;gap:6px;justify-items:end;min-width:90px}
+.set .cnt{font-family:var(--f-num);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums}
+.set .track{width:90px;height:4px}
+.set.done .cnt{color:var(--have)}
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px;padding:2px 16px 18px}
+.empty{color:var(--muted);padding:40px 4px;text-align:center}
+.login{position:fixed;inset:0;background:var(--bg);z-index:30;display:grid;place-items:center;padding:24px}
+.login[hidden]{display:none}
+.login form{max-width:380px;width:100%;display:grid;gap:12px}
+.login h1{font-size:48px}.login p{margin:0;color:var(--muted);font-size:14px}.login .small{font-size:13px;min-height:1.2em}
+.login input{padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);font-size:16px}
+.primary{padding:12px;border:0;border-radius:8px;background:var(--ink);color:var(--panel);font-weight:700;font-size:15px;cursor:pointer}
+.primary:disabled{opacity:.5}
+.link{border:0;background:none;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:13px}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:var(--panel);padding:10px 16px;border-radius:8px;font-weight:600;font-size:14px;transition:.2s;pointer-events:none;z-index:20;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.note{font-size:13px;color:var(--muted);margin-top:36px;max-width:72ch}
+
+@media (max-width:640px){
+  .binder{grid-template-columns:1fr}
+  .tab{font-size:17px;padding:8px 9px 10px}
+  .prog .big{font-size:34px}
+  .cardgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:2px 12px 14px}
+  .grid12{gap:5px}
+  .slot{padding:6px}
+  .slot .nm{font-size:10px}.slot .nm b{font-size:11px}
+  .strip{grid-template-columns:repeat(20,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Topps Flagship · Premier League 2026/27</div>
+      <h1>Mijn binder</h1>
+      <div class="sub">Vault X 12-pocket Exo-Tec · 20 bladen · 480 vakken</div>
+    </div>
+    <div class="prog">
+      <div class="big"><span id="gBase">0</span><small>/ 300 basiskaarten</small></div>
+      <div class="track"><i id="gBar" style="width:0%"></i></div>
+      <div class="meta"><span><span id="gIns">0</span> inserts · <span id="gHits">0</span> hits · <span id="gBind">0</span>/480 in de map</span><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">Laden…</span> · <button class="link" id="logout" hidden>uitloggen</button></span></div>
+    </div>
+  </header>
+
+  <div class="bar">
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-base" aria-selected="true" data-tab="base">Map<small id="tcBase"></small></button>
+      <button class="tab" role="tab" id="tab-ins" aria-selected="false" data-tab="ins">Inserts<small id="tcIns"></small></button>
+      <button class="tab" role="tab" id="tab-hits" aria-selected="false" data-tab="hits">Hits<small id="tcHits"></small></button>
+    </nav>
+  </div>
+
+  <div class="controls">
+    <input class="search" id="q" type="search" placeholder="Zoek speler, club of nummer" autocomplete="off">
+    <div class="seg" role="group" aria-label="Toon">
+      <button id="f-all" data-f="all" aria-pressed="true">Alles</button>
+      <button id="f-miss" data-f="miss" aria-pressed="false">Mist nog</button>
+      <button id="f-have" data-f="have" aria-pressed="false">Heb ik</button>
+    </div>
+    <button class="ghost" id="dupMode" aria-pressed="false">Dubbelen tellen</button>
+    <button class="ghost" id="copyMiss">Kopieer mislijst</button>
+  </div>
+
+  <section id="v-base">
+    <div class="clubs" id="clubs"></div>
+    <div class="plan" id="plan"></div>
+    <div class="binder" id="binder"></div>
+  </section>
+  <section id="v-ins" hidden><div class="sets" id="insSets"></div></section>
+  <section id="v-hits" hidden><div class="sets" id="hitSets"></div></section>
+
+  <p class="note">Foto's: fotografeer een hele kant van de map recht van boven, zo strak mogelijk op de rand van de pagina, en kies "Foto van deze kant". De pagina knipt de foto in 12 vakjes; met "Bijsnijden" schuif je de randen bij als de vakjes verschoven zijn. Tik op een kaart om hem af te vinken. Met "Dubbelen tellen" aan telt een tik +1; rechtsklik of vasthouden haalt er één af. De indeling volgt de Vault X 12-pocket: 4 bij 3 per kant, basisset op kant 1 tot 25, daarna de zeven insert-sets, elke set begint op een nieuwe rij. Chrome Classics en Gold Lion passen er niet meer bij en horen in toploaders. Bron: officiële Topps-checklist. De kaartjes zijn eigen typografische ontwerpen in clubkleuren, geen Topps-afbeeldingen.</p>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="login" id="login" hidden>
+  <form id="loginForm">
+    <div class="eyebrow">Topps Flagship · Premier League 2026/27</div>
+    <h1>Mijn binder</h1>
+    <p>Log in met je e-mailadres. Je krijgt een link in je mail; daarmee ben je op deze telefoon ingelogd.</p>
+    <input type="email" id="email" placeholder="E-mailadres" required autocomplete="email">
+    <button type="submit" class="primary" id="loginBtn">Stuur inloglink</button>
+    <p class="small" id="loginMsg"></p>
+  </form>
+</div>
+
+<script type="module">
+const RAW=`0~1~Max Dowman~0
+0~2~Jamaldeen Jimoh-Aloba~1
+0~3~Veljko Milosavljević~2
+0~4~Junior Kroupi~2
+0~5~Yasin Ayari~3
+0~6~Stefanos Tzimas~3
+0~7~Reggie Walsh~4
+0~8~Estêvão Willian~4
+0~9~Dastan Satpayev~4
+0~10~Romain Esse~5
+0~11~Joél Drakes-Thomas~5
+0~12~Josh King~6
+0~13~Harry Gray~7
+0~14~Giovanni Leoni~8
+0~15~Rio Ngumoha~8
+0~16~Divine Mukasa~9
+0~17~Jack Fletcher~10
+0~18~Shea Lacey~10
+0~19~Igor Jesus~11
+0~20~Chris Rigg~12
+1~21~William Saliba~0
+1~22~Gabriel Magalhães~0
+1~23~Jaden Dixon~0~R
+1~24~Jurriën Timber~0
+1~25~Myles Lewis-Skelly~0
+1~26~Martín Zubimendi~0
+1~27~Ife Ibrahim~0~R
+1~28~Declan Rice~0
+1~29~Martin Ødegaard~0
+1~30~Eberechi Eze~0
+1~31~Gabriel Martinelli~0
+1~32~Bukayo Saka~0
+1~33~Viktor Gyökeres~0
+1~34~Brando Bailey-Joseph~0~R
+1~35~Pau Torres~1
+1~36~Ezri Konsa~1
+1~37~Matty Cash~1
+1~38~Lamare Bogarde~1
+1~39~Ian Maatsen~1
+1~40~Boubacar Kamara~1
+1~41~Amadou Onana~1
+1~42~Youri Tielemans~1
+1~43~John McGinn~1
+1~44~Morgan Rogers~1
+1~45~Alysson~1~R
+1~46~Brian Madjo~1~R
+1~47~Tammy Abraham~1
+1~48~Ollie Watkins~1
+1~49~Bafodé Diakité~2
+1~50~Julio Soler~2
+1~51~Adrien Truffert~2
+1~52~Tyler Adams~2
+1~53~Marcus Tavernier~2
+1~54~Alex Scott~2
+1~55~David Brooks~2
+1~56~Alex Tóth~2~R
+1~57~Lewis Cook~2
+1~58~Amine Adli~2
+1~59~Ben Gannon-Doak~2
+1~60~Justin Kluivert~2
+1~61~Rayan~2~R
+1~62~Evanilson~2
+1~63~Nathan Collins~13
+1~64~Sepp van den Berg~13
+1~65~Michael Kayode~13
+1~66~Yunus Konak~13
+1~67~Antoni Milambo~13
+1~68~Mathias Jensen~13
+1~69~Jordan Henderson~13
+1~70~Mikkel Damsgaard~13
+1~71~Yehor Yarmolyuk~13
+1~72~Kaye Furo~13~R
+1~73~Kevin Schade~13
+1~74~Keane Lewis-Potter~13
+1~75~Igor Thiago~13
+1~76~Dango Ouattara~13
+1~77~Jan Paul van Hecke~3
+1~78~Ferdi Kadıoğlu~3
+1~79~Lewis Dunk~3
+1~80~Diego Coppola~3
+1~81~Jack Hinshelwood~3
+1~82~Carlos Baleba~3
+1~83~Diego Gómez~3
+1~84~Mats Wieffer~3
+1~85~Pascal Groß~3
+1~86~Kaoru Mitoma~3
+1~87~Charalampos Kostoulas~3
+1~88~Danny Welbeck~3
+1~89~Georginio Rutter~3
+1~90~Yankuba Minteh~3
+1~91~Jorrel Hato~4
+1~92~Reece James~4
+1~93~Marc Cucurella~4
+1~94~Malo Gusto~4
+1~95~Moisés Caicedo~4
+1~96~Enzo Fernández~4
+1~97~Landon Emenalo~4~R
+1~98~Andrey Santos~4
+1~99~Jesse Derry~4~R
+1~100~Pedro Neto~4
+1~101~Alejandro Garnacho~4
+1~102~Ryan Kavuma-McQueen~4~R
+1~103~João Pedro~4
+1~104~Cole Palmer~4
+1~105~Tyrick Mitchell~5
+1~106~Maxence Lacroix~5
+1~107~Chadi Riad~5
+1~108~Dean Benamar~5~R
+1~109~Chris Richards~5
+1~110~Daniel Muñoz~5
+1~111~Justin Devenny~5
+1~112~Adam Wharton~5
+1~113~Yéremy Pino~5
+1~114~Brennan Johnson~5
+1~115~Ismaïla Sarr~5
+1~116~Eddie Nketiah~5
+1~117~Jørgen Strand Larsen~5
+1~118~Jean-Philippe Mateta~5
+1~119~James Tarkowski~14
+1~120~Jarrad Branthwaite~14
+1~121~Adam Aznou~14
+1~122~Jake O'Brien~14
+1~123~Vitalii Mykolenko~14
+1~124~Charly Alcaraz~14
+1~125~Tim Iroegbunam~14
+1~126~Kiernan Dewsbury-Hall~14
+1~127~James Garner~14
+1~128~Tyler Dibling~14
+1~129~Dwight McNeil~14
+1~130~Iliman Ndiaye~14
+1~131~Beto~14
+1~132~Thierno Barry~14
+1~133~Calvin Bassey~6
+1~134~Joachim Andersen~6
+1~135~Antonee Robinson~6
+1~136~Kenny Tete~6
+1~137~Timothy Castagne~6
+1~138~Saša Lukić~6
+1~139~Sander Berge~6
+1~140~Alex Iwobi~6
+1~141~Seth Ridgeon~6~R
+1~142~Emile Smith Rowe~6
+1~143~Oscar Bobb~6
+1~144~Aaron Loupalo-Bi~6~R
+1~145~Kevin~6
+1~146~Rodrigo Muniz~6
+1~147~Joe Rodon~7
+1~148~Pascal Struijk~7
+1~149~Jayden Bogle~7
+1~150~Ethan Ampadu~7
+1~151~Gabriel Gudmundsson~7
+1~152~Sean Longstaff~7
+1~153~Ao Tanaka~7
+1~154~Brenden Aaronson~7
+1~155~Anton Stach~7
+1~156~Lukas Nmecha~7
+1~157~Wilfried Gnonto~7
+1~158~Daniel James~7
+1~159~Noah Okafor~7
+1~160~Dominic Calvert-Lewin~7
+1~161~Jérémy Jacquet~8~R
+1~162~Virgil van Dijk~8
+1~163~Milos Kerkez~8
+1~164~Jeremie Frimpong~8
+1~165~Conor Bradley~8
+1~166~Ryan Gravenberch~8
+1~167~Alexis Mac Allister~8
+1~168~Dominik Szoboszlai~8
+1~169~Curtis Jones~8
+1~170~Florian Wirtz~8
+1~171~Keyrol Figueroa~8~R
+1~172~Cody Gakpo~8
+1~173~Hugo Ekitike~8
+1~174~Alexander Isak~8
+1~175~Marc Guéhi~9
+1~176~Rúben Dias~9
+1~177~Joško Gvardiol~9
+1~178~Nico O'Reilly~9
+1~179~Floyd Samba~9~R
+1~180~Tijjani Reijnders~9
+1~181~Rodri~9
+1~182~Jérémy Doku~9
+1~183~Phil Foden~9
+1~184~Rayan Cherki~9
+1~185~Antoine Semenyo~9
+1~186~Ryan McAidoo~9~R
+1~187~Omar Marmoush~9
+1~188~Erling Haaland~9
+1~189~Tyler Fredricson~10~R
+1~190~Leny Yoro~10
+1~191~Lisandro Martínez~10
+1~192~Ayden Heaven~10
+1~193~Patrick Dorgu~10
+1~194~Godwill Kukonki~10~R
+1~195~Kobbie Mainoo~10
+1~196~Bruno Fernandes~10
+1~197~Tyler Fletcher~10~R
+1~198~JJ Gabriel~10~R
+1~199~Matheus Cunha~10
+1~200~Amad~10
+1~201~Bryan Mbeumo~10
+1~202~Benjamin Šeško~10
+1~203~Sven Botman~15
+1~204~Malick Thiaw~15
+1~205~Tino Livramento~15
+1~206~Lewis Hall~15
+1~207~Dan Burn~15
+1~208~Jacob Ramsey~15
+1~209~Sandro Tonali~15
+1~210~Joelinton~15
+1~211~Bruno Guimarães~15
+1~212~Sean Neave~15~R
+1~213~Harvey Barnes~15
+1~214~Yoane Wissa~15
+1~215~Nick Woltemade~15
+1~216~Anthony Elanga~15
+1~217~Nikola Milenković~11
+1~218~Nicolò Savona~11
+1~219~Murillo~11
+1~220~Luca Netz~11
+1~221~Neco Williams~11
+1~222~Ola Aina~11
+1~223~James McAtee~11
+1~224~Elliot Anderson~11
+1~225~Morgan Gibbs-White~11
+1~226~Ryan Yates~11
+1~227~Omari Hutchinson~11
+1~228~Callum Hudson-Odoi~11
+1~229~Dan Ndoye~11
+1~230~Chris Wood~11
+1~231~Trai Hume~12
+1~232~Reinildo Mandava~12
+1~233~Omar Alderete~12
+1~234~Nordi Mukiele~12
+1~235~Habib Diarra~12
+1~236~Granit Xhaka~12
+1~237~Noah Sadiki~12
+1~238~Enzo Le Fée~12
+1~239~Nilson Angulo~12
+1~240~Timur Tutierov~12~R
+1~241~Brian Brobbey~12
+1~242~Chemsdine Talbi~12
+1~243~Eliezer Mayenda~12
+1~244~Wilson Isidor~12
+1~245~Pedro Porro~16
+1~246~Micky van de Ven~16
+1~247~Cristian Romero~16
+1~248~Souza~16~R
+1~249~Djed Spence~16
+1~250~Archie Gray~16
+1~251~Conor Gallagher~16
+1~252~Dejan Kulusevski~16
+1~253~Lucas Bergvall~16
+1~254~Xavi Simons~16
+1~255~Lucá Williams-Barnett~16~R
+1~256~James Maddison~16
+1~257~Mohammed Kudus~16
+1~258~Dominic Solanke~16
+1~259~Milan van Ewijk~17
+1~260~Jay Dasilva~17
+1~261~Liam Kitching~17~R
+1~262~Bobby Thomas~17~R
+1~263~Joel Latibeaudiere~17~R
+1~264~Matt Grimes~17
+1~265~Victor Torp~17
+1~266~Jack Rudoni~17
+1~267~Josh Eccles~17~R
+1~268~Ellis Simms~17
+1~269~Brandon Thomas-Asante~17
+1~270~Tatsuhiro Sakamoto~17
+1~271~Ephron Mason-Clark~17~R
+1~272~Haji Wright~17
+1~273~Dara O'Shea~18
+1~274~Darnell Furlong~18
+1~275~Leif Davis~18
+1~276~Cédric Kipré~18
+1~277~Jacob Greaves~18
+1~278~Ben Johnson~18
+1~279~Azor Matusiwa~18
+1~280~Jack Taylor~18~R
+1~281~Marcelino Núñez~18
+1~282~Kasey McAteer~18
+1~283~Sindre Walle Egeli~18
+1~284~Jaden Philogene~18
+1~285~George Hirst~18
+1~286~Jack Clarke~18
+1~287~John Egan~19
+1~288~Charlie Hughes~19
+1~289~Lewie Coyle~19
+1~290~Ryan Giles~19
+1~291~Semi Ajayi~19
+1~292~Cody Drameh~19
+1~293~Darko Gyabi~19~R
+1~294~Regan Slater~19~R
+1~295~Matt Crooks~19
+1~296~David Akintola~19~R
+1~297~Liam Millar~19
+1~298~Mohamed Belloumi~19~R
+1~299~Kyle Joseph~19~R
+1~300~Oli McBurnie~19
+2~BM 1~Max Dowman~0
+2~BM 2~Bukayo Saka~0
+2~BM 3~Ollie Watkins~1
+2~BM 4~Brian Madjo~1~R
+2~BM 5~Junior Kroupi~2
+2~BM 6~Igor Thiago~13
+2~BM 7~Charalampos Kostoulas~3
+2~BM 8~Estêvão Willian~4
+2~BM 9~Dastan Satpayev~4
+2~BM 10~Jørgen Strand Larsen~5
+2~BM 11~Iliman Ndiaye~14
+2~BM 12~Josh King~6
+2~BM 13~Lukas Nmecha~7
+2~BM 14~Dominik Szoboszlai~8
+2~BM 15~Alexander Isak~8
+2~BM 16~Gianluigi Donnarumma~9
+2~BM 17~Erling Haaland~9
+2~BM 18~Matheus Cunha~10
+2~BM 19~Benjamin Šeško~10
+2~BM 20~Bruno Guimarães~15
+2~BM 21~Joelinton~15
+2~BM 22~Morgan Gibbs-White~11
+2~BM 23~Brian Brobbey~12
+2~BM 24~Conor Gallagher~16
+2~BM 25~Kasey McAteer~18
+3~NB 1~Noni Madueke~0
+3~NB 2~Brando Bailey-Joseph~0~R
+3~NB 3~Alysson~1~R
+3~NB 4~Marcus Tavernier~2
+3~NB 5~Michael Kayode~13
+3~NB 6~Yankuba Minteh~3
+3~NB 7~Pedro Neto~4
+3~NB 8~Jamie Gittens~4
+3~NB 9~Daniel Muñoz~5
+3~NB 10~Thierno Barry~14
+3~NB 11~Oscar Bobb~6
+3~NB 12~Wilfried Gnonto~7
+3~NB 13~Jeremie Frimpong~8
+3~NB 14~Rio Ngumoha~8
+3~NB 15~Savinho~9
+3~NB 16~Omar Marmoush~9
+3~NB 17~Amad~10
+3~NB 18~Jacob Murphy~15
+3~NB 19~Anthony Elanga~15
+3~NB 20~Omari Hutchinson~11
+3~NB 21~Chemsdine Talbi~12
+3~NB 22~Micky van de Ven~16
+3~NB 23~Ephron Mason-Clark~17~R
+3~NB 24~Sindre Walle Egeli~18
+3~NB 25~Matt Crooks~19
+4~FF 1~William Saliba~0
+4~FF 2~Martin Ødegaard~0
+4~FF 3~Amadou Onana~1
+4~FF 4~Emiliano Buendía~1
+4~FF 5~Amine Adli~2
+4~FF 6~Mikkel Damsgaard~13
+4~FF 7~Diego Gómez~3
+4~FF 8~Kaoru Mitoma~3
+4~FF 9~Moisés Caicedo~4
+4~FF 10~João Pedro~4
+4~FF 11~Ismaïla Sarr~5
+4~FF 12~Jørgen Strand Larsen~5
+4~FF 13~Beto~14
+4~FF 14~Antonee Robinson~6
+4~FF 15~Ethan Ampadu~7
+4~FF 16~Virgil van Dijk~8
+4~FF 17~Joško Gvardiol~9
+4~FF 18~Phil Foden~9
+4~FF 19~Diogo Dalot~10
+4~FF 20~Malick Thiaw~15
+4~FF 21~Sandro Tonali~15
+4~FF 22~Chris Wood~11
+4~FF 23~Noah Sadiki~12
+4~FF 24~Pedro Porro~16
+4~FF 25~Brandon Thomas-Asante~17
+5~SPL 1~Jurriën Timber~0
+5~SPL 2~Declan Rice~0
+5~SPL 3~Youri Tielemans~1
+5~SPL 4~Justin Kluivert~2
+5~SPL 5~Nathan Collins~13
+5~SPL 6~Pascal Groß~3
+5~SPL 7~Reece James~4
+5~SPL 8~Enzo Fernández~4
+5~SPL 9~Adam Wharton~5
+5~SPL 10~Jarrad Branthwaite~14
+5~SPL 11~Emile Smith Rowe~6
+5~SPL 12~Brenden Aaronson~7
+5~SPL 13~Ryan Gravenberch~8
+5~SPL 14~Alexis Mac Allister~8
+5~SPL 15~Marc Guéhi~9
+5~SPL 16~Rodri~9
+5~SPL 17~Kobbie Mainoo~10
+5~SPL 18~Bryan Mbeumo~10
+5~SPL 19~Jacob Ramsey~15
+5~SPL 20~Yoane Wissa~15
+5~SPL 21~Elliot Anderson~11
+5~SPL 22~Granit Xhaka~12
+5~SPL 23~Xavi Simons~16
+5~SPL 24~Jack Rudoni~17
+5~SPL 25~Ellis Simms~17
+6~RT 1~Paul Merson~0
+6~RT 2~Dwight Yorke~1
+6~RT 3~Dion Dublin~1
+6~RT 4~Glenn Murray~2
+6~RT 5~Mathias Jensen~13
+6~RT 6~Danny Welbeck~3
+6~RT 7~Marcel Desailly~4
+6~RT 8~Ruud Gullit~4
+6~RT 9~Gábor Király~5
+6~RT 10~Attilio Lombardo~5
+6~RT 11~James Rodríguez~14
+6~RT 12~Duncan Ferguson~14
+6~RT 13~Bobby Zamora~6
+6~RT 14~Dimitar Berbatov~6
+6~RT 15~Steve McManaman~8
+6~RT 16~Robbie Fowler~8
+6~RT 17~Samir Nasri~9
+6~RT 18~Shaun Wright-Phillips~9
+6~RT 19~Craig Bellamy~9
+6~RT 20~Gary Pallister~10
+6~RT 21~Ryan Giggs~10
+6~RT 22~Federico Macheda~10
+6~RT 23~Les Ferdinand~15
+6~RT 24~Claudio Reyna~12
+6~RT 25~Djibril Cissé~12
+7~8B 1~Santi Cazorla~0
+7~8B 2~Olivier Giroud~0
+7~8B 3~Darren Bent~1
+7~8B 4~Simon Francis~2
+7~8B 5~James Milner~3
+7~8B 6~Petr Čech~4
+7~8B 7~David Luiz~4
+7~8B 8~Daniel Sturridge~4
+7~8B 9~Yannick Bolasie~5
+7~8B 10~Yakubu~14
+7~8B 11~Clint Dempsey~6
+7~8B 12~Steven Gerrard~8
+7~8B 13~Fernando Torres~8
+7~8B 14~David Silva~9
+7~8B 15~Yaya Touré~9
+7~8B 16~Nani~10
+7~8B 17~Kevin Nolan~15
+7~8B 18~Papiss Cissé~15
+7~8B 19~Obafemi Martins~15
+7~8B 20~John O'Shea~12
+8~RTN 1~Didier Drogba~4
+8~RTN 2~Rio Ngumoha~8
+8~RTN 3~Mario Balotelli~9
+8~RTN 4~Sergio Agüero~9
+8~RTN 5~Wayne Rooney~10
+9~CC 1~Ian Wright~0
+9~CC 2~Juan Pablo Ángel~1
+9~CC 3~Gabriel Agbonlahor~1
+9~CC 4~Jermain Defoe~2
+9~CC 5~Danny Welbeck~3
+9~CC 6~Thiago Silva~4
+9~CC 7~Eden Hazard~4
+9~CC 8~Eidur Gudjohnsen~4
+9~CC 9~Iain Dowie~5
+9~CC 10~Wilfried Zaha~5
+9~CC 11~Duncan Ferguson~14
+9~CC 12~Steed Malbranque~6
+9~CC 13~Brian McBride~6
+9~CC 14~John Barnes~8
+9~CC 15~Roberto Firmino~8
+9~CC 16~Nicolas Anelka~8
+9~CC 17~Pablo Zabaleta~9
+9~CC 18~Yaya Touré~9
+9~CC 19~Riyad Mahrez~9
+9~CC 20~Roy Keane~10
+9~CC 21~Robin van Persie~10
+9~CC 22~Alexis Sánchez~10
+9~CC 23~Alan Shearer~15
+9~CC 24~Patrick Kluivert~15
+9~CC 25~Kevin Phillips~12
+10~GL 1~Declan Rice~0
+10~GL 2~Max Dowman~0
+10~GL 3~Thierry Henry~0
+10~GL 4~Morgan Rogers~1
+10~GL 5~Rayan~2~R
+10~GL 6~Igor Thiago~13
+10~GL 7~Cole Palmer~4
+10~GL 8~Estêvão Willian~4
+10~GL 9~Wayne Rooney~14
+10~GL 10~Steven Gerrard~8
+10~GL 11~Florian Wirtz~8
+10~GL 12~Kevin De Bruyne~9
+10~GL 13~Antoine Semenyo~9
+10~GL 14~Erling Haaland~9
+10~GL 15~Bruno Fernandes~10
+10~GL 16~David Beckham~10
+10~GL 17~JJ Gabriel~10~R
+10~GL 18~Bruno Guimarães~15
+10~GL 19~Alan Shearer~15
+10~GL 20~Harry Kane~16
+11~SGL 1~Declan Rice~0
+11~SGL 2~Max Dowman~0
+11~SGL 3~Thierry Henry~0
+11~SGL 4~Morgan Rogers~1
+11~SGL 5~Rayan~2~R
+11~SGL 6~Igor Thiago~13
+11~SGL 7~Cole Palmer~4
+11~SGL 8~Estêvão Willian~4
+11~SGL 9~Wayne Rooney~14
+11~SGL 10~Steven Gerrard~8
+11~SGL 11~Florian Wirtz~8
+11~SGL 12~Kevin De Bruyne~9
+11~SGL 13~Antoine Semenyo~9
+11~SGL 14~Erling Haaland~9
+11~SGL 15~Bruno Fernandes~10
+11~SGL 16~David Beckham~10
+11~SGL 17~JJ Gabriel~10~R
+11~SGL 18~Bruno Guimarães~15
+11~SGL 19~Alan Shearer~15
+11~SGL 20~Harry Kane~16
+12~PT 1~Eberechi Eze~0
+12~PT 2~Cole Palmer~4
+12~PT 3~Eden Hazard~4
+12~PT 4~Iliman Ndiaye~14
+12~PT 5~Philippe Coutinho~8
+12~PT 6~Rayan Cherki~9
+12~PT 7~Sergio Agüero~9
+12~PT 8~Matheus Cunha~10
+12~PT 9~Wayne Rooney~10
+12~PT 10~Harry Kane~16
+13~VI 1~Viktor Gyökeres~0
+13~VI 2~Ollie Watkins~1
+13~VI 3~Charalampos Kostoulas~3
+13~VI 4~Marc Cucurella~4
+13~VI 5~Jean-Philippe Mateta~5
+13~VI 6~Alex Iwobi~6
+13~VI 7~Hugo Ekitike~8
+13~VI 8~Erling Haaland~9
+13~VI 9~Patrick Dorgu~10
+13~VI 10~Chemsdine Talbi~12
+14~MA 1~Gabriel Magalhães~0
+14~MA 2~Gabriel Martinelli~0
+14~MA 3~Evanilson~2
+14~MA 4~Dango Ouattara~13
+14~MA 5~Yasin Ayari~3
+14~MA 6~Jesse Derry~4~R
+14~MA 7~Alejandro Garnacho~4
+14~MA 8~Yéremy Pino~5
+14~MA 9~Kevin~6
+14~MA 10~Noah Okafor~7
+14~MA 11~Jeremie Frimpong~8
+14~MA 12~Dominik Szoboszlai~8
+14~MA 13~Jérémy Doku~9
+14~MA 14~Godwill Kukonki~10~R
+14~MA 15~Benjamin Šeško~10
+14~MA 16~Harvey Barnes~15
+14~MA 17~Igor Jesus~11
+14~MA 18~Enzo Le Fée~12
+14~MA 19~Lucas Bergvall~16
+14~MA 20~Haji Wright~17
+15~OF 1~Tijjani Reijnders~9
+15~OF 2~Moisés Caicedo~4
+15~OF 3~Sandro Tonali~15
+15~OF 4~Kevin Schade~13
+15~OF 5~Gabriel Martinelli~0
+15~OF 6~Bryan Mbeumo~10
+15~OF 7~Bukayo Saka~0
+15~OF 8~Evanilson~2
+15~OF 9~João Pedro~4
+15~OF 10~Ezri Konsa~1
+15~OF 11~Bruno Fernandes~10
+15~OF 12~Antoine Semenyo~9
+15~OF 13~Noah Okafor~7
+15~OF 14~Virgil van Dijk~8
+15~OF 15~Bruno Guimarães~15
+16~GB 1~Thierry Henry~0~~2005/06
+16~GB 2~Didier Drogba~4~~2006/07
+16~GB 3~Mohamed Salah~8~~2024/25
+16~GB 4~Luis Suárez~8~~2013/14
+16~GB 5~Carlos Tevez~9~~2010/11
+16~GB 6~Erling Haaland~9~~2023/24
+16~GB 7~Robin van Persie~10~~2012/13
+16~GB 8~Alan Shearer~15~~1996/97
+16~GB 9~Kevin Phillips~12~~1999/00
+17~BE 1~Eberechi Eze~0
+17~BE 2~Max Dowman~0
+17~BE 3~Gabriel Martinelli~0
+17~BE 4~Morgan Rogers~1
+17~BE 5~Tammy Abraham~1
+17~BE 6~Gabriel Agbonlahor~1
+17~BE 7~Evanilson~2
+17~BE 8~Rayan~2~R
+17~BE 9~Igor Thiago~13
+17~BE 10~Kaye Furo~13~R
+17~BE 11~Kaoru Mitoma~3
+17~BE 12~Georginio Rutter~3
+17~BE 13~Estêvão Willian~4
+17~BE 14~João Pedro~4
+17~BE 15~Gianfranco Zola~4
+17~BE 16~Diego Costa~4
+17~BE 17~Ismaïla Sarr~5
+17~BE 18~Brennan Johnson~5
+17~BE 19~Yannick Bolasie~5
+17~BE 20~Jean-Philippe Mateta~5
+17~BE 21~Paul Gascoigne~14
+17~BE 22~Thierno Barry~14
+17~BE 23~Iliman Ndiaye~14
+17~BE 24~Kevin~6
+17~BE 25~Noah Okafor~7
+17~BE 26~Dominic Calvert-Lewin~7
+17~BE 27~Jérémy Jacquet~8~R
+17~BE 28~Philippe Coutinho~8
+17~BE 29~Luis Suárez~8
+17~BE 30~Alexander Isak~8
+17~BE 31~Hugo Ekitike~8
+17~BE 32~Kevin De Bruyne~9
+17~BE 33~Phil Foden~9
+17~BE 34~Antoine Semenyo~9
+17~BE 35~David Beckham~10
+17~BE 36~Bruno Fernandes~10
+17~BE 37~Amad~10
+17~BE 38~Zlatan Ibrahimović~10
+17~BE 39~JJ Gabriel~10~R
+17~BE 40~Bruno Guimarães~15
+17~BE 41~Nick Woltemade~15
+17~BE 42~David Ginola~15
+17~BE 43~Igor Jesus~11
+17~BE 44~Chris Rigg~12
+17~BE 45~Wilson Isidor~12
+17~BE 46~Edgar Davids~16
+17~BE 47~Mohammed Kudus~16
+17~BE 48~Harry Kane~16
+17~BE 49~Ellis Simms~17
+17~BE 50~Tatsuhiro Sakamoto~17
+18~QU 1~Eberechi Eze~0
+18~QU 2~Alex Tóth~2~R
+18~QU 3~Dango Ouattara~13
+18~QU 4~Carlos Baleba~3
+18~QU 5~Pedro Neto~4
+18~QU 6~Jean-Philippe Mateta~5
+18~QU 7~Kiernan Dewsbury-Hall~14
+18~QU 8~Oscar Bobb~6
+18~QU 9~Noah Okafor~7
+18~QU 10~Rio Ngumoha~8
+18~QU 11~Charlie Gray~9~R
+18~QU 12~Tijjani Reijnders~9
+18~QU 13~Bryan Mbeumo~10
+18~QU 14~Sean Neave~15~R
+18~QU 15~Dan Ndoye~11
+19~BB 1~Martin Ødegaard~0
+19~BB 2~Max Dowman~0
+19~BB 3~Morgan Rogers~1
+19~BB 4~Rayan~2~R
+19~BB 5~Igor Thiago~13
+19~BB 6~Danny Welbeck~3
+19~BB 7~Ryan Kavuma-McQueen~4~R
+19~BB 8~Estêvão Willian~4
+19~BB 9~Joél Drakes-Thomas~5
+19~BB 10~Charly Alcaraz~14
+19~BB 11~Kevin~6
+19~BB 12~Brenden Aaronson~7
+19~BB 13~Florian Wirtz~8
+19~BB 14~Alexander Isak~8
+19~BB 15~Phil Foden~9
+19~BB 16~Jérémy Doku~9
+19~BB 17~Benjamin Šeško~10
+19~BB 18~Amad~10
+19~BB 19~Bruno Guimarães~15
+19~BB 20~Omari Hutchinson~11
+19~BB 21~Eliezer Mayenda~12
+19~BB 22~Mohammed Kudus~16
+19~BB 23~Jack Rudoni~17~R
+19~BB 24~George Hirst~18
+19~BB 25~Oli McBurnie~19
+20~CD 1~Viktor Gyökeres~0
+20~CD 2~Thierry Henry~0
+20~CD 3~Morgan Rogers~1
+20~CD 4~Ollie Watkins~1
+20~CD 5~Frank Lampard~4
+20~CD 6~João Pedro~4
+20~CD 7~Erling Haaland~9
+20~CD 8~Bruno Fernandes~10
+20~CD 9~Wayne Rooney~10
+20~CD 10~Granit Xhaka~12
+21~HP 1~Max Dowman~0
+21~HP 2~Bukayo Saka~0
+21~HP 3~Ollie Watkins~1
+21~HP 4~Tyler Adams~2
+21~HP 5~Kevin Schade~13
+21~HP 6~Yankuba Minteh~3
+21~HP 7~Eden Hazard~4
+21~HP 8~Brennan Johnson~5
+21~HP 9~Iliman Ndiaye~14
+21~HP 10~Alex Iwobi~6
+21~HP 11~Brenden Aaronson~7
+21~HP 12~Roberto Firmino~8
+21~HP 13~Rayan Cherki~9
+21~HP 14~Mario Balotelli~9
+21~HP 15~Bryan Mbeumo~10
+21~HP 16~Edinson Cavani~10
+21~HP 17~Sandro Tonali~15
+21~HP 18~Igor Jesus~11
+21~HP 19~Granit Xhaka~12
+21~HP 20~Lucas Bergvall~16
+22~PS 1~Declan Rice~0
+22~PS 2~Brian Madjo~1~R
+22~PS 3~Junior Kroupi~2
+22~PS 4~Kaye Furo~13~R
+22~PS 5~Diego Gómez~3
+22~PS 6~Cole Palmer~4
+22~PS 7~Yéremy Pino~5
+22~PS 8~Tyler Dibling~14
+22~PS 9~Oscar Bobb~6
+22~PS 10~Dominic Calvert-Lewin~7
+22~PS 11~Florian Wirtz~8
+22~PS 12~Fernando Torres~8
+22~PS 13~Antoine Semenyo~9
+22~PS 14~Matheus Cunha~10
+22~PS 15~Eric Cantona~10
+22~PS 16~Nick Woltemade~15
+22~PS 17~Morgan Gibbs-White~11
+22~PS 18~Brian Brobbey~12
+22~PS 19~Xavi Simons~16
+22~PS 20~Haji Wright~17~R
+23~TR 1~Thierry Henry~0
+23~TR 2~Frank Lampard~4
+23~TR 3~Clint Dempsey~6
+23~TR 4~Steven Gerrard~8
+23~TR 5~Mohamed Salah~8
+23~TR 6~Kevin De Bruyne~9
+23~TR 7~David Beckham~10
+23~TR 8~Wayne Rooney~10
+23~TR 9~Nolberto Solano~15
+23~TR 10~Gareth Bale~16
+24~AK 1~Bukayo Saka~0
+24~AK 2~Morgan Rogers~1
+24~AK 3~Igor Thiago~13
+24~AK 4~Estêvão Willian~4
+24~AK 5~Josh King~6
+24~AK 6~Jérémy Jacquet~8~R
+24~AK 7~Erling Haaland~9
+24~AK 8~Bruno Fernandes~10
+24~AK 9~JJ Gabriel~10~R
+24~AK 10~Morgan Gibbs-White~11
+25~UBM 1~Bukayo Saka~0
+25~UBM 2~Brian Madjo~1~R
+25~UBM 3~Igor Thiago~13
+25~UBM 4~Estêvão Willian~4
+25~UBM 5~Iliman Ndiaye~14
+25~UBM 6~Dominik Szoboszlai~8
+25~UBM 7~Gianluigi Donnarumma~9
+25~UBM 8~Erling Haaland~9
+25~UBM 9~Matheus Cunha~10
+25~UBM 10~Bruno Guimarães~15
+26~DR 1~Brian Madjo~1~R
+26~DR 2~Rayan~2~R
+26~DR 3~Jesse Derry~4~R
+26~DR 4~Jérémy Jacquet~8~R
+26~DR 5~JJ Gabriel~10~R
+27~CC-IW~Ian Wright~0
+27~CC-JPA~Juan Pablo Ángel~1
+27~CC-GA~Gabriel Agbonlahor~1
+27~CC-JD~Jermain Defoe~2
+27~CC-DW~Danny Welbeck~3
+27~CC-TS~Thiago Silva~4
+27~CC-EH~Eden Hazard~4
+27~CC-EG~Eidur Gudjohnsen~4
+27~CC-ID~Iain Dowie~5
+27~CC-WZ~Wilfried Zaha~5
+27~CC-DF~Duncan Ferguson~14
+27~CC-SM~Steed Malbranque~6
+27~CC-BMB~Brian McBride~6
+27~CC-JB~John Barnes~8
+27~CC-RF~Roberto Firmino~8
+27~CC-NA~Nicolas Anelka~8
+27~CC-PZ~Pablo Zabaleta~9
+27~CC-YT~Yaya Touré~9
+27~CC-RM~Riyad Mahrez~9
+27~CC-RK~Roy Keane~10
+27~CC-RVP~Robin van Persie~10
+27~CC-ASZ~Alexis Sánchez~10
+27~CC-AS~Alan Shearer~15
+27~CC-PK~Patrick Kluivert~15
+27~CC-KP~Kevin Phillips~12
+28~PT-EE~Eberechi Eze~0
+28~PT-CP~Cole Palmer~4
+28~PT-EH~Eden Hazard~4
+28~PT-IN~Iliman Ndiaye~14
+28~PT-PC~Philippe Coutinho~8
+28~PT-RC~Rayan Cherki~9
+28~PT-SA~Sergio Agüero~9
+28~PT-MC~Matheus Cunha~10
+28~PT-WR~Wayne Rooney~10
+28~PT-HK~Harry Kane~16
+29~VI-VG~Viktor Gyökeres~0
+29~VI-OW~Ollie Watkins~1
+29~VI-CK~Charalampos Kostoulas~3
+29~VI-MC~Marc Cucurella~4
+29~VI-JPM~Jean-Philippe Mateta~5
+29~VI-AI~Alex Iwobi~6
+29~VI-HE~Hugo Ekitike~8
+29~VI-EH~Erling Haaland~9
+29~VI-PD~Patrick Dorgu~10
+29~VI-CT~Chemsdine Talbi~12
+30~MA-GMA~Gabriel Martinelli~0
+30~MA-EV~Evanilson~2
+30~MA-DO~Dango Ouattara~13
+30~MA-YA~Yasin Ayari~3
+30~MA-JDE~Jesse Derry~4
+30~MA-KE~Kevin~6
+30~MA-NO~Noah Okafor~7
+30~MA-JF~Jeremie Frimpong~8
+30~MA-JD~Jérémy Doku~9
+30~MA-BS~Benjamin Šeško~10
+31~OF-MS~Moisés Caicedo~4
+31~OF-TR~Tijjani Reijnders~9
+31~OF-ST~Sandro Tonali~15
+31~OF-KS~Kevin Schade~13
+31~OF-GM~Gabriel Martinelli~0
+31~OF-BM~Bryan Mbeumo~10
+31~OF-BS~Bukayo Saka~0
+31~OF-EV~Evanilson~2
+31~OF-JP~João Pedro~4
+31~OF-EK~Ezri Konsa~1
+31~OF-BF~Bruno Fernandes~10
+31~OF-AS~Antoine Semenyo~9
+31~OF-NO~Noah Okafor~7
+31~OF-VVD~Virgil van Dijk~8
+31~OF-BG~Bruno Guimarães~15
+32~GB-TH~Thierry Henry~0
+32~GB-MS~Mohamed Salah~8
+32~GB-MO~Michael Owen~8
+32~GB-JFH~Jimmy Floyd Hasselbaink~7
+32~GB-EH~Erling Haaland~9
+32~GB-RVP~Robin van Persie~10
+32~GB-AS~Alan Shearer~15
+32~GB-KP~Kevin Phillips~12
+32~GK-HK~Harry Kane~16
+32~GB-SHM~Son Heung-min~16
+33~BE-MD~Max Dowman~0
+33~BE-PG~Paul Gascoigne~14
+33~BE-LS~Luis Suárez~8
+33~BE-HE~Hugo Ekitike~8
+33~BE-KDB~Kevin De Bruyne~9
+33~BE-AS~Antoine Semenyo~9
+33~BE-JJG~JJ Gabriel~10~R
+33~BE-DB~David Beckham~10
+33~BE-DG~David Ginola~15
+33~BE-HK~Harry Kane~16
+34~BA-GM~Gabriel Magalhães~0
+34~BA-SC~Sol Campbell~0
+34~BA-ML~Myles Lewis-Skelly~0
+34~BA-MZ~Martín Zubimendi~0
+34~BA-EE~Eberechi Eze~0
+34~BA-DR~Declan Rice~0
+34~BA-NWA~Ethan Nwaneri~0
+34~BA-BS~Bukayo Saka~0
+34~BA-IW~Ian Wright~0
+34~BA-NA~Nicolas Anelka~0
+34~BA-NMA~Noni Madueke~0
+34~BA-EK~Ezri Konsa~1
+34~BA-MCH~Matty Cash~1
+34~BA-YT~Youri Tielemans~1
+34~BA-JMG~John McGinn~1
+34~BA-OW~Ollie Watkins~1
+34~BA-AT~Adrien Truffert~2
+34~BA-TAD~Tyler Adams~2
+34~BA-LC~Lewis Cook~2
+34~BA-ASC~Alex Scott~2
+34~BA-MTA~Marcus Tavernier~2
+34~BA-BGD~Ben Gannon-Doak~2
+34~BA-AAD~Amine Adli~2
+34~BA-EVA~Evanilson~2
+34~BA-CK~Caoimhín Kelleher~13
+34~BA-VJ~Vitaly Janelt~13
+34~BA-YY~Yegor Yarmolyuk~13
+34~BA-KF~Kaye Furo~13~R
+34~BA-KS~Kevin Schade~13
+34~BA-LD~Lewis Dunk~3
+34~BA-MW~Mats Wieffer~3
+34~BA-CB~Carlos Baleba~3
+34~BA-TW~Tom Watson~3
+34~BA-DW~Danny Welbeck~3
+34~BA-GR~Georginio Rutter~3
+34~BA-YM~Yankuba Minteh~3
+34~BA-CKO~Charalampos Kostoulas~3
+34~BA-JT~John Terry~4
+34~BA-JHA~Jorrel Hato~4
+34~BA-EF~Enzo Fernández~4
+34~BA-FL~Frank Lampard~4
+34~BA-LE~Landon Emenalo~4~R
+34~BA-JDE~Jesse Derry~4~R
+34~BA-JDY~Jamie Gittens~4
+34~BA-CP~Cole Palmer~4
+34~BA-MGU~Marc Guiu~4
+34~BA-SE~Samuel Eto'o~4
+34~BA-DCO~Diego Costa~4
+34~BA-AGA~Alejandro Garnacho~4
+34~BA-JR~Jack Rudoni~17
+34~BA-GS~Gordon Strachan~17
+34~BA-JH~John Hartson~17
+34~BA-DD~Dion Dublin~17
+34~BA-BTA~Brandon Thomas-Asante~17
+34~BA-CRI~Chris Richards~5
+34~BA-TM~Tyrick Mitchell~5
+34~BA-YP~Yéremy Pino~5
+34~BA-BJO~Brennan Johnson~5
+34~BA-AW~Adam Wharton~5
+34~BA-EN~Eddie Nketiah~5
+34~BA-JPM~Jean-Philippe Mateta~5
+34~BA-JPI~Jordan Pickford~14
+34~BA-VM~Vitalii Mykolenko~14
+34~BA-PJ~Phil Jagielka~14
+34~BA-AA~Adam Aznou~14
+34~BA-AY~Ashley Young~14
+34~BA-JBR~Jarrad Branthwaite~14
+34~BA-KD~Kiernan Dewsbury-Hall~14
+34~BA-LO~Leon Osman~14
+34~BA-DM~Dwight McNeil~14
+34~BA-JB~James Beattie~14
+34~BA-TD~Tyler Dibling~14
+34~BA-BE~Beto~14
+34~BA-CBA~Calvin Bassey~6
+34~BA-ARO~Antonee Robinson~6
+34~BA-ESR~Emile Smith Rowe~6
+34~BA-AI~Alex Iwobi~6
+34~BA-LS~Louis Saha~6
+34~BA-BMB~Brian McBride~6
+34~BA-KE~Kevin~6
+34~BA-OB~Oscar Bobb~6
+34~BA-BZ~Bobby Zamora~6
+34~BA-BA~Brenden Aaronson~7
+34~BA-AS~Anton Stach~7
+34~BA-LN~Lukas Nmecha~7
+34~BA-WG~Wilfried Gnonto~7
+34~BA-VVD~Virgil van Dijk~8
+34~BA-CBR~Conor Bradley~8
+34~BA-JC~Jamie Carragher~8
+34~BA-MKE~Milos Kerkez~8
+34~BA-AR~Andy Robertson~8
+34~BA-JF~Jeremie Frimpong~8
+34~BA-SBA~Stefan Bajčetić~8
+34~BA-TAL~Thiago Alcântara~8
+34~BA-SG~Steven Gerrard~8
+34~BA-PCO~Philippe Coutinho~8
+34~BA-SM~Sadio Mané~8
+34~BA-RF~Roberto Firmino~8
+34~BA-MS~Mohamed Salah~8
+34~BA-MGI~Marc Guéhi~9
+34~BA-NOR~Nico O'Reilly~9
+34~BA-JG~Joško Gvardiol~9
+34~BA-MN~Matheus Nunes~9
+34~BA-TR~Tijjani Reijnders~9
+34~BA-SAV~Savinho~9
+34~BA-JD~Jérémy Doku~9
+34~BA-PF~Phil Foden~9
+34~BA-RC~Rayan Cherki~9
+34~BA-RMA~Riyad Mahrez~9
+34~BA-EH~Erling Haaland~9
+34~BA-SA~Sergio Agüero~9
+34~BA-ASE~Antoine Semenyo~9
+34~BA-Ev~Edwin van der Sar~10
+34~BA-PS~Peter Schmeichel~10
+34~BA-DDA~Diogo Dalot~10
+34~BA-NV~Nemanja Vidić~10
+34~BA-GH~Gabriel Heinze~10
+34~BA-LY~Leny Yoro~10
+34~BA-PD~Patrick Dorgu~10
+34~BA-MCA~Michael Carrick~10
+34~BA-SK~Shinji Kagawa~10
+34~BA-BF~Bruno Fernandes~10
+34~BA-MM~Mason Mount~10
+34~BA-AH~Ander Herrera~10
+34~BA-KMA~Kobbie Mainoo~10
+34~BA-BSE~Benjamin Šeško~10
+34~BA-JZ~Joshua Zirkzee~10
+34~BA-MC~Matheus Cunha~10
+34~BA-RV~Robin Van Persie~10
+34~BA-ASA~Alexis Sánchez~10
+34~BA-BM~Bryan Mbeumo~10
+34~BA-JJ~JJ Gabriel~10~R
+34~BA-NP~Nick Pope~15
+34~BA-SB~Sven Botman~15
+34~BA-THI~Malick Thiaw~15
+34~BA-TL~Tino Livramento~15
+34~BA-LM~Lewis Miley~15
+34~BA-BG~Bruno Guimarães~15
+34~BA-ST~Sandro Tonali~15
+34~BA-JMU~Jacob Murphy~15
+34~BA-PK~Patrick Kluivert~15
+34~BA-PC~Papiss Cissé~15
+34~BA-NW~Nick Woltemade~15
+34~BA-ZA~Zach Abbott~11
+34~BA-NM~Nikola Milenković~11
+34~BA-OH~Omari Hutchinson~11
+34~BA-JO~John O'Shea~12
+34~BA-RM~Reinildo Mandava~12
+34~BA-GX~Granit Xhaka~12
+34~BA-CT~Chemsdine Talbi~12
+34~BA-KP~Kevin Phillips~12
+34~BA-DC~Djibril Cissé~12
+34~BA-CR~Cristian Romero~16
+34~BA-DU~Destiny Udogie~16
+34~BA-TA~Toby Alderweireld~16
+34~BA-Mv~Micky van de Ven~16
+34~BA-LB~Lucas Bergvall~16
+34~BA-JM~James Maddison~16
+34~BA-DK~Dejan Kulusevski~16
+34~BA-LW~Lucá Williams-Barnett~16~R
+34~BA-GB~Gareth Bale~16
+34~BA-DSO~Dominic Solanke~16
+34~BA-SH~Son Heung-min~16
+34~BA-WL~Will Lankshear~16
+34~BA-MT~Mathys Tel~16
+35~FSA-MD~Max Dowman~0
+35~FSA-EL~Junior Kroupi~2
+35~FSA-YA~Yasin Ayari~3
+35~FSA-RW~Reggie Walsh~4
+35~FSA-RE~Romain Esse~5
+35~FSA-JK~Josh King~6
+35~FSA-HG~Harry Gray~7
+35~FSA-GL~Giovanni Leoni~8
+35~FSA-DM~Divine Mukasa~9
+35~FSA-SL~Shea Lacey~10
+36~SPLA-DR~Declan Rice~0
+36~SPLA-YT~Youri Tielemans~1
+36~SPLA-PG~Pascal Groß~3
+36~SPLA-JR~Jack Rudoni~17
+36~SPLA-AW~Adam Wharton~5
+36~SPLA-BA~Brenden Aaronson~7
+36~SPLA-MG~Marc Guéhi~9
+36~SPLA-KM~Kobbie Mainoo~10
+36~SPLA-BM~Bryan Mbeumo~10
+37~DA-DS
+37~DA-YW
+37~DA-ZP
+37~DA-ZP
+37~DA-ME
+37~DA-FD
+37~DA-SM
+37~DA-SW
+37~DA-TG
+37~DA-KH
+37~DA-BK
+38~CA-DS~David Seaman~0
+38~CA-MK~Martin Keown~0
+38~CA-SC~Sol Campbell~0
+38~CA-TA~Tony Adams~0
+38~CA-AC~Ashley Cole~0
+38~CA-GVB~Giovanni van Bronckhorst~0
+38~CA-ED~Edu~0
+38~CA-PV~Patrick Vieira~0
+38~CA-RPA~Ray Parlour~0
+38~CA-FL~Freddie Ljungberg~0
+38~CA-RP~Robert Pirès~0
+38~CA-DB~Dennis Bergkamp~0
+38~CA-NK~Nwankwo Kanu~0
+38~CA-SW~Sylvain Wiltord~0
+38~CA-TH~Thierry Henry~0
+39~EX-VVD~Virgil van Dijk~8
+39~EX-RN~Rio Ngumoha~8
+39~EX-MS~Mohamed Salah~8
+39~EX-GD~Gianluigi Donnarumma~9
+39~EX-EH~Erling Haaland~9
+40~AR-AC~Ashley Cole~0
+40~AR-MD~Max Dowman~0
+40~AR-CF~Cesc Fàbregas~0
+40~AR-KS~Kevin Schade~13
+40~AR-DW~Danny Welbeck~3
+40~AR-MA~Marcel Desailly~4
+40~AR-JT~John Terry~4
+40~AR-FL~Frank Lampard~4
+40~AR-AG~Alejandro Garnacho~4
+40~AR-GZ~Gianfranco Zola~4
+40~AR-JK~Josh King~6
+40~AR-FT~Fernando Torres~8
+40~AR-LS~Luis Suárez~8
+40~AR-SA~Sergio Agüero~9
+40~AR-PS~Paul Scholes~10
+40~AR-RK~Roy Keane~10
+40~AR-JJ~JJ Gabriel~10~R
+40~AR-ST~Sandro Tonali~15
+40~AR-LWB~Lucá Williams-Barnett~16~R
+40~AR-SHM~Son Heung-min~16
+41~PC-MD~Max Dowman~0
+41~PC-BS~Bukayo Saka~0
+41~PC-CP~Cole Palmer~4
+41~PC-SG~Steven Gerrard~8
+41~PC-MS~Mohamed Salah~8
+41~PC-EH~Erling Haaland~9
+41~PC-BF~Bruno Fernandes~10
+41~PC-DB~David Beckham~10
+41~PC-JJ~JJ Gabriel~10~R
+41~PC-HK~Harry Kane~16
+42~BR-AC~Ashley Cole~0
+42~BR-EN~Ethan Nwaneri~0
+42~BR-VG~Viktor Gyökeres~0
+42~BR-JM~John McGinn~1
+42~BR-MR~Morgan Rogers~1
+42~BR-EV~Evanilson~2
+42~BR-KA~Kristoffer Ajer~13
+42~BR-VJ~Vitaly Janelt~13
+42~BR-GR~Georginio Rutter~3
+42~BR-TW~Tom Watson~3
+42~BR-MG~Malo Gusto~4
+42~BR-LCO~Levi Colwill~4
+42~BR-RD~Roberto Di Matteo~4
+42~BR-DDR~Didier Drogba~4
+42~BR-JP~João Pedro~4
+42~BR-EW~Estêvão Willian~4
+42~BR-RE~Romain Esse~5
+42~BR-AW~Adam Wharton~5
+42~BR-VM~Vitalii Mykolenko~14
+42~BR-DM~Dwight McNeil~14
+42~BR-AR~Antonee Robinson~6
+42~BR-JK~Josh King~6
+42~BR-GS~Gordon Strachan~7
+42~BR-WG~Wilfried Gnonto~7
+42~BR-TAL~Thiago Alcântara~8
+42~BR-DS~Dominik Szoboszlai~8
+42~BR-CG~Cody Gakpo~8
+42~BR-MS~Mohamed Salah~8
+42~BR-RF~Roberto Firmino~8
+42~BR-RN~Rio Ngumoha~8
+42~BR-RO~Rodri~9
+42~BR-KD~Kevin De Bruyne~9
+42~BR-SAV~Savinho~9
+42~BR-PF~Phil Foden~9
+42~BR-SA~Sergio Agüero~9
+42~BR-EH~Erling Haaland~9
+42~BR-RV~Raphaël Varane~10
+42~BR-JS~Jaap Stam~10
+42~BR-PSC~Paul Scholes~10
+42~BR-JJ~JJ Gabriel~10~R
+42~BR-BG~Bruno Guimarães~15
+42~BR-ST~Sandro Tonali~15
+42~BR-LM~Lewis Miley~15
+42~BR-CH~Callum Hudson-Odoi~11
+42~BR-CW~Chris Wood~11
+42~BR-EM~Eliezer Mayenda~12
+42~BR-LW~Lucá Williams-Barnett~16~R
+42~BR-DSO~Dominic Solanke~16
+42~BR-LB~Lucas Bergvall~16
+42~BR-SHM~Son Heung-min~16
+`;
+const SECS=["Future Stars","Base","Beast Mode","Nitro Boost","Flying the Flag","Stars of the Premier League","Retro Threads","8 Bit Ballers","Remember the Name","Chrome Classics","Gold Lion","True Gold Lion","Perfect 10","Vibes","Mayhem","On Fire","Golden Boot","Black Edge","Quasar","Billboard Material","Carpe Diem","Home Pitch","Perfect Storm","The Rise","All Kings","Ultra Beast Mode","Diamond Rookies","Chrome Classics Autographs","Perfect 10 Autographs","Vibes Autographs","Mayhem Autographs","On Fire Autographs","Golden Boot On-Card Autographs","Black Edge Autographs","Base Autographs","Future Stars Autographs","Stars of the PL Autographs","Dual Autographs","25 Years Champions Autographs","Marks of Excellence","Topps Autograph Relics","Premier Class Autograph Relics","Base Card Relics"];
+const TEAMS=[["Arsenal","ARS","#e0202b"],["Aston Villa","AVL","#7a1f45"],["AFC Bournemouth","BOU","#c8241b"],["Brighton & Hove Albion","BHA","#1f63c6"],["Chelsea","CHE","#1c4fb0"],["Crystal Palace","CRY","#2f58a8"],["Fulham","FUL","#2b2b2b"],["Leeds United","LEE","#d9ad00"],["Liverpool FC","LIV","#c8102e"],["Manchester City","MCI","#5aa6d9"],["Manchester United","MUN","#d9291c"],["Nottingham Forest","NFO","#c41d23"],["Sunderland","SUN","#e2232f"],["Brentford","BRE","#e30613"],["Everton","EVE","#24479f"],["Newcastle United","NEW","#2a2a2a"],["Tottenham Hotspur","TOT","#1b2a5c"],["Coventry City","COV","#3fb0d9"],["Ipswich Town","IPS","#2f5ba8"],["Hull City","HUL","#e8951f"]];
+// kit: [shirt, trim, pattern, backdrop]
+const KITS=[["#e0202b","#ffffff","sleeves","#8e1118"],["#7a1f45","#94c3e6","sleeves","#3d0f24"],["#c8241b","#141414","stripes","#5a0e0a"],["#1f63c6","#ffffff","stripes","#0e3570"],["#1c4fb0","#ffffff","plain","#0d2a66"],["#c8282a","#1f4aa8","stripes","#1a2c5e"],["#f5f5f2","#141414","plain","#2b2b2b"],["#f5f5f2","#1d4ea0","plain","#2e3f6b"],["#c8102e","#ffffff","plain","#6c0718"],["#8cc4ea","#ffffff","plain","#2b6a95"],["#d9291c","#ffffff","plain","#6e130c"],["#c41d23","#ffffff","plain","#5f0c10"],["#e2232f","#ffffff","stripes","#6e1018"],["#e30613","#ffffff","stripes","#6d0309"],["#24479f","#ffffff","plain","#10244f"],["#141414","#ffffff","stripes","#1f1f1f"],["#f5f5f2","#1b2a5c","plain","#1b2a5c"],["#69c3e4","#ffffff","plain","#1f5e79"],["#2f5ba8","#ffffff","plain","#162f5e"],["#e8951f","#141414","stripes","#6f4406"]];
+const CARDS=RAW.trim().split("\n").map(l=>{const [s,code,name,team,rk,yr]=l.split("~");const sec=+s;const t=team===undefined||team===""?null:+team;return{sec,code,name:name||"",team:t,rk:rk==="R",yr:yr||"",key:sec+"|"+code}});
+{const seen={};CARDS.forEach(c=>{if(seen[c.key]){seen[c.key]++;c.key+="#"+seen[c.key]}else seen[c.key]=1})}
+const BASE=CARDS.filter(c=>c.sec<=1), INS=CARDS.filter(c=>c.sec>=2&&c.sec<=26), HITS=CARDS.filter(c=>c.sec>=27);
+
+const AUTOS=new Set([27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]), RELICS=new Set([40,41,42]);
+const SETCOL={0:"#a37c17",2:"#0f5132",3:"#ff7a1a",4:"#1f5fa8",5:"#5b2d9e",6:"#a8301c",7:"#1e5bd8",8:"#5a6b73",9:"#1b2a5c",10:"#c9a227",11:"#a07a10",12:"#0e6b4c",13:"#d6457a",14:"#c2185b",15:"#e65100",16:"#b8901d",17:"#111111",18:"#4527a0",19:"#c0a000",20:"#7b1f1f",21:"#2e7d32",22:"#37597a",23:"#e07a3b",24:"#7a5a12",25:"#b71c1c",26:"#5b8fd1"};
+const FOIL={10:"gold",11:"gold",16:"gold",24:"gold",9:"silver",26:"silver",6:"silver",17:"black",33:"black"};
+function setColor(s){if(SETCOL[s])return SETCOL[s];if([32,38,39,41].includes(s))return"#c9a227";if(s===33)return"#111111";return AUTOS.has(s)?"#2b2f38":"#3a3f4a"}
+
+// ---- binder layout: 40 sides x 12 pockets (4 cols x 3 rows) ----
+const COLS=4, ROWS=3, PER=COLS*ROWS, SIDES=40, BINDER_SETS=[2,3,4,5,6,7,8];
+const SLOTS=new Array(SIDES*PER).fill(null); // card per pocket index
+let pos=0;
+BASE.forEach(c=>{SLOTS[pos++]=c});
+for(const s of BINDER_SETS){if(pos%COLS)pos+=COLS-pos%COLS;for(const c of INS.filter(c=>c.sec===s))SLOTS[pos++]=c}
+const SIDE_OF={};SLOTS.forEach((c,i)=>{if(c)SIDE_OF[c.key]=i});
+const sideLabel=i=>`Blad ${Math.floor(i/2)+1} ${i%2?"achter":"voor"}`;
+
+let owned={}, photos={}, canUpload=false, cropOpen=null, assetsNS=null, photoRef=null, photoVer=0;
+let state={tab:"base",f:"all",q:"",club:null,dup:false};
+const $=id=>document.getElementById(id);
+try{const p=JSON.parse(localStorage.getItem("binder-ui")||"{}");if(p.tab)state.tab=p.tab;if(p.f)state.f=p.f}catch(e){}
+function saveUi(){try{localStorage.setItem("binder-ui",JSON.stringify({tab:state.tab,f:state.f}))}catch(e){}}
+const teamOf=c=>c.team==null?null:TEAMS[c.team];
+const cnt=c=>owned[c.key]||0;
+const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+function matches(c){
+  if(state.f==="miss"&&cnt(c))return false;
+  if(state.f==="have"&&!cnt(c))return false;
+  if(state.club!=null&&c.team!==state.club)return false;
+  if(state.q){const q=state.q.toLowerCase(),t=teamOf(c);
+    if(!(c.name.toLowerCase().includes(q)||c.code.toLowerCase()===q||(q.length>1&&c.code.toLowerCase().includes(q))||(t&&(t[0].toLowerCase().includes(q)||t[1].toLowerCase()===q))))return false}
+  return true}
+function surname(n){if(!n)return"Dual Auto";if(n==="Son Heung-min")return"Son";if(n==="Juan Pablo Ángel")return"Ángel";
+  const w=n.split(" ");if(w.length===1)return n;
+  const pi=w.findIndex((x,i)=>i>0&&/^(van|de|der|da|di|De|Van|Mac)$/.test(x));
+  return pi>0?w.slice(pi).join(" "):w.slice(1).join(" ")}
+function first(n){if(!n)return"";if(n==="Son Heung-min")return"Heung-min";const w=n.split(" ");return w.length>1?w[0]:""}
+// deterministic per-card variation (hair shape, pose) from the name
+function hash(s){let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+
+// ---- owned card: illustrated trading card, headshot style ----
+let AID=0;
+function cardSVG(c){
+  const id="k"+(AID++), t=teamOf(c), kit=c.team!=null?KITS[c.team]:["#9aa0ab","#e8e8e8","plain","#4a4f58"];
+  const isBase=c.sec<=1, sc=isBase?(t?t[2]:"#555"):setColor(c.sec), foil=FOIL[c.sec]||([32,38,39,41].includes(c.sec)?"gold":"");
+  const h=hash(c.name||c.code), flip=(h>>5)%2?1:-1;
+  const frame=foil==="black"?"#0b0b0b":"#ffffff";
+  const ink=foil==="black"?"#f3f3f3":"#15171b", sub=foil==="black"?"#9a9a9a":"#80848c";
+  const sn=surname(c.name).toUpperCase(), fn=first(c.name).toUpperCase();
+  let fs=sn.length<=7?42:sn.length<=10?34:sn.length<=13?28:23; const tl=sn.length*fs*.66>214?' textLength="214" lengthAdjust="spacingAndGlyphs"':"";
+  const shirt=kit[0], back=isBase?kit[3]:(c.sec===2?"#06120b":"#0c0e14");
+  const foilFx=foil==="gold"?`<rect x="12" y="12" width="226" height="232" rx="7" fill="url(#${id}f)"/>`:foil==="silver"?`<rect x="12" y="12" width="226" height="232" rx="7" fill="url(#${id}f)" opacity=".8"/>`:"";
+  const foilDef=foil==="gold"?`<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c4" stop-opacity=".55"/><stop offset=".5" stop-color="#fff3c4" stop-opacity="0"/><stop offset="1" stop-color="#5a4204" stop-opacity=".35"/></linearGradient>`
+    :foil==="silver"?`<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".6"/><stop offset=".5" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient>`:"";
+  const label=isBase?(c.sec===0?"FUTURE STARS":""):SECS[c.sec].toUpperCase().replace(" AUTOGRAPHS"," AUTO").replace("STARS OF THE PREMIER LEAGUE","STARS OF THE PL");
+  const auto=AUTOS.has(c.sec)?`<path d="M58 222 C76 200 90 240 108 214 C118 200 128 236 142 212 C152 198 160 226 176 206 C182 200 190 210 196 202" fill="none" stroke="#ffffff" stroke-opacity=".92" stroke-width="3" stroke-linecap="round"/>`:"";
+  const relic=RELICS.has(c.sec)?`<rect x="176" y="24" width="50" height="36" rx="5" fill="${shirt}" stroke="#ffffff" stroke-width="2.5"/>`:"";
+  return `<svg viewBox="0 0 250 350" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>${foilDef}
+  <linearGradient id="${id}b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${isBase?(t?t[2]:"#555"):sc}"/><stop offset="1" stop-color="${back}"/></linearGradient>
+  <radialGradient id="${id}l" cx="${flip>0?".8":".2"}" cy=".1" r=".9"><stop offset="0" stop-color="#ffffff" stop-opacity=".28"/><stop offset=".6" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+  <clipPath id="${id}p"><rect x="12" y="12" width="226" height="232" rx="7"/></clipPath>
+  </defs>
+  <rect width="250" height="350" rx="12" fill="${frame}"/>
+  <rect x="12" y="12" width="226" height="232" rx="7" fill="url(#${id}b)"/>
+  <g clip-path="url(#${id}p)">
+    <g opacity=".10" stroke="#ffffff" stroke-width="14">${[-60,0,60,120,180].map(x=>`<line x1="${x}" y1="260" x2="${x+170}" y2="-20"/>`).join("")}</g>
+    <rect x="12" y="12" width="226" height="232" fill="url(#${id}l)"/>
+    ${(()=>{const m=c.code.match(/^([A-Za-z0-9]+)[ -](.+)$/);const num=m?m[2]:c.code,pre=m?m[1]:"";
+      const digits=/^\d+$/.test(num);const fs=digits?(num.length<=2?170:num.length<=3?140:110):(num.length<=2?110:num.length<=3?88:num.length<=4?70:56);
+      const y=pre?196:(digits?190:182);
+      return (pre?`<text x="125" y="78" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="22" letter-spacing="5" fill="#ffffff" opacity=".8">${esc(pre)}</text>`:"")+
+      `<text x="125" y="${y}" text-anchor="middle" font-family="Big Shoulders Display,Barlow Condensed,sans-serif" font-weight="900" font-size="${fs}" fill="#ffffff" opacity=".96"${!digits&&num.length>4?' textLength="200" lengthAdjust="spacingAndGlyphs"':""}>${esc(num)}</text>`+
+      `<text x="125" y="224" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="15" letter-spacing="4" fill="#ffffff" opacity=".7"${t&&t[0].length>14?' textLength="206" lengthAdjust="spacingAndGlyphs"':""}>${t?esc(t[0].toUpperCase()):esc(SECS[c.sec].toUpperCase())}</text>`})()}
+    ${foilFx}${relic}${auto}
+  </g>
+  <rect x="20" y="20" rx="5" width="${Math.max(30,c.code.length*10+14)}" height="24" fill="#ffffff" fill-opacity=".92"/>
+  <text x="${20+Math.max(30,c.code.length*10+14)/2}" y="37" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="16" fill="#15171b">${esc(c.code)}</text>
+  ${c.rk?`<rect x="${26+Math.max(30,c.code.length*10+14)}" y="20" rx="5" width="32" height="24" fill="#f1e5c2"/><text x="${42+Math.max(30,c.code.length*10+14)}" y="37" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="15" fill="#7a5a12">RC</text>`:""}
+  ${c.yr?`<text x="228" y="38" text-anchor="end" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="16" fill="#ffffff">${c.yr}</text>`:""}
+  <rect x="12" y="236" width="226" height="8" fill="${isBase?(t?t[2]:"#555"):sc}"/>
+  ${fn?`<text x="20" y="268" font-family="Barlow Condensed,sans-serif" font-weight="600" font-size="14" letter-spacing="1.4" fill="${sub}">${esc(fn)}</text>`:""}
+  <text x="19" y="${270+fs*.88}" font-family="Big Shoulders Display,Barlow Condensed,sans-serif" font-weight="900" font-size="${fs}" fill="${ink}"${tl}>${esc(sn)}</text>
+  <circle cx="24" cy="333" r="4" fill="${t?t[2]:"#999"}"/>
+  <text x="33" y="338" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="14" letter-spacing="1" fill="${sub}">${t?t[1]:""}</text>
+  ${label?`<text x="230" y="338" text-anchor="end" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="12.5" letter-spacing="1.2" fill="${isBase?"#a37c17":(foil==="black"?"#d8d8d8":sc)}"${label.length>14?' textLength="130" lengthAdjust="spacingAndGlyphs"':""}>${esc(label)}</text>`:""}
+  </svg>`}
+
+const CHECK='<svg viewBox="0 0 12 12"><path d="M2.5 6.2 5 8.6 9.6 3.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function photoHTML(c){const i=SIDE_OF[c.key];if(i==null)return"";const s=Math.floor(i/PER),ph=photos[s];if(!ph||!ph.path)return"";
+  const col=(i%PER)%COLS,row=Math.floor((i%PER)/COLS),x0=ph.l||0,y0=ph.t||0,x1=1-(ph.r||0),y1=1-(ph.b||0);
+  const W=COLS/(x1-x0)*100,H=ROWS/(y1-y0)*100,L=-(x0*COLS/(x1-x0)+col)*100,T=-(y0*ROWS/(y1-y0)+row)*100;
+  return `<span class="photo"><img src="${esc(photoUrl(ph))}" alt="" loading="lazy" style="width:${W}%;height:${H}%;left:${L}%;top:${T}%"></span>`}
+function pocketHTML(c){const t=teamOf(c), n=cnt(c), nm=c.name||"Dual autograph";
+  if(n){const ph=photoHTML(c);return `<button class="pocket${ph?" has-photo":""}" data-k="${esc(c.key)}" aria-pressed="true" aria-label="${esc(c.code)} ${esc(nm)}, heb ik">${ph||cardSVG(c)}<span class="badge${n>1?" dup":""}">${n>1?"×"+n:CHECK}</span></button>`}
+  const f=first(nm), s=c.name?surname(nm):nm;
+  return `<button class="pocket" data-k="${esc(c.key)}" aria-pressed="false" aria-label="${esc(c.code)} ${esc(nm)}, mist nog" style="--c:${t?t[2]:"var(--faint)"}"><span class="slot"><span class="no">${esc(c.code)}</span><span><span class="nm">${f?esc(f):""}<b>${esc(s)}</b></span><span class="tm">${t?`<i></i>${t[1]}`:""}${c.rk?'<span class="rc">RC</span>':""}</span></span></span></button>`}
+
+function renderStats(){
+  const b=BASE.filter(cnt).length,i=INS.filter(cnt).length,h=HITS.filter(cnt).length,bind=SLOTS.filter(c=>c&&cnt(c)).length;
+  $("gBase").textContent=b;$("gBar").style.width=(b/300*100)+"%";$("gIns").textContent=i+"/"+INS.length;$("gHits").textContent=h;$("gBind").textContent=bind;
+  $("tcBase").textContent=b+"/300";$("tcIns").textContent=i+"/"+INS.length;$("tcHits").textContent=h?h:"";
+}
+function renderClubs(){
+  $("clubs").innerHTML=TEAMS.map((t,ix)=>{const cs=BASE.filter(c=>c.team===ix),n=cs.filter(cnt).length;
+    return `<button class="club${n===cs.length?" full":""}" data-club="${ix}" aria-pressed="${state.club===ix}" style="--c:${t[2]}" title="${esc(t[0])}"><span class="sw"></span>${t[1]}<span class="n">${n}/${cs.length}</span></button>`}).join("");
+}
+function renderPlan(){
+  const secOf=i=>{const c=SLOTS[i];return c?(c.sec<=1?1:c.sec):null};
+  let strip="",legend="";const spans=[];
+  for(let s=0;s<SIDES;s++){const cs=SLOTS.slice(s*PER,s*PER+PER).filter(Boolean);const secs=[...new Set(cs.map(c=>c.sec<=1?1:c.sec))];
+    if(!cs.length){strip+=`<i class="vacant" title="${sideLabel(s)}: leeg"></i>`;continue}
+    const main=secs[0],col=main===1?"#15171b":setColor(main),fill=cs.length/PER;
+    strip+=`<i class="${fill<1?"half":""}" style="--pc:${col};--p:${Math.round(fill*100)}%" title="${sideLabel(s)}: ${secs.map(x=>SECS[x]).join(" + ")} (${cs.length}/12)"></i>`}
+  for(const s of [1,...BINDER_SETS]){const idx=SLOTS.map((c,i)=>c&&(c.sec<=1?1:c.sec)===s?i:-1).filter(i=>i>=0);if(!idx.length)continue;
+    const a=Math.floor(idx[0]/PER),b=Math.floor(idx[idx.length-1]/PER);
+    legend+=`<span><b style="--pc:${s===1?"#15171b":setColor(s)}"></b>${s===1?"Basisset #1–300":esc(SECS[s])} <em>· ${a===b?sideLabel(a):sideLabel(a)+" t/m "+sideLabel(b)}</em></span>`}
+  const used=SLOTS.filter(Boolean).length;
+  $("plan").innerHTML=`<h2>Vulplan</h2><p>${used} van 480 vakken gebruikt, ${480-used} over. Elke set begint op een nieuwe rij; een rij is 4 vakken.</p><div class="strip">${strip}</div><div class="legend">${legend}<span><b style="--pc:var(--line)"></b>leeg</span></div>`;
+}
+function renderBinder(){
+  const el=$("binder"), plain=state.f==="all"&&!state.q&&state.club==null;
+  if(plain){let html="";
+    for(let s=0;s<SIDES;s++){const cells=SLOTS.slice(s*PER,s*PER+PER);const cs=cells.filter(Boolean);if(!cs.length)continue;
+      const h=cs.filter(cnt).length,secs=[...new Set(cs.map(c=>c.sec<=1?"Basisset":SECS[c.sec]))];
+      const ph=photos[s],tools=canUpload?`<span class="tools">${ph&&ph.path?`<button class="mini" data-crop="${s}" aria-pressed="${cropOpen===s}">Bijsnijden</button><button class="mini" data-photo="${s}">Nieuwe foto</button>`:`<button class="mini" data-photo="${s}">📷 Foto van deze kant</button>`}</span>`:"";
+      const crop=cropOpen===s&&ph&&ph.path?`<div class="crop">${[["l","Links"],["t","Boven"],["r","Rechts"],["b","Onder"]].map(([k,lab])=>`<label>${lab}<input type="range" min="0" max="30" step="0.5" value="${((ph[k]||0)*100).toFixed(1)}" data-cropk="${k}" data-side="${s}"><span>${((ph[k]||0)*100).toFixed(1)}%</span></label>`).join("")}<button class="mini" data-cropdone="${s}">Klaar</button></div>`:"";
+      html+=`<div class="sheet${h===cs.length?" done":""}"><h3><span><b>${sideLabel(s)}</b> · ${secs.map(esc).join(" + ")} · ${esc(cs[0].code)}–${esc(cs[cs.length-1].code)}</span><span>${h}/${cs.length}</span></h3>${tools}${crop}<div class="grid12">${cells.map(c=>c?pocketHTML(c):'<span class="blank"></span>').join("")}</div></div>`}
+    el.innerHTML=html;return}
+  const vis=SLOTS.filter(c=>c&&matches(c));
+  if(!vis.length){el.innerHTML='<div class="empty">Geen kaarten met dit filter.</div>';return}
+  let html="";for(let i=0;i<vis.length;i+=PER){const cs=vis.slice(i,i+PER),h=cs.filter(cnt).length;
+    html+=`<div class="sheet${h===cs.length?" done":""}"><h3><span>${esc(cs[0].code)}–${esc(cs[cs.length-1].code)}</span><span>${h}/${cs.length}</span></h3><div class="grid12">${cs.map(pocketHTML).join("")}</div></div>`}
+  el.innerHTML=html;
+}
+function setsHTML(list,from,to,box){
+  const open=new Set([...box.querySelectorAll("details[open]")].map(d=>d.dataset.s));const filtered=state.q||state.club!=null||state.f!=="all";let html="";
+  for(let s=from;s<=to;s++){const all=list.filter(c=>c.sec===s);if(!all.length)continue;const vis=all.filter(matches);if(filtered&&!vis.length)continue;
+    const n=all.filter(cnt).length, pre=all[0].code.split(/[ -]/)[0];
+    const where=SIDE_OF[all[0].key]!=null?` · <b>${sideLabel(Math.floor(SIDE_OF[all[0].key]/PER))}</b>`:(s<=26?" · toploaders":"");
+    html+=`<details class="set${n===all.length?" done":""}" data-s="${s}"${open.has(String(s))||filtered?" open":""}><summary><span class="chip" style="--sc:${setColor(s)}"></span><div><div class="st">${esc(SECS[s])}</div><div class="meta">${all.length} kaarten · ${esc(pre)}${where}</div></div><div class="right"><span class="cnt">${n}/${all.length}</span><span class="track"><i style="width:${n/all.length*100}%"></i></span></div></summary><div class="cardgrid">${vis.map(pocketHTML).join("")}</div></details>`}
+  return html||'<div class="empty">Geen kaarten met dit filter.</div>'}
+function render(){
+  renderStats();
+  ["base","ins","hits"].forEach(t=>{$("v-"+t).hidden=state.tab!==t;$("tab-"+t).setAttribute("aria-selected",state.tab===t)});
+  document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===state.f));
+  if(state.tab==="base"){renderClubs();renderPlan();renderBinder()}
+  else if(state.tab==="ins"){const b=$("insSets");b.innerHTML=setsHTML(INS,2,26,b)}
+  else{const b=$("hitSets");b.innerHTML=setsHTML(HITS,27,42,b)}
+}
+
+// ---- backend: Supabase (gedeelde database, realtime, opslag) ----
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config.js";
+const sb=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+let session=null, pending=JSON.parse(localStorage.getItem("binder-pending")||"[]");
+function setSync(ok,txt){$("syncDot").className="dot"+(ok?" ok":"");$("syncTxt").textContent=txt}
+function loadLocal(){try{owned=JSON.parse(localStorage.getItem("binder-owned")||"{}")||{};photos=JSON.parse(localStorage.getItem("binder-photos")||"{}")||{}}catch(e){owned={};photos={}}}
+function saveLocal(){try{localStorage.setItem("binder-owned",JSON.stringify(owned));localStorage.setItem("binder-photos",JSON.stringify(photos));localStorage.setItem("binder-pending",JSON.stringify(pending))}catch(e){}}
+function photoUrl(ph){return `${SUPABASE_URL}/storage/v1/object/public/photos/${ph.path}?v=${encodeURIComponent(ph.updated_at||"")}`}
+
+// writes: optimistic, queued when offline
+function queue(op){pending.push(op);saveLocal();flush()}
+let flushing=false;
+async function flush(){if(flushing||!session||!pending.length)return;flushing=true;setSync(true,"Opslaan…");
+  try{while(pending.length){const op=pending[0];
+      if(op.t==="owned"){if(op.n>0){const {error}=await sb.from("owned").upsert({key:op.k,count:op.n,updated_at:new Date().toISOString()});if(error)throw error}
+        else{const {error}=await sb.from("owned").delete().eq("key",op.k);if(error)throw error}}
+      else if(op.t==="photo"){const {error}=await sb.from("side_photos").upsert({side:op.s,...op.v,updated_at:new Date().toISOString()});if(error)throw error}
+      pending.shift();saveLocal()}
+    setSync(true,"Gesynchroniseerd")}
+  catch(e){setSync(false,navigator.onLine?"Niet opgeslagen: "+(e.message||"fout"):"Offline, wijzigingen wachten")}
+  finally{flushing=false}}
+window.addEventListener("online",flush);
+function toggle(key,dec){const n=owned[key]||0;let m;
+  if(state.dup){m=dec?Math.max(0,n-1):n+1}else{m=dec?Math.max(0,n-1):(n?0:1)}
+  if(m)owned[key]=m;else delete owned[key];render();saveLocal();queue({t:"owned",k:key,n:m})}
+async function savePhotos(s){queue({t:"photo",s,v:{path:photos[s].path,l:photos[s].l||0,t:photos[s].t||0,r:photos[s].r||0,b:photos[s].b||0}})}
+
+// full load + realtime
+async function loadAll(){const [o,p]=await Promise.all([sb.from("owned").select("key,count"),sb.from("side_photos").select("*")]);
+  if(o.error||p.error){setSync(false,"Kan niet laden: "+((o.error||p.error).message));return}
+  const next={};o.data.forEach(r=>next[r.key]=r.count);
+  pending.forEach(op=>{if(op.t==="owned"){if(op.n)next[op.k]=op.n;else delete next[op.k]}});owned=next;
+  const ph={};p.data.forEach(r=>ph[r.side]={path:r.path,l:r.l,t:r.t,r:r.r,b:r.b,updated_at:r.updated_at});photos=ph;
+  saveLocal();render();setSync(true,"Gesynchroniseerd");flush()}
+function subscribe(){sb.channel("binder")
+  .on("postgres_changes",{event:"*",schema:"public",table:"owned"},pl=>{if(pl.eventType==="DELETE")delete owned[pl.old.key];else owned[pl.new.key]=pl.new.count;saveLocal();render()})
+  .on("postgres_changes",{event:"*",schema:"public",table:"side_photos"},pl=>{if(pl.eventType==="DELETE")delete photos[pl.old.side];else{const r=pl.new;photos[r.side]={path:r.path,l:r.l,t:r.t,r:r.r,b:r.b,updated_at:r.updated_at}}saveLocal();render()})
+  .subscribe()}
+
+// ---- photos: one photo per binder side, cropped into 12 pockets ----
+const fileIn=document.createElement("input");fileIn.type="file";fileIn.accept="image/*";fileIn.setAttribute("capture","environment");fileIn.hidden=true;document.body.appendChild(fileIn);
+let photoSide=null;
+function shrink(file,max){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const k=Math.min(1,max/Math.max(img.width,img.height));const cv=document.createElement("canvas");cv.width=Math.round(img.width*k);cv.height=Math.round(img.height*k);cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);cv.toBlob(b=>b?res(b):rej(new Error("blob")),"image/jpeg",.82);URL.revokeObjectURL(img.src)};img.onerror=rej;img.src=URL.createObjectURL(file)})}
+fileIn.addEventListener("change",async()=>{const f=fileIn.files&&fileIn.files[0];fileIn.value="";if(!f||photoSide==null)return;const s=photoSide;
+  toast("Foto verkleinen…");let blob;try{blob=await shrink(f,1800)}catch(e){toast("Kan deze foto niet lezen");return}
+  toast("Uploaden…");const path=`sides/${s}.jpg`;
+  const {error}=await sb.storage.from("photos").upload(path,blob,{upsert:true,contentType:"image/jpeg"});
+  if(error){toast("Upload mislukt: "+error.message);return}
+  photos[s]={path,l:0,t:0,r:0,b:0,updated_at:new Date().toISOString()};cropOpen=s;render();saveLocal();savePhotos(s);toast("Foto staat erin. Schuif de randen bij als het niet klopt.")});
+document.addEventListener("input",e=>{const r=e.target.closest("[data-cropk]");if(!r)return;const s=+r.dataset.side,k=r.dataset.cropk;if(!photos[s])return;photos[s][k]=+r.value/100;r.nextElementSibling.textContent=(+r.value).toFixed(1)+"%";
+  document.querySelectorAll(".sheet").forEach(sh=>{if(sh.querySelector(`[data-crop="${s}"]`))sh.querySelectorAll(".pocket.has-photo").forEach(b=>{const c=CARDS.find(x=>x.key===b.dataset.k);const ph=photoHTML(c);if(ph)b.querySelector(".photo").outerHTML=ph})})});
+document.addEventListener("click",e=>{
+  const pb=e.target.closest("[data-photo]");if(pb){photoSide=+pb.dataset.photo;fileIn.click();return}
+  const cb=e.target.closest("[data-crop]");if(cb){cropOpen=cropOpen===+cb.dataset.crop?null:+cb.dataset.crop;render();return}
+  const cd=e.target.closest("[data-cropdone]");if(cd){const s=+cd.dataset.cropdone;cropOpen=null;render();saveLocal();savePhotos(s);return}
+  if(e.target.closest(".crop"))return;
+  const k=e.target.closest("[data-k]");if(k)return toggle(k.dataset.k,false);const cl=e.target.closest("[data-club]");if(cl){const ix=+cl.dataset.club;state.club=state.club===ix?null:ix;render()}});
+document.addEventListener("contextmenu",e=>{const el=e.target.closest("[data-k]");if(el){e.preventDefault();toggle(el.dataset.k,true)}});
+let lp=null;document.addEventListener("touchstart",e=>{const el=e.target.closest("[data-k]");if(!el)return;lp=setTimeout(()=>{lp="fired";toggle(el.dataset.k,true)},550)},{passive:true});
+document.addEventListener("touchend",e=>{if(lp==="fired")e.preventDefault();clearTimeout(lp);lp=null});
+document.addEventListener("touchmove",()=>{clearTimeout(lp);lp=null},{passive:true});
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;saveUi();render()});
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.f=b.dataset.f;saveUi();render()});
+let qt;$("q").addEventListener("input",e=>{clearTimeout(qt);qt=setTimeout(()=>{state.q=e.target.value.trim();render()},120)});
+$("dupMode").onclick=()=>{state.dup=!state.dup;$("dupMode").setAttribute("aria-pressed",state.dup);toast(state.dup?"Tik = +1, vasthouden = −1":"Tik = heb ik / heb ik niet")};
+function toast(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),2200)}
+$("copyMiss").onclick=async()=>{const list=state.tab==="base"?BASE:state.tab==="ins"?INS:HITS;
+  const miss=list.filter(c=>!cnt(c)&&(state.club==null||c.team===state.club));
+  const txt=state.tab==="base"?"Mis nog (Flagship PL 26/27): "+miss.map(c=>c.code).join(", "):miss.map(c=>c.code+" "+c.name).join("\n");
+  try{await navigator.clipboard.writeText(txt);toast(miss.length+" kaarten gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
+
+// ---- auth: magic link ----
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("email").value.trim();$("loginBtn").disabled=true;$("loginMsg").textContent="Versturen…";
+  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
+  $("loginBtn").disabled=false;$("loginMsg").textContent=error?"Mislukt: "+error.message:"Link verstuurd. Open de mail op deze telefoon en tik op de link."});
+$("logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
+function showLogin(on){$("login").hidden=!on;$("logout").hidden=on}
+canUpload=true;loadLocal();render();setSync(false,"Verbinden…");
+sb.auth.onAuthStateChange((ev,s)=>{session=s;if(s){showLogin(false);loadAll();subscribe()}else{showLogin(true);setSync(false,"Niet ingelogd")}});
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body></html>
