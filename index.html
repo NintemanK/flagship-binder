@@ -176,6 +176,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
     </div>
     <button class="ghost" id="dupMode" aria-pressed="false">Dubbelen tellen</button>
     <button class="ghost" id="copyMiss">Kopieer mislijst</button>
+    <button class="ghost" id="copyDup">Kopieer dubbelen</button>
   </div>
 
   <section id="v-base">
@@ -1536,6 +1537,12 @@ document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.f=b.dat
 let qt;$("q").addEventListener("input",e=>{clearTimeout(qt);qt=setTimeout(()=>{state.q=e.target.value.trim();render()},120)});
 $("dupMode").onclick=()=>{state.dup=!state.dup;$("dupMode").setAttribute("aria-pressed",state.dup);toast(state.dup?"Tik = +1, vasthouden = −1":"Tik = heb ik / heb ik niet")};
 function toast(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),2200)}
+$("copyDup").onclick=async()=>{const dups=CARDS.filter(c=>cnt(c)>1);
+  if(!dups.length){toast("Geen dubbelen");return}
+  const groups=new Map();dups.forEach(c=>{const g=c.sec<=1?"Basisset":SECS[c.sec];if(!groups.has(g))groups.set(g,[]);groups.get(g).push(c)});
+  const spare=dups.reduce((t,c)=>t+cnt(c)-1,0);
+  const txt="Dubbelen (Flagship PL 26/27), "+spare+" over:\n"+[...groups].map(([g,cs])=>"\n"+g+"\n"+cs.map(c=>{const t=teamOf(c),tm=t&&t[1]?" ("+t[1]+")":"";return c.code+" "+(c.name||"Dual autograph")+tm+(cnt(c)>2?" ×"+(cnt(c)-1):"")}).join("\n")).join("\n");
+  try{await navigator.clipboard.writeText(txt);toast(spare+" dubbelen gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
 $("copyMiss").onclick=async()=>{const list=state.tab==="base"?BASE:state.tab==="ins"?INS:HITS;
   const miss=list.filter(c=>!cnt(c)&&(state.club==null||c.team===state.club));
   const txt=state.tab==="base"?"Mis nog (Flagship PL 26/27): "+miss.map(c=>c.code).join(", "):miss.map(c=>c.code+" "+c.name).join("\n");
