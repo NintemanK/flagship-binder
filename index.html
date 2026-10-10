@@ -16,17 +16,17 @@
    Basisset op kant 1-25, inserts rij-uitgelijnd daarna. Kaartjes zijn eigen illustraties. */
 :root{
   --bg:#f2f1ee;--panel:#ffffff;--sleeve:#f7f6f3;--ink:#15171b;--muted:#6b6f78;--faint:#a9acb3;--line:#e2e0db;
-  --gold:#a37c17;--have:#1f7a4d;--dup:#2a59b8;
+  --gold:#a37c17;--have:#1f7a4d;--dup:#2a59b8;--res:#b26a00;--sale:#b0308a;
   --f-display:"Big Shoulders Display","Barlow Condensed","Arial Narrow",sans-serif;
   --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-num:"Barlow Condensed","Arial Narrow",sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#111317;--panel:#181b20;--sleeve:#1d2026;--ink:#eef0f3;--muted:#9aa0ab;--faint:#5c626d;--line:#2a2e36;
-  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;color-scheme:dark}}
+  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;--res:#f0a53a;--sale:#ee6fc4;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111317;--panel:#181b20;--sleeve:#1d2026;--ink:#eef0f3;--muted:#9aa0ab;--faint:#5c626d;--line:#2a2e36;
-  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;color-scheme:dark}
+  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;--res:#f0a53a;--sale:#ee6fc4;color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
 .wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:28px 72px}
@@ -54,7 +54,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
 .tab small{font-family:var(--f-num);font-weight:600;font-size:13px;margin-left:5px;color:var(--faint);font-variant-numeric:tabular-nums}
 .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-block:14px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
 .search{flex:1 1 240px;min-width:0;padding:9px 12px;border:1px solid var(--line);background:var(--panel);border-radius:8px}
-.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:2px}
+.seg{display:inline-flex;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:2px}
 .seg button{border:0;background:none;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
 .ghost{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 11px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted)}
@@ -104,6 +104,11 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
 .slot .rc{font-family:var(--f-num);font-weight:700;font-size:10px;letter-spacing:.06em;color:var(--gold);margin-left:auto}
 .badge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:11px;background:var(--have);color:#fff;display:grid;place-items:center;font-family:var(--f-num);font-weight:700;font-size:12px;padding:0 6px;box-shadow:0 0 0 2px var(--panel)}
 .badge.dup{background:var(--dup)}
+.badge.res{background:var(--res);z-index:1}
+.slot.res{border-style:solid;border-color:var(--res)}
+#resMode[aria-pressed="true"]{color:var(--res);border-color:var(--res)}
+.badge.sale{background:var(--sale);top:auto;bottom:-6px;z-index:1;color:#fff}
+#saleMode[aria-pressed="true"]{color:var(--sale);border-color:var(--sale)}
 .badge svg{width:12px;height:12px;box-shadow:none;border-radius:0}
 
 .sets{display:grid;gap:10px;margin-top:18px}
@@ -155,7 +160,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
     <div class="prog">
       <div class="big"><span id="gBase">0</span><small>/ 300 basiskaarten</small></div>
       <div class="track"><i id="gBar" style="width:0%"></i></div>
-      <div class="meta"><span><span id="gIns">0</span> inserts · <span id="gHits">0</span> hits · <span id="gBind">0</span>/480 in de map</span><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">Laden…</span> · <button class="link" id="logout" hidden>uitloggen</button></span></div>
+      <div class="meta"><span><span id="gIns">0</span> inserts · <span id="gHits">0</span> hits · <span id="gSaleWrap" hidden><span id="gSale">0</span> te koop · </span><span id="gResWrap" hidden><span id="gRes">0</span> besteld · </span><span id="gBind">0</span>/480 in de map</span><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">Laden…</span> · <button class="link" id="logout" hidden>uitloggen</button></span></div>
     </div>
   </header>
 
@@ -172,9 +177,13 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
     <div class="seg" role="group" aria-label="Toon">
       <button id="f-all" data-f="all" aria-pressed="true">Alles</button>
       <button id="f-miss" data-f="miss" aria-pressed="false">Mist nog</button>
+      <button id="f-res" data-f="res" aria-pressed="false">Besteld</button>
       <button id="f-have" data-f="have" aria-pressed="false">Heb ik</button>
+      <button id="f-sale" data-f="sale" aria-pressed="false">Te koop</button>
     </div>
     <button class="ghost" id="dupMode" aria-pressed="false">Dubbelen tellen</button>
+    <button class="ghost" id="resMode" aria-pressed="false">Besteld markeren</button>
+    <button class="ghost" id="saleMode" aria-pressed="false">Te koop markeren</button>
     <button class="ghost" id="copyMiss">Kopieer mislijst</button>
     <button class="ghost" id="copyDup">Kopieer dubbelen</button>
   </div>
@@ -187,7 +196,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
   <section id="v-ins" hidden><div class="sets" id="insSets"></div></section>
   <section id="v-hits" hidden><div class="sets" id="hitSets"></div></section>
 
-  <p class="note">Tik op een kaart om hem af te vinken. Met "Dubbelen tellen" aan telt een tik +1; rechtsklik of vasthouden haalt er één af. De indeling volgt de Vault X 12-pocket: 4 bij 3 per kant, basisset op kant 1 tot 25, daarna de zeven insert-sets, elke set begint op een nieuwe rij. Chrome Classics en Gold Lion passen er niet meer bij en horen in toploaders. Bron: officiële Topps-checklist. De kaartjes zijn eigen typografische ontwerpen in clubkleuren, geen Topps-afbeeldingen.</p>
+  <p class="note">Tik op een kaart om hem af te vinken. Met "Besteld markeren" aan zet een tik een kaart die je mist op besteld; hij verdwijnt dan uit "Mist nog" en uit de mislijst, en het merkje gaat vanzelf weg als je hem later afvinkt. Met "Te koop markeren" aan zet een tik een kaart die je hebt op te koop; vasthouden betekent verkocht: één exemplaar eraf en het merkje weg. Met "Dubbelen tellen" aan telt een tik +1; rechtsklik of vasthouden haalt er één af. De indeling volgt de Vault X 12-pocket: 4 bij 3 per kant, basisset op kant 1 tot 25, daarna de zeven insert-sets, elke set begint op een nieuwe rij. Chrome Classics en Gold Lion passen er niet meer bij en horen in toploaders. Bron: officiële Topps-checklist. De kaartjes zijn eigen typografische ontwerpen in clubkleuren, geen Topps-afbeeldingen.</p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="login" id="login" hidden>
@@ -1365,15 +1374,19 @@ const SIDE_OF={};SLOTS.forEach((c,i)=>{if(c)SIDE_OF[c.key]=i});
 const sideLabel=i=>`Blad ${Math.floor(i/2)+1} ${i%2?"achter":"voor"}`;
 
 let owned={};
-let state={tab:"base",f:"all",q:"",club:null,dup:false};
+let state={tab:"base",f:"all",q:"",club:null,dup:false,res:false,sale:false};
 const $=id=>document.getElementById(id);
 try{const p=JSON.parse(localStorage.getItem("binder-ui")||"{}");if(p.tab)state.tab=p.tab;if(p.f)state.f=p.f}catch(e){}
 function saveUi(){try{localStorage.setItem("binder-ui",JSON.stringify({tab:state.tab,f:state.f}))}catch(e){}}
 const teamOf=c=>c.team==null?null:TEAMS[c.team];
 const cnt=c=>owned[c.key]||0;
+const RES="@", res=c=>!cnt(c)&&!!owned[RES+c.key];
+const SALE="$", sale=c=>cnt(c)>0&&!!owned[SALE+c.key];
 const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 function matches(c){
-  if(state.f==="miss"&&cnt(c))return false;
+  if(state.f==="miss"&&(cnt(c)||res(c)))return false;
+  if(state.f==="res"&&!res(c))return false;
+  if(state.f==="sale"&&!sale(c))return false;
   if(state.f==="have"&&!cnt(c))return false;
   if(state.club!=null&&c.team!==state.club)return false;
   if(state.q){const q=state.q.toLowerCase(),t=teamOf(c);
@@ -1434,15 +1447,16 @@ function cardSVG(c){
   ${label?`<text x="230" y="338" text-anchor="end" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="12.5" letter-spacing="1.2" fill="${isBase?"#a37c17":(foil==="black"?"#d8d8d8":sc)}"${label.length>14?' textLength="130" lengthAdjust="spacingAndGlyphs"':""}>${esc(label)}</text>`:""}
   </svg>`}
 
+const CLOCK='<svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.2" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M6 3.6V6l1.7 1.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const CHECK='<svg viewBox="0 0 12 12"><path d="M2.5 6.2 5 8.6 9.6 3.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function pocketHTML(c){const t=teamOf(c), n=cnt(c), nm=c.name||"Dual autograph";
-  if(n){return `<button class="pocket" data-k="${esc(c.key)}" aria-pressed="true" aria-label="${esc(c.code)} ${esc(nm)}, heb ik">${cardSVG(c)}<span class="badge${n>1?" dup":""}">${n>1?"×"+n:CHECK}</span></button>`}
-  const f=first(nm), s=c.name?surname(nm):nm;
-  return `<button class="pocket" data-k="${esc(c.key)}" aria-pressed="false" aria-label="${esc(c.code)} ${esc(nm)}, mist nog" style="--c:${t?t[2]:"var(--faint)"}"><span class="slot"><span class="no">${esc(c.code)}</span><span><span class="nm">${f?esc(f):""}<b>${esc(s)}</b></span><span class="tm">${t?`<i></i>${t[1]}`:""}${c.rk?'<span class="rc">RC</span>':""}</span></span></span></button>`}
+  if(n){return `<button class="pocket" data-k="${esc(c.key)}" aria-pressed="true" aria-label="${esc(c.code)} ${esc(nm)}, heb ik${sale(c)?", te koop":""}">${cardSVG(c)}${sale(c)?'<span class="badge sale">€</span>':""}<span class="badge${n>1?" dup":""}">${n>1?"×"+n:CHECK}</span></button>`}
+  const f=first(nm), s=c.name?surname(nm):nm, r=res(c);
+  return `<button class="pocket" data-k="${esc(c.key)}" aria-pressed="false" aria-label="${esc(c.code)} ${esc(nm)}, ${r?"besteld":"mist nog"}" style="--c:${t?t[2]:"var(--faint)"}">${r?`<span class="badge res">${CLOCK}</span>`:""}<span class="slot${r?" res":""}"><span class="no">${esc(c.code)}</span><span><span class="nm">${f?esc(f):""}<b>${esc(s)}</b></span><span class="tm">${t?`<i></i>${t[1]}`:""}${c.rk?'<span class="rc">RC</span>':""}</span></span></span></button>`}
 
 function renderStats(){
   const b=BASE.filter(cnt).length,i=INS.filter(cnt).length,h=HITS.filter(cnt).length,bind=SLOTS.filter(c=>c&&cnt(c)).length;
-  $("gBase").textContent=b;$("gBar").style.width=(b/300*100)+"%";$("gIns").textContent=i+"/"+INS.length;$("gHits").textContent=h;$("gBind").textContent=bind;
+  $("gBase").textContent=b;$("gBar").style.width=(b/300*100)+"%";$("gIns").textContent=i+"/"+INS.length;$("gHits").textContent=h;const rs=CARDS.filter(res).length;const sl=CARDS.filter(sale).length;$("gSale").textContent=sl;$("gSaleWrap").hidden=!sl;$("gRes").textContent=rs;$("gResWrap").hidden=!rs;$("gBind").textContent=bind;
   $("tcBase").textContent=b+"/300";$("tcIns").textContent=i+"/"+INS.length;$("tcHits").textContent=h?h:"";
 }
 function renderClubs(){
@@ -1512,9 +1526,20 @@ async function flush(){if(flushing||!session||!pending.length)return;flushing=tr
   catch(e){setSync(false,navigator.onLine?"Niet opgeslagen: "+(e.message||"fout"):"Offline, wijzigingen wachten")}
   finally{flushing=false}}
 window.addEventListener("online",flush);
-function toggle(key,dec){const n=owned[key]||0;let m;
+function toggleRes(key){if(owned[key]){toast("Die heb je al");return}
+  const on=!owned[RES+key];if(on)owned[RES+key]=1;else delete owned[RES+key];render();saveLocal();queue({t:"owned",k:RES+key,n:on?1:0})}
+function toggleSale(key,sold){const n=owned[key]||0;if(!n){toast("Die heb je niet");return}
+  if(sold){if(!owned[SALE+key]){toast("Staat niet te koop");return}
+    const m=n-1;if(m)owned[key]=m;else delete owned[key];delete owned[SALE+key];
+    render();saveLocal();queue({t:"owned",k:key,n:m});queue({t:"owned",k:SALE+key,n:0});toast("Verkocht, één eraf");return}
+  const on=!owned[SALE+key];if(on)owned[SALE+key]=1;else delete owned[SALE+key];render();saveLocal();queue({t:"owned",k:SALE+key,n:on?1:0})}
+function toggle(key,dec){if(state.sale)return toggleSale(key,dec);if(state.res){if(!dec)toggleRes(key);return}
+  const n=owned[key]||0;let m;
   if(state.dup){m=dec?Math.max(0,n-1):n+1}else{m=dec?Math.max(0,n-1):(n?0:1)}
-  if(m)owned[key]=m;else delete owned[key];render();saveLocal();queue({t:"owned",k:key,n:m})}
+  if(m)owned[key]=m;else delete owned[key];
+  const clr=m&&owned[RES+key];if(clr)delete owned[RES+key];
+  const clrS=!m&&owned[SALE+key];if(clrS)delete owned[SALE+key];
+  render();saveLocal();queue({t:"owned",k:key,n:m});if(clr)queue({t:"owned",k:RES+key,n:0});if(clrS)queue({t:"owned",k:SALE+key,n:0})}
 
 // full load + realtime
 async function loadAll(){const o=await sb.from("owned").select("key,count");
@@ -1535,7 +1560,10 @@ document.addEventListener("touchmove",()=>{clearTimeout(lp);lp=null},{passive:tr
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;saveUi();render()});
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.f=b.dataset.f;saveUi();render()});
 let qt;$("q").addEventListener("input",e=>{clearTimeout(qt);qt=setTimeout(()=>{state.q=e.target.value.trim();render()},120)});
-$("dupMode").onclick=()=>{state.dup=!state.dup;$("dupMode").setAttribute("aria-pressed",state.dup);toast(state.dup?"Tik = +1, vasthouden = −1":"Tik = heb ik / heb ik niet")};
+function setMode(m){const on=!state[m];state.dup=state.res=state.sale=false;state[m]=on;
+  [["dup","dupMode"],["res","resMode"],["sale","saleMode"]].forEach(([k,id])=>$(id).setAttribute("aria-pressed",state[k]));
+  toast(!on?"Tik = heb ik / heb ik niet":m==="dup"?"Tik = +1, vasthouden = −1":m==="res"?"Tik = besteld / niet besteld":"Tik = te koop / niet te koop, vasthouden = verkocht")}
+$("resMode").onclick=()=>setMode("res");$("dupMode").onclick=()=>setMode("dup");$("saleMode").onclick=()=>setMode("sale");
 function toast(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),2200)}
 $("copyDup").onclick=async()=>{const dups=CARDS.filter(c=>cnt(c)>1);
   if(!dups.length){toast("Geen dubbelen");return}
@@ -1544,7 +1572,7 @@ $("copyDup").onclick=async()=>{const dups=CARDS.filter(c=>cnt(c)>1);
   const txt="Dubbelen (Flagship PL 26/27), "+spare+" over:\n"+[...groups].map(([g,cs])=>"\n"+g+"\n"+cs.map(c=>{const t=teamOf(c),tm=t&&t[1]?" ("+t[1]+")":"";return c.code+" "+(c.name||"Dual autograph")+tm+(cnt(c)>2?" ×"+(cnt(c)-1):"")}).join("\n")).join("\n");
   try{await navigator.clipboard.writeText(txt);toast(spare+" dubbelen gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
 $("copyMiss").onclick=async()=>{const list=state.tab==="base"?BASE:state.tab==="ins"?INS:HITS;
-  const miss=list.filter(c=>!cnt(c)&&(state.club==null||c.team===state.club));
+  const miss=list.filter(c=>!cnt(c)&&!res(c)&&(state.club==null||c.team===state.club));
   const txt=state.tab==="base"?"Mis nog (Flagship PL 26/27): "+miss.map(c=>c.code).join(", "):miss.map(c=>c.code+" "+c.name).join("\n");
   try{await navigator.clipboard.writeText(txt);toast(miss.length+" kaarten gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
 
