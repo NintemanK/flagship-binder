@@ -160,7 +160,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
     <div class="prog">
       <div class="big"><span id="gBase">0</span><small>/ 300 basiskaarten</small></div>
       <div class="track"><i id="gBar" style="width:0%"></i></div>
-      <div class="meta"><span><span id="gIns">0</span> inserts · <span id="gHits">0</span> hits · <span id="gSaleWrap" hidden><span id="gSale">0</span> te koop · </span><span id="gResWrap" hidden><span id="gRes">0</span> besteld · </span><span id="gBind">0</span>/480 in de map</span><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">Laden…</span> · <button class="link" id="logout" hidden>uitloggen</button></span></div>
+      <div class="meta"><span><span id="gIns">0</span> inserts · <span id="gHits">0</span> hits · <span id="gSaleWrap" hidden><span id="gSale">0</span> te koop · </span><span id="gResWrap" hidden><span id="gRes">0</span> besteld · </span><span id="gBind">0</span>/480 in de map</span><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">Laden…</span> · <button class="link" id="setPw" hidden>wachtwoord</button> · <button class="link" id="logout" hidden>uitloggen</button></span></div>
     </div>
   </header>
 
@@ -203,10 +203,23 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
   <form id="loginForm">
     <div class="eyebrow">Topps Flagship · Premier League 2026/27</div>
     <h1>Mijn binder</h1>
-    <p>Log in met je e-mailadres. Je krijgt een link in je mail; daarmee ben je op deze telefoon ingelogd.</p>
-    <input type="email" id="email" placeholder="E-mailadres" required autocomplete="email">
-    <button type="submit" class="primary" id="loginBtn">Stuur inloglink</button>
+    <p>Log in met je e-mailadres en wachtwoord. Je blijft daarna op dit toestel ingelogd.</p>
+    <input type="email" id="email" name="username" placeholder="E-mailadres" required autocomplete="username">
+    <input type="password" id="pw" name="password" placeholder="Wachtwoord" autocomplete="current-password">
+    <button type="submit" class="primary" id="loginBtn">Inloggen</button>
     <p class="small" id="loginMsg"></p>
+    <p class="small">Nog geen wachtwoord of vergeten? <button type="button" class="link" id="linkBtn">Stuur een inloglink per mail</button> en stel daarna in de app een wachtwoord in.</p>
+  </form>
+</div>
+<div class="login" id="pwBox" hidden>
+  <form id="pwForm">
+    <h1>Wachtwoord</h1>
+    <p>Stel een wachtwoord in voor <b id="pwWho"></b>. Daarna log je op elk toestel in zonder mail.</p>
+    <input type="email" id="pwUser" name="username" autocomplete="username" readonly hidden>
+    <input type="password" id="pwNew" name="new-password" placeholder="Nieuw wachtwoord, minstens 8 tekens" required minlength="8" autocomplete="new-password">
+    <button type="submit" class="primary" id="pwBtn">Opslaan</button>
+    <button type="button" class="link" id="pwCancel">Annuleren</button>
+    <p class="small" id="pwMsg"></p>
   </form>
 </div>
 
@@ -1577,13 +1590,29 @@ $("copyMiss").onclick=async()=>{const list=state.tab==="base"?BASE:state.tab==="
   try{await navigator.clipboard.writeText(txt);toast(miss.length+" kaarten gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
 
 // ---- auth: magic link ----
-$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("email").value.trim();$("loginBtn").disabled=true;$("loginMsg").textContent="Versturen…";
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("email").value.trim(),password=$("pw").value;
+  if(!password){$("loginMsg").textContent="Vul je wachtwoord in, of vraag hieronder een inloglink aan.";return}
+  $("loginBtn").disabled=true;$("loginMsg").textContent="Inloggen…";
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  $("loginBtn").disabled=false;$("loginMsg").textContent=error?(/invalid login/i.test(error.message)?"E-mailadres of wachtwoord klopt niet. Heb je nog geen wachtwoord ingesteld, gebruik dan de inloglink.":"Mislukt: "+error.message):"";if(!error)$("pw").value=""});
+$("linkBtn").onclick=async()=>{const email=$("email").value.trim();if(!email){$("loginMsg").textContent="Vul eerst je e-mailadres in.";return}
+  $("linkBtn").disabled=true;$("loginMsg").textContent="Versturen…";
   const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
-  $("loginBtn").disabled=false;$("loginMsg").textContent=error?"Mislukt: "+error.message:"Link verstuurd. Open de mail op deze telefoon en tik op de link."});
+  $("linkBtn").disabled=false;$("loginMsg").textContent=error?"Mislukt: "+error.message:"Link verstuurd. Open de mail op dit toestel en tik op de link."};
+$("setPw").onclick=()=>{const em=session&&session.user&&session.user.email||"";$("pwWho").textContent=em;$("pwUser").value=em;$("pwNew").value="";$("pwMsg").textContent="";$("pwBox").hidden=false;$("pwNew").focus()};
+$("pwCancel").onclick=()=>{$("pwBox").hidden=true};
+$("pwForm").addEventListener("submit",async e=>{e.preventDefault();$("pwBtn").disabled=true;$("pwMsg").textContent="Opslaan…";
+  const {error}=await sb.auth.updateUser({password:$("pwNew").value});$("pwBtn").disabled=false;
+  if(error){$("pwMsg").textContent="Mislukt: "+error.message;return}
+  $("pwBox").hidden=true;toast("Wachtwoord ingesteld")});
 $("logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
-function showLogin(on){$("login").hidden=!on;$("logout").hidden=on}
+function showLogin(on){$("login").hidden=!on;$("logout").hidden=on;$("setPw").hidden=on;if(on)$("pwBox").hidden=true}
 loadLocal();render();setSync(false,"Verbinden…");
-sb.auth.onAuthStateChange((ev,s)=>{session=s;if(s){showLogin(false);loadAll();subscribe()}else{showLogin(true);setSync(false,"Niet ingelogd")}});
+// Supabase-aanroepen niet direct in deze callback doen: dat kan de auth-lock blokkeren.
+let subscribed=false;
+sb.auth.onAuthStateChange((ev,s)=>{session=s;setTimeout(()=>{
+  if(s){showLogin(false);if(ev!=="TOKEN_REFRESHED")loadAll();if(!subscribed){subscribed=true;subscribe()}}
+  else{showLogin(true);setSync(false,"Niet ingelogd")}},0)});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body></html>
