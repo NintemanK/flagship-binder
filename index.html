@@ -1584,9 +1584,13 @@ $("copyDup").onclick=async()=>{const dups=CARDS.filter(c=>cnt(c)>1);
   const spare=dups.reduce((t,c)=>t+cnt(c)-1,0);
   const txt="Dubbelen (Flagship PL 26/27), "+spare+" over:\n"+[...groups].map(([g,cs])=>"\n"+g+"\n"+cs.map(c=>{const t=teamOf(c),tm=t&&t[1]?" ("+t[1]+")":"";return c.code+" "+(c.name||"Dual autograph")+tm+(cnt(c)>2?" ×"+(cnt(c)-1):"")}).join("\n")).join("\n");
   try{await navigator.clipboard.writeText(txt);toast(spare+" dubbelen gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
-$("copyMiss").onclick=async()=>{const list=state.tab==="base"?BASE:state.tab==="ins"?INS:HITS;
-  const miss=list.filter(c=>!cnt(c)&&!res(c)&&(state.club==null||c.team===state.club));
-  const txt=state.tab==="base"?"Mis nog (Flagship PL 26/27): "+miss.map(c=>c.code).join(", "):miss.map(c=>c.code+" "+c.name).join("\n");
+$("copyMiss").onclick=async()=>{
+  // alles wat nog mist in de map: basisset plus de insert-sets die in de map zitten, los van het open tabblad
+  const miss=SLOTS.filter(c=>c&&!cnt(c)&&!res(c)&&(state.club==null||c.team===state.club));
+  if(!miss.length){toast("Niets meer te zoeken");return}
+  const groups=new Map();miss.forEach(c=>{const g=c.sec<=1?"Basisset":SECS[c.sec];if(!groups.has(g))groups.set(g,[]);groups.get(g).push(c)});
+  const club=state.club!=null?", alleen "+TEAMS[state.club][0]:"";
+  const txt="Mis nog (Flagship PL 26/27"+club+"), "+miss.length+" kaarten:\n"+[...groups].map(([g,cs])=>"\n"+g+" ("+cs.length+")\n"+(g==="Basisset"?cs.map(c=>c.code).join(", "):cs.map(c=>c.code+" "+c.name).join("\n"))).join("\n");
   try{await navigator.clipboard.writeText(txt);toast(miss.length+" kaarten gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
 
 // ---- auth: magic link ----
