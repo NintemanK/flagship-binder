@@ -7,7 +7,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<title>Flagship 26/27 Binder</title>
+<title>Flagship Binder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap">
@@ -16,17 +16,17 @@
    Basisset op kant 1-25, inserts rij-uitgelijnd daarna. Kaartjes zijn eigen illustraties. */
 :root{
   --bg:#f2f1ee;--panel:#ffffff;--sleeve:#f7f6f3;--ink:#15171b;--muted:#6b6f78;--faint:#a9acb3;--line:#e2e0db;
-  --gold:#a37c17;--have:#1f7a4d;--dup:#2a59b8;--res:#b26a00;--sale:#b0308a;
+  --gold:#a37c17;--have:#1f7a4d;--dup:#2a59b8;--res:#b26a00;--sale:#b0308a;--accent:#1f7a4d;
   --f-display:"Big Shoulders Display","Barlow Condensed","Arial Narrow",sans-serif;
   --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-num:"Barlow Condensed","Arial Narrow",sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#111317;--panel:#181b20;--sleeve:#1d2026;--ink:#eef0f3;--muted:#9aa0ab;--faint:#5c626d;--line:#2a2e36;
-  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;--res:#f0a53a;--sale:#ee6fc4;color-scheme:dark}}
+  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;--res:#f0a53a;--sale:#ee6fc4;--accent:#43c283;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111317;--panel:#181b20;--sleeve:#1d2026;--ink:#eef0f3;--muted:#9aa0ab;--faint:#5c626d;--line:#2a2e36;
-  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;--res:#f0a53a;--sale:#ee6fc4;color-scheme:dark}
+  --gold:#ddb64f;--have:#43c283;--dup:#7aa5ff;--res:#f0a53a;--sale:#ee6fc4;--accent:#43c283;color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
 .wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:28px 72px}
@@ -34,7 +34,12 @@ button,input{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
 .top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px}
-.eyebrow{font-family:var(--f-num);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--muted)}
+.eyebrow{font-family:var(--f-num);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--accent)}
+.binders{display:flex;gap:8px;margin-bottom:22px}
+.binders button{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 14px 7px 10px;font-family:var(--f-num);font-weight:700;font-size:15px;letter-spacing:.02em;color:var(--muted);cursor:pointer}
+.binders button i{width:14px;height:14px;border-radius:4px;background:var(--bc);opacity:.55}
+.binders button[aria-pressed="true"]{color:var(--ink);border-color:var(--bc);box-shadow:inset 0 0 0 1px var(--bc)}.binders button[aria-pressed="true"] i{opacity:1}
+:root[data-binder="bl"]{--accent:#c8102e}@media (prefers-color-scheme:dark){:root[data-binder="bl"]:not([data-theme="light"]){--accent:#ff5a68}}:root[data-theme="dark"][data-binder="bl"]{--accent:#ff5a68}:root[data-binder="bl"] .track i{background:#c8102e}
 h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);line-height:.9;margin:6px 0 0;text-transform:uppercase}
 .sub{font-size:13px;color:var(--muted);margin-top:8px}
 .prog{min-width:min(100%,320px);display:grid;gap:8px}
@@ -42,7 +47,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
 .prog .big small{font-family:var(--f-num);font-weight:600;font-size:16px;color:var(--muted);margin-left:6px}
 .track{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
 .track i{display:block;height:100%;background:var(--have);border-radius:3px;transition:width .4s ease}
-.prog .meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .sync{display:inline-flex;align-items:center;gap:6px}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
 .dot.ok{background:var(--have)}
@@ -151,14 +156,15 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
 </style>
 
 <div class="wrap">
+  <nav class="binders" aria-label="Map"><button type="button" data-binder="pl" aria-pressed="true" style="--bc:#1f7a4d"><i></i>Premier League</button><button type="button" data-binder="bl" aria-pressed="false" style="--bc:#c8102e"><i></i>Bundesliga</button></nav>
   <header class="top">
     <div>
-      <div class="eyebrow">Topps Flagship · Premier League 2026/27</div>
+      <div class="eyebrow" id="eyebrow">Topps Flagship · Premier League 2026/27</div>
       <h1>Mijn binder</h1>
       <div class="sub">Vault X 12-pocket Exo-Tec · 20 bladen · 480 vakken</div>
     </div>
     <div class="prog">
-      <div class="big"><span id="gBase">0</span><small>/ 300 basiskaarten</small></div>
+      <div class="big"><span id="gBase">0</span><small>/ <span id="gBaseN">300</span> basiskaarten</small></div>
       <div class="track"><i id="gBar" style="width:0%"></i></div>
       <div class="meta"><span><span id="gIns">0</span> inserts · <span id="gHits">0</span> hits · <span id="gSaleWrap" hidden><span id="gSale">0</span> te koop · </span><span id="gResWrap" hidden><span id="gRes">0</span> besteld · </span><span id="gBind">0</span>/480 in de map</span><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">Laden…</span> · <button class="link" id="setPw" hidden>wachtwoord</button> · <button class="link" id="logout" hidden>uitloggen</button></span></div>
     </div>
@@ -185,7 +191,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
     <button class="ghost" id="resMode" aria-pressed="false">Besteld markeren</button>
     <button class="ghost" id="saleMode" aria-pressed="false">Te koop markeren</button>
     <button class="ghost" id="copyMiss">Kopieer mislijst</button>
-    <button class="ghost" id="copyDup">Kopieer dubbelen</button>
+    <button class="ghost" id="copySale">Kopieer te koop</button>
   </div>
 
   <section id="v-base">
@@ -196,13 +202,13 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
   <section id="v-ins" hidden><div class="sets" id="insSets"></div></section>
   <section id="v-hits" hidden><div class="sets" id="hitSets"></div></section>
 
-  <p class="note">Tik op een kaart om hem af te vinken. Met "Besteld markeren" aan zet een tik een kaart die je mist op besteld; hij verdwijnt dan uit "Mist nog" en uit de mislijst, en het merkje gaat vanzelf weg als je hem later afvinkt. Met "Te koop markeren" aan zet een tik een kaart die je hebt op te koop; vasthouden betekent verkocht: één exemplaar eraf en het merkje weg. Met "Dubbelen tellen" aan telt een tik +1; rechtsklik of vasthouden haalt er één af. De indeling volgt de Vault X 12-pocket: 4 bij 3 per kant, basisset op kant 1 tot 25, daarna de zeven insert-sets, elke set begint op een nieuwe rij. Chrome Classics en Gold Lion passen er niet meer bij en horen in toploaders. Bron: officiële Topps-checklist. De kaartjes zijn eigen typografische ontwerpen in clubkleuren, geen Topps-afbeeldingen.</p>
+  <p class="note">Tik op een kaart om hem af te vinken. Met "Besteld markeren" aan zet een tik een kaart die je mist op besteld; hij verdwijnt dan uit "Mist nog" en uit de mislijst, en het merkje gaat vanzelf weg als je hem later afvinkt. Alle dubbelen gelden als te koop. Met "Te koop markeren" aan zet een tik ook je laatste exemplaar te koop (€-merkje); vasthouden betekent verkocht: één exemplaar eraf. "Kopieer te koop" kopieert alles wat te koop staat. Met "Dubbelen tellen" aan telt een tik +1; rechtsklik of vasthouden haalt er één af. De indeling volgt de Vault X 12-pocket: 4 bij 3 per kant, eerst de basisset, daarna de insert-sets die in de map zitten, elke set begint op een nieuwe rij. <span id="noteBinder"></span> Bron: officiële Topps-checklist. De kaartjes zijn eigen typografische ontwerpen in clubkleuren, geen Topps-afbeeldingen.</p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="login" id="login" hidden>
   <form id="loginForm">
-    <div class="eyebrow">Topps Flagship · Premier League 2026/27</div>
-    <h1>Mijn binder</h1>
+    <div class="eyebrow">Topps Flagship 2026/27</div>
+    <h1>Mijn binders</h1>
     <p>Log in met je e-mailadres en wachtwoord. Je blijft daarna op dit toestel ingelogd.</p>
     <input type="email" id="email" name="username" placeholder="E-mailadres" required autocomplete="username">
     <input type="password" id="pw" name="password" placeholder="Wachtwoord" autocomplete="current-password">
@@ -1364,42 +1370,939 @@ const RAW=`0~1~Max Dowman~0
 42~BR-LB~Lucas Bergvall~16
 42~BR-SHM~Son Heung-min~16
 `;
-const SECS=["Future Stars","Base","Beast Mode","Nitro Boost","Flying the Flag","Stars of the Premier League","Retro Threads","8 Bit Ballers","Remember the Name","Chrome Classics","Gold Lion","True Gold Lion","Perfect 10","Vibes","Mayhem","On Fire","Golden Boot","Black Edge","Quasar","Billboard Material","Carpe Diem","Home Pitch","Perfect Storm","The Rise","All Kings","Ultra Beast Mode","Diamond Rookies","Chrome Classics Autographs","Perfect 10 Autographs","Vibes Autographs","Mayhem Autographs","On Fire Autographs","Golden Boot On-Card Autographs","Black Edge Autographs","Base Autographs","Future Stars Autographs","Stars of the PL Autographs","Dual Autographs","25 Years Champions Autographs","Marks of Excellence","Topps Autograph Relics","Premier Class Autograph Relics","Base Card Relics"];
-const TEAMS=[["Arsenal","ARS","#e0202b"],["Aston Villa","AVL","#7a1f45"],["AFC Bournemouth","BOU","#c8241b"],["Brighton & Hove Albion","BHA","#1f63c6"],["Chelsea","CHE","#1c4fb0"],["Crystal Palace","CRY","#2f58a8"],["Fulham","FUL","#2b2b2b"],["Leeds United","LEE","#d9ad00"],["Liverpool FC","LIV","#c8102e"],["Manchester City","MCI","#5aa6d9"],["Manchester United","MUN","#d9291c"],["Nottingham Forest","NFO","#c41d23"],["Sunderland","SUN","#e2232f"],["Brentford","BRE","#e30613"],["Everton","EVE","#24479f"],["Newcastle United","NEW","#2a2a2a"],["Tottenham Hotspur","TOT","#1b2a5c"],["Coventry City","COV","#3fb0d9"],["Ipswich Town","IPS","#2f5ba8"],["Hull City","HUL","#e8951f"]];
-// kit: [shirt, trim, pattern, backdrop]
-const KITS=[["#e0202b","#ffffff","sleeves","#8e1118"],["#7a1f45","#94c3e6","sleeves","#3d0f24"],["#c8241b","#141414","stripes","#5a0e0a"],["#1f63c6","#ffffff","stripes","#0e3570"],["#1c4fb0","#ffffff","plain","#0d2a66"],["#c8282a","#1f4aa8","stripes","#1a2c5e"],["#f5f5f2","#141414","plain","#2b2b2b"],["#f5f5f2","#1d4ea0","plain","#2e3f6b"],["#c8102e","#ffffff","plain","#6c0718"],["#8cc4ea","#ffffff","plain","#2b6a95"],["#d9291c","#ffffff","plain","#6e130c"],["#c41d23","#ffffff","plain","#5f0c10"],["#e2232f","#ffffff","stripes","#6e1018"],["#e30613","#ffffff","stripes","#6d0309"],["#24479f","#ffffff","plain","#10244f"],["#141414","#ffffff","stripes","#1f1f1f"],["#f5f5f2","#1b2a5c","plain","#1b2a5c"],["#69c3e4","#ffffff","plain","#1f5e79"],["#2f5ba8","#ffffff","plain","#162f5e"],["#e8951f","#141414","stripes","#6f4406"]];
-const CARDS=RAW.trim().split("\n").map(l=>{const [s,code,name,team,rk,yr]=l.split("~");const sec=+s;const t=team===undefined||team===""?null:+team;return{sec,code,name:name||"",team:t,rk:rk==="R",yr:yr||"",key:sec+"|"+code}});
-{const seen={};CARDS.forEach(c=>{if(seen[c.key]){seen[c.key]++;c.key+="#"+seen[c.key]}else seen[c.key]=1})}
-const BASE=CARDS.filter(c=>c.sec<=1), INS=CARDS.filter(c=>c.sec>=2&&c.sec<=26), HITS=CARDS.filter(c=>c.sec>=27);
-
-const AUTOS=new Set([27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]), RELICS=new Set([40,41,42]);
-const SETCOL={0:"#a37c17",2:"#0f5132",3:"#ff7a1a",4:"#1f5fa8",5:"#5b2d9e",6:"#a8301c",7:"#1e5bd8",8:"#5a6b73",9:"#1b2a5c",10:"#c9a227",11:"#a07a10",12:"#0e6b4c",13:"#d6457a",14:"#c2185b",15:"#e65100",16:"#b8901d",17:"#111111",18:"#4527a0",19:"#c0a000",20:"#7b1f1f",21:"#2e7d32",22:"#37597a",23:"#e07a3b",24:"#7a5a12",25:"#b71c1c",26:"#5b8fd1"};
-const FOIL={10:"gold",11:"gold",16:"gold",24:"gold",9:"silver",26:"silver",6:"silver",17:"black",33:"black"};
-function setColor(s){if(SETCOL[s])return SETCOL[s];if([32,38,39,41].includes(s))return"#c9a227";if(s===33)return"#111111";return AUTOS.has(s)?"#2b2f38":"#3a3f4a"}
+const RAW_BL=`1~1~Chrislain Matsima~0~~~
+1~2~Mert Kömür~0~~~
+1~3~Alexis Claude-Maurice~0~~~
+1~4~Marius Wolf~0~~~
+1~5~Fabian Rieder~0~~~
+1~6~Noahkai Banks~0~~~
+1~7~Anton Kade~0~R~~
+1~8~Leopold Querfeld~1~~~
+1~9~Tom Rothe~1~~~
+1~10~Ilyas Ansah~1~~~
+1~11~Oliver Burke~1~~~
+1~12~Andrej Ilić~1~~~
+1~13~Josip Juranović~1~~~
+1~14~Woo-yeong Jeong~1~~~
+1~15~Romano Schmid~2~~~
+1~16~Mitchell Weiser~2~~~
+1~17~Salim Musah~2~R~~
+1~18~Keke Topp~2~~~
+1~19~Karim Coulibaly~2~~~
+1~20~Samuel Mbangula~2~~~
+1~21~Mick Schmetgens~2~R~~
+1~22~Jens Stage~2~~~
+1~23~Mathis Albert~3~R~~
+1~24~Nico Schlotterbeck~3~~~
+1~25~Jobe Bellingham~3~~~
+1~26~Kauã Prates~3~R~~
+1~27~Serhou Guirassy~3~~~
+1~28~Justin Lerma~3~R~~
+1~29~Luca Reggiani~3~R~~
+1~30~Samuele Inácio~3~R~~
+1~31~Felix Nmecha~3~~~
+1~32~Maximilian Beier~3~~~
+1~33~Lasse Günther~4~~~
+1~34~Lukas Pinckert~4~R~~
+1~35~Lukas Petkov~4~R~~
+1~36~David Mokwa~4~R~~
+1~37~Francis Onyeka~4~R~~
+1~38~Ritsu Doan~5~~~
+1~39~Oscar Højlund~5~~~
+1~40~Younes Ebnoutalib~5~~~
+1~41~Can Uzun~5~~~
+1~42~Jonathan Burkardt~5~~~
+1~43~Keita Kosugi~5~R~~
+1~44~Jean-Mattéo Bahoya~5~~~
+1~45~Matthias Ginter~6~~~
+1~46~Vincenzo Grifo~6~~~
+1~47~Derry Scherhant~6~~~
+1~48~Bruno Ogbus~6~~~
+1~49~Cyriaque Irié~6~~~
+1~50~Yuito Suzuki~6~~~
+1~51~Niklas Beste~6~~~
+1~52~Philipp Lienhart~6~~~
+1~53~Patrick Osterhage~6~~~
+1~54~Jordy Makengo~6~~~
+1~55~Otto Stange~7~R~~
+1~56~Sambi Lokonga~7~~~
+1~57~Nicolas Capaldo~7~~~
+1~58~Nicolai Remberg~7~~~
+1~59~Rayan Philippe~7~~~
+1~60~Warmed Omari~7~~~
+1~61~Kofi Amoako~7~R~~
+1~62~Yannick Eduardo~8~R~~
+1~63~Fisnik Asllani~8~~~
+1~64~Adam Hložek~8~~~
+1~65~Wouter Burger~8~~~
+1~66~Andrej Kramarić~8~~~
+1~67~Leon Avdullahu~8~~~
+1~68~Vladimír Coufal~8~~~
+1~69~Alessandro Vogt~8~R~~
+1~70~Saïd El Mala~9~~~
+1~71~Rav van den Berg~9~~~
+1~72~Ragnar Ache~9~~~
+1~73~Ísak Jóhannesson~9~~~
+1~74~Timo Hübers~9~~~
+1~75~Jan Thielmann~9~~~
+1~76~Youssoupha Niang~9~R~~
+1~77~Nicolas Seiwald~10~~~
+1~78~Ayodele Thomas~10~R~~
+1~79~Samba Konaté~10~R~~
+1~80~Christoph Baumgartner~10~~~
+1~81~Assan Ouédraogo~10~~~
+1~82~Antonio Nusa~10~~~
+1~83~Yan Diomande~10~~~
+1~84~Rômulo Cardoso~10~~~
+1~85~Abdoul Koné~10~R~~
+1~86~Rocco Reitz~10~~~
+1~87~Conrad Harder~10~~~
+1~88~David Raum~10~~~
+1~89~Kennet Eichhorn~11~R~~
+1~90~Montrell Culbreath~11~R~~
+1~91~Robert Andrich~11~~~
+1~92~Axel Tape~11~~~
+1~93~Ernest Poku~11~~~
+1~94~Malik Tillman~11~~~
+1~95~Ibrahim Maza~11~~~
+1~96~Exequiel Palacios~11~~~
+1~97~Christian Kofane~11~~~
+1~98~Edmond Tapsoba~11~~~
+1~99~Kaishu Sano~12~~~
+1~100~Nadiem Amiri~12~~~
+1~101~Eric Martel~12~~~
+1~102~Lennard Maloney~12~~~
+1~103~Jae-Sung Lee~12~~~
+1~104~Kacper Potulski~12~~~
+1~105~Phillip Tietz~12~~~
+1~106~Kevin Stöger~13~~~
+1~107~Hugo Bolin~13~R~~
+1~108~Wael Mohya~13~~~
+1~109~Tim Kleindienst~13~~~
+1~110~Iaia Manco Danfa~13~R~~
+1~111~Franck Honorat~13~~~
+1~112~Shuto Machino~13~~~
+1~113~Robin Hack~13~~~
+1~114~Cassiano Kiala~14~R~~
+1~115~Jonathan Tah~14~~~
+1~116~Maycon Cardozo~14~R~~
+1~117~Michael Olise~14~~~
+1~118~Jamal Musiala~14~~~
+1~119~Lennart Karl~14~~~
+1~120~Luis Díaz~14~~~
+1~121~Harry Kane~14~~~
+1~122~Joshua Kimmich~14~~~
+1~123~Tom Bischof~14~~~
+1~124~Felix Götze~15~~~
+1~125~Laurin Curda~15~~~
+1~126~Luka Duric~15~R~~
+1~127~Santiago Castañeda~15~R~~
+1~128~Steffen Tigges~15~~~
+1~129~Stefano Marino~15~R~~
+1~130~Mertcan Ayhan~16~R~~
+1~131~Soufiane El-Faouzi~16~R~~
+1~132~Adil Aouchiche~16~~~
+1~133~Dejan Ljubičić~16~~~
+1~134~Timo Becker~16~~~
+1~135~Kenan Karaman~16~~~
+1~136~Junior Adamu~16~~~
+1~137~Chema~17~~~
+1~138~Angelo Stiller~17~~~
+1~139~Finn Jeltsch~17~~~
+1~140~Bilal El Khannouss~17~~~
+1~141~Deniz Undav~17~~~
+1~142~Jamie Leweling~17~~~
+1~143~Dennis Seimen~17~R~~
+1~144~Josha Vagnoman~17~~~
+0~145~Ezechiel Banzuzi~10~~~
+0~146~Lennart Karl~14~~~
+0~147~Yan Diomande~10~~~
+0~148~Andrija Maksimović~10~~~
+0~149~Saïd El Mala~9~~~
+0~150~Fisnik Asllani~8~~~
+0~151~Alexander Røssing-Lelesiit~7~~~
+0~152~Jeanuël Belocian~11~~~
+0~153~Finn Jeltsch~17~~~
+0~154~Wouter Burger~8~~~
+0~155~Christian Kofane~11~~~
+0~156~Rômulo Cardoso~10~~~
+0~157~Chema~17~~~
+0~158~Noah Darvich~4~~~
+0~159~Karim Coulibaly~2~~~
+1~160~Paul Seguin~18~~~2. BUNDESLIGA
+1~161~Josip Brekalo~18~~~2. BUNDESLIGA
+1~162~Joel Grodowski~19~~~2. BUNDESLIGA
+1~163~Marius Wörl~19~R~~2. BUNDESLIGA
+1~164~Maximilian Wittek~20~~~2. BUNDESLIGA
+1~165~Mats Pannewig~20~R~~2. BUNDESLIGA
+1~166~Mehmet Aydin~21~~~2. BUNDESLIGA
+1~167~Max Marie~21~R~~2. BUNDESLIGA
+1~168~Tolcay Ciğerci~22~~~2. BUNDESLIGA
+1~169~Erik Engelhardt~22~~~2. BUNDESLIGA
+1~170~Fabian Nürnberger~23~~~2. BUNDESLIGA
+1~171~Patric Pfeiffer~23~~~2. BUNDESLIGA
+1~172~Niklas Hauptmann~24~~~2. BUNDESLIGA
+1~173~Christoph Daferner~24~~~2. BUNDESLIGA
+1~174~Shinta Appelkamp~25~~~2. BUNDESLIGA
+1~175~Maximilian Dietz~25~R~~2. BUNDESLIGA
+1~176~Hayate Matsuda~26~R~~2. BUNDESLIGA
+1~177~Benjamin Källman~26~~~2. BUNDESLIGA
+1~178~Patrick Mainka~27~~~2. BUNDESLIGA
+1~179~Tim Siersleben~27~~~2. BUNDESLIGA
+1~180~Naatan Skyttä~28~~~2. BUNDESLIGA
+1~181~Mika Haas~28~R~~2. BUNDESLIGA
+1~182~Rafael Pinto Pedrosa~29~R~~2. BUNDESLIGA
+1~183~Marvin Wanitzek~29~~~2. BUNDESLIGA
+1~184~Alexander Bernhardsson~30~~~2. BUNDESLIGA
+1~185~Jonas Therkelsen~30~R~~2. BUNDESLIGA
+1~186~Mateusz Zukowski~31~~~2. BUNDESLIGA
+1~187~Doyoung Yoon~31~~~2. BUNDESLIGA
+1~188~Julian Justvan~32~~~2. BUNDESLIGA
+1~189~Winners Osawe~32~R~~2. BUNDESLIGA
+1~190~Jannik Müller~33~~~2. BUNDESLIGA
+1~191~Robin Meißner~33~~~2. BUNDESLIGA
+1~192~Jackson Irvine~34~~~2. BUNDESLIGA
+1~193~Martijn Kaars~34~~~2. BUNDESLIGA
+1~194~Aaron Zehnter~35~~~2. BUNDESLIGA
+1~195~Dzenan Pejcinovic~35~~~2. BUNDESLIGA
+1~196~Team~14~~~LEAGUE LEADERS
+1~197~Harry Kane~14~~~LEAGUE LEADERS
+1~198~Michael Olise~14~~~LEAGUE LEADERS
+1~199~Gregor Kobel~3~~~LEAGUE LEADERS
+1~200~Yan Diomande~10~~~LEAGUE LEADERS
+2~MW-01~Noahkai Banks~0
+2~MW-02~Robin Fellhauer~0
+2~MW-03~Livan Burcu~1
+2~MW-04~Marco Friedl~2
+2~MW-05~Senne Lynen~2
+2~MW-06~Gregor Kobel~3
+2~MW-07~Julian Ryerson~3
+2~MW-08~Serhou Guirassy~3
+2~MW-09~Kauã Santos~5
+2~MW-10~Oscar Højlund~5
+2~MW-11~Maximilian Eggestein~6
+2~MW-12~Matthias Ginter~6
+2~MW-13~Igor Matanović~6
+2~MW-14~Nicolai Remberg~7
+2~MW-15~Nicolas Capaldo~7
+2~MW-16~Lukas Petkov~4
+2~MW-17~Oliver Baumann~8
+2~MW-18~Adam Hložek~8
+2~MW-19~Jahmai Simpson-Pusey~9
+2~MW-20~Marius Bülter~9
+2~MW-21~Nicolas Seiwald~10
+2~MW-22~Antonio Nusa~10
+2~MW-23~Johan Bakayoko~10
+2~MW-24~Robert Andrich~11
+2~MW-25~Malik Tillman~11
+2~MW-26~Martin Terrier~11
+2~MW-27~Jae-Sung Lee~12
+2~MW-28~Anthony Caci~12
+2~MW-29~Lukas Ullrich~13
+2~MW-30~Tim Kleindienst~13
+2~MW-31~Josip Stanišić~14
+2~MW-32~Aleksandar Pavlović~14
+2~MW-33~Luis Díaz~14
+2~MW-34~Soufiane El-Faouzi~16
+2~MW-35~Dejan Ljubičić~16
+2~MW-36~Jamie Leweling~17
+2~MW-37~Josha Vagnoman~17
+2~MW-38~Nikolas Nartey~17
+2~MW-39~Stefano Marino~15
+2~MW-40~Sebastian Klaas~15
+3~GG-01~Dimitrios Giannoulis~0
+3~GG-02~Leopold Querfeld~1
+3~GG-03~Karim Coulibaly~2
+3~GG-04~Waldemar Anton~3
+3~GG-05~Jobe Bellingham~3
+3~GG-06~Arthur Theate~5
+3~GG-07~Ellyes Skhiri~5
+3~GG-08~Warmed Omari~7
+3~GG-09~Bakery Jatta~7
+3~GG-10~David Mokwa~4
+3~GG-11~Bernardo~8
+3~GG-12~Wouter Burger~8
+3~GG-13~Ísak Jóhannesson~9
+3~GG-14~Castello Lukeba~10
+3~GG-15~Willi Orbán~10
+3~GG-16~Edmond Tapsoba~11
+3~GG-17~Exequiel Palacios~11
+3~GG-18~Kaishu Sano~12
+3~GG-19~Kevin Diks~13
+3~GG-20~Konrad Laimer~14
+3~GG-21~Dayot Upamecano~14
+3~GG-22~Adil Aouchiche~16
+3~GG-23~Ramon Hendriks~17
+3~GG-24~Ermedin Demirović~17
+3~GG-25~Santiago Castañeda~15
+4~BM-01~Keven Schlotterbeck~0
+4~BM-02~Ilyas Ansah~1
+4~BM-03~Jens Stage~2
+4~BM-04~Ramy Bensebaini~3
+4~BM-05~Younes Ebnoutalib~5
+4~BM-06~Farès Chaïbi~5
+4~BM-07~Bruno Ogbus~6
+4~BM-08~Fabio Baldé~7
+4~BM-09~Lasse Günther~4
+4~BM-10~Robin Hranáč~8
+4~BM-11~Jan Thielmann~9
+4~BM-12~El Chadaille Bitshiabu~10
+4~BM-13~David Raum~10
+4~BM-14~Ezechiel Banzuzi~10
+4~BM-15~Tim Oermann~11
+4~BM-16~Axel Tape~11
+4~BM-17~Martin Terrier~11
+4~BM-18~Shuto Machino~13
+4~BM-19~Josip Stanišić~14
+4~BM-20~Ismael Saibari~14
+4~BM-21~Lennart Karl~14
+4~BM-22~Nikola Katić~16
+4~BM-23~Atakan Karazor~17
+4~BM-24~Noah Darvich~4
+4~BM-25~Mattes Hansen~15
+5~SB-01~Nico Schlotterbeck~3
+5~SB-02~Robin Koch~5
+5~SB-03~Can Uzun~5
+5~SB-04~Saïd El Mala~9
+5~SB-05~Yan Diomande~10
+5~SB-06~Nadiem Amiri~12
+5~SB-07~Michael Olise~14
+5~SB-08~Deniz Undav~17
+5~SB-09~Ismael Saibari~14
+5~SB-10~Aleix García~11
+6~VS-01~Felix Nmecha~3
+6~VS-02~Jean-Mattéo Bahoya~5
+6~VS-03~Derry Scherhant~6
+6~VS-04~Otto Stange~7
+6~VS-05~Yannick Eduardo~8
+6~VS-06~Christian Kofane~11
+6~VS-07~Lennart Karl~14
+6~VS-08~Chema~17
+6~VS-09~Tidiam Gomis~10
+6~VS-10~Phillip Tietz~12
+7~OF-01~Justin Njinmah~2
+7~OF-02~Carney Chukwuemeka~3
+7~OF-03~Farès Chaïbi~5
+7~OF-04~Kofi Amoako~7
+7~OF-05~Andrej Kramarić~8
+7~OF-06~Ísak Jóhannesson~9
+7~OF-07~Rômulo Cardoso~10
+7~OF-08~Ibrahim Maza~11
+7~OF-09~Nadiem Amiri~12
+7~OF-10~Giovanni Reyna~13
+7~OF-11~Joshua Kimmich~14
+7~OF-12~Julian Ryerson~3
+7~OF-13~Angelo Stiller~17
+7~OF-14~Philipp Lienhart~6
+7~OF-15~Fabian Rieder~0
+7~OF-16~Aljoscha Kemlein~1
+7~OF-17~Niklas Beste~6
+7~OF-18~Dejan Ljubičić~16
+7~OF-19~Steffen Tigges~15
+7~OF-20~Benjamin Henrichs~10
+8~CI-01~Chrislain Matsima~0
+8~CI-02~Derrick Köhn~1
+8~CI-03~Jens Stage~2
+8~CI-04~Carney Chukwuemeka~3
+8~CI-05~Ritsu Doan~5
+8~CI-06~Derry Scherhant~6
+8~CI-07~Miro Muheim~7
+8~CI-08~Manuel Neuer~14
+8~CI-09~Mats Rots~8
+8~CI-10~Ragnar Ache~9
+8~CI-11~Christoph Baumgartner~10
+8~CI-12~Eliesse Ben Seghir~11
+8~CI-13~Kaishu Sano~12
+8~CI-14~Tim Kleindienst~13
+8~CI-15~Jamal Musiala~14
+8~CI-16~Satoshi Tanaka~16
+8~CI-17~Bilal El Khannouss~17
+8~CI-18~Kennedy Okpala~15
+8~CI-19~Lukas Podolski~9
+8~CI-20~Lincoln~16
+9~GS-01~Alexis Claude-Maurice~0
+9~GS-02~Andrej Ilić~1
+9~GS-03~Marco Grüll~2
+9~GS-04~Mussa Kaba~3
+9~GS-05~Jonathan Burkardt~5
+9~GS-06~Rihito Yamamoto~6
+9~GS-07~Rayan Philippe~7
+9~GS-08~Tony Yeboah~5
+9~GS-09~Fisnik Asllani~8
+9~GS-10~Rav van den Berg~9
+9~GS-11~Antonio Nusa~10
+9~GS-12~Afonso Moreira~11
+9~GS-13~Benedict Hollerbach~12
+9~GS-14~Jens Castrop~13
+9~GS-15~Luis Díaz~14
+9~GS-16~Klaas-Jan Huntelaar~16
+9~GS-17~Maximilian Mittelstädt~17
+9~GS-18~Laurin Curda~15
+9~GS-19~Dieter Müller~9
+9~GS-20~Erich Beer~18
+10~LE-01~Han-Noah Massengo~0
+10~LE-02~Rani Khedira~1
+10~LE-03~Mitchell Weiser~2
+10~LE-04~Maximilian Beier~3
+10~LE-05~Younes Ebnoutalib~5
+10~LE-06~Matthias Ginter~6
+10~LE-07~Yussuf Poulsen~7
+10~LE-08~Thimothée Atouba~7
+10~LE-09~Tim Lemperle~8
+10~LE-10~Lukas Podolski~9
+10~LE-11~Johan Bakayoko~10
+10~LE-12~Jarell Quansah~11
+10~LE-13~Linus Güther~1
+10~LE-14~Berti Vogts~13
+10~LE-15~Jonathan Tah~14
+10~LE-16~Ebbe Sand~16
+10~LE-17~Chris Führich~17
+10~LE-18~Sven Michel~15
+10~LE-19~Marek Mintál~32
+10~LE-20~Theofanis Gekas~20
+11~KT-01~Chrislain Matsima~0
+11~KT-02~Felix Agu~2
+11~KT-03~Samuel Mbangula~2
+11~KT-04~Kauã Prates~3
+11~KT-05~Justin Lerma~3
+11~KT-06~Luca Reggiani~3
+11~KT-07~Ayoube Amaimouni-Echghouyab~5
+11~KT-08~Rihito Yamamoto~6
+11~KT-09~Oscar Højlund~5
+11~KT-10~Cyriaque Irié~6
+11~KT-11~Sambi Lokonga~7
+11~KT-12~Jean-Luc Dompé~7
+11~KT-13~Tim Lemperle~8
+11~KT-14~Alessandro Vogt~8
+11~KT-15~Saïd El Mala~9
+11~KT-16~Suleman Sani~10
+11~KT-17~Abdoul Koné~10
+11~KT-18~Jeremiah Mensah~11
+11~KT-19~Malik Tillman~11
+11~KT-20~Cassiano Kiala~14
+11~KT-21~Harry Kane~14
+11~KT-22~Michael Olise~14
+11~KT-23~Mirza Ćatović~17
+11~KT-24~Noah Darvich~4
+11~KT-25~Ruben Müller~15
+12~UBM-01~Jens Stage~2
+12~UBM-02~Ramy Bensebaini~3
+12~UBM-03~Younes Ebnoutalib~5
+12~UBM-04~Fabio Baldé~7
+12~UBM-05~David Raum~10
+12~UBM-06~Tim Oermann~11
+12~UBM-07~Shuto Machino~13
+12~UBM-08~Ismael Saibari~14
+12~UBM-09~Nikola Katić~16
+12~UBM-10~Noah Darvich~4
+13~HP-01~Maycon Cardozo~14
+13~HP-02~Kauã Prates~3
+13~HP-03~Maximilian Beier~3
+13~HP-04~Mathis Albert~3
+13~HP-05~Nnamdi Collins~5
+13~HP-06~Hugo Larsson~5
+13~HP-07~Vincenzo Grifo~6
+13~HP-08~Alexander Røssing-Lelesiit~7
+13~HP-09~Luis Engelns~8
+13~HP-10~Bambasé Conté~8
+13~HP-11~Rômulo Cardoso~10
+13~HP-12~Andrija Maksimović~10
+13~HP-13~Kerim Alajbegović~11
+13~HP-14~Ernest Poku~11
+13~HP-15~Nadiem Amiri~12
+13~HP-16~Lennart Karl~14
+13~HP-17~Joshua Kimmich~14
+13~HP-18~David Santos Daiber~14
+13~HP-19~Finn Jeltsch~17
+13~HP-20~Mirza Ćatović~17
+14~PT-01~Luis Díaz~14
+14~PT-02~Mathis Albert~3
+14~PT-03~Ayodele Thomas~10
+14~PT-04~Montrell Culbreath~11
+14~PT-05~Keita Kosugi~5
+14~PT-06~Ramon Hendriks~17
+14~PT-07~Yannick Eduardo~8
+14~PT-08~Cajetan Lenz~8
+14~PT-09~Sambi Lokonga~7
+14~PT-10~Jamal Musiala~14
+14~PT-11~Kennet Eichhorn~11
+14~PT-12~Nadiem Amiri~12
+14~PT-13~Yan Diomande~10
+14~PT-14~Jamie Leweling~17
+14~PT-15~Malik Tillman~11
+14~PT-16~Marvin Dills~5
+14~PT-17~Samuele Inácio~3
+14~PT-18~Mertcan Ayhan~16
+14~PT-19~Francis Onyeka~4
+14~PT-20~Maycon Cardozo~14
+14~PT-21~Fisnik Asllani~8
+14~PT-22~Assan Ouédraogo~10
+14~PT-23~Christian Kofane~11
+14~PT-24~Love Arrhov~5
+14~PT-25~Saïd El Mala~9
+14~PT-26~Jarell Quansah~11
+14~PT-27~Lennart Karl~14
+15~TF-01~Uwe Seeler~7
+15~TF-02~Michael Olise~14
+15~TF-03~Samuele Inácio~3
+16~AK-01~Can Uzun~5
+16~AK-02~Yan Diomande~10
+16~AK-03~Michael Olise~14
+16~AK-04~Harry Kane~14
+16~AK-05~Ibrahim Maza~11
+16~AK-06~Florian Wirtz~11
+16~AK-07~Erling Haaland~3
+16~AK-08~Arjen Robben~14
+16~AK-09~Uwe Seeler~7
+16~AK-10~Franz Beckenbauer~14
+17~DR-01~Justin Lerma~3
+17~DR-02~Samuele Inácio~3
+17~DR-03~Montrell Culbreath~11
+17~DR-04~Ayodele Thomas~10
+17~DR-05~Kennet Eichhorn~11
+18~BE-01~Anton Kade~0
+18~BE-02~Mert Kömür~0
+18~BE-03~Leopold Querfeld~1
+18~BE-04~Ilyas Ansah~1
+18~BE-05~Salim Musah~2
+18~BE-06~Samuel Mbangula~2
+18~BE-07~Felix Nmecha~3
+18~BE-08~Jobe Bellingham~3
+18~BE-09~Joane Gadou~3
+18~BE-10~Keita Kosugi~5
+18~BE-11~Ayoube Amaimouni-Echghouyab~5
+18~BE-12~Yuito Suzuki~6
+18~BE-13~Cyriaque Irié~6
+18~BE-14~Sambi Lokonga~7
+18~BE-15~Otto Stange~7
+18~BE-16~Fredi Bobic~17
+18~BE-17~Dedê~3
+18~BE-18~Alessandro Vogt~8
+18~BE-19~Tim Lemperle~8
+18~BE-20~Fynn Schenten~9
+18~BE-21~Jan Thielmann~9
+18~BE-22~Samba Konaté~10
+18~BE-23~Assan Ouédraogo~10
+18~BE-24~Conrad Harder~10
+18~BE-25~Aleix García~11
+18~BE-26~Francis Onyeka~4
+18~BE-27~Eliesse Ben Seghir~11
+18~BE-28~Otto Ruoppi~12
+18~BE-29~Kacper Potulski~12
+18~BE-30~Hugo Bolin~13
+18~BE-31~Jens Castrop~13
+18~BE-32~Tom Bischof~14
+18~BE-33~Aleksandar Pavlović~14
+18~BE-34~Nathaniel Brown~14
+18~BE-35~Kenan Karaman~16
+18~BE-36~Timo Becker~16
+18~BE-37~Dennis Seimen~17
+18~BE-38~Jeremy Arévalo~17
+18~BE-39~Mika Baur~15
+18~BE-40~Yildiray Bastürk~20
+18~BE-41~Johan Micoud~2
+18~BE-42~Marco Bode~2
+18~BE-43~Stefan Effenberg~13
+18~BE-44~Papiss Demba Cissé~6
+18~BE-45~Alexander Meier~5
+18~BE-46~Manfred Kaltz~7
+18~BE-47~Michael Zorc~3
+18~BE-48~Marcelo Bordon~16
+18~BE-49~Emile Mpenza~16
+18~BE-50~Oliver Kahn~14
+19~GSR-01~Alexis Claude-Maurice~0
+19~GSR-02~Andrej Ilić~1
+19~GSR-03~Marco Grüll~2
+19~GSR-04~Mussa Kaba~3
+19~GSR-05~Jonathan Burkardt~5
+19~GSR-06~Rihito Yamamoto~6
+19~GSR-07~Rayan Philippe~7
+19~GSR-08~Tony Yeboah~5
+19~GSR-09~Fisnik Asllani~8
+19~GSR-10~Rav van den Berg~9
+19~GSR-11~Antonio Nusa~10
+19~GSR-12~Afonso Moreira~11
+19~GSR-13~Benedict Hollerbach~12
+19~GSR-14~Jens Castrop~13
+19~GSR-15~Luis Díaz~14
+19~GSR-16~Klaas-Jan Huntelaar~16
+19~GSR-17~Maximilian Mittelstädt~17
+19~GSR-18~Laurin Curda~15
+19~GSR-19~Dieter Müller~9
+19~GSR-20~Erich Beer~18
+20~BA-CM~Chrislain Matsima~0~
+20~BA-MK~Mert Kömür~0~
+20~BA-ACM~Alexis Claude-Maurice~0~
+20~BA-MWO~Marius Wolf~0~
+20~BA-FR~Fabian Rieder~0~
+20~BA-NBA~Noahkai Banks~0~
+20~BA-LQ~Leopold Querfeld~1~
+20~BA-TR~Tom Rothe~1~
+20~BA-OB~Oliver Burke~1~
+20~BA-AIL~Andrej Ilić~1~
+20~BA-JJU~Josip Juranović~1~
+20~BA-WJ~Woo-yeong Jeong~1~
+20~BA-RS~Romano Schmid~2~
+20~BA-MWE~Mitchell Weiser~2~
+20~BA-SMU~Salim Musah~2~
+20~BA-KT~Keke Topp~2~
+20~BA-SMB~Samuel Mbangula~2~
+20~BA-MS~Mick Schmetgens~2~
+20~BA-JS~Jens Stage~2~
+20~BA-MAL~Mathis Albert~3~
+20~BA-NS~Nico Schlotterbeck~3~
+20~BA-JBE~Jobe Bellingham~3~
+20~BA-SG~Serhou Guirassy~3~
+20~BA-SI~Samuele Inácio~3~
+20~BA-FN~Felix Nmecha~3~
+20~BA-MB~Maximilian Beier~3~
+20~BA-RD~Ritsu Doan~5~
+20~BA-OH~Oscar Højlund~5~
+20~BA-YEB~Younes Ebnoutalib~5~
+20~BA-CU~Can Uzun~5~
+20~BA-JBU~Jonathan Burkardt~5~
+20~BA-JB~Jean-Mattéo Bahoya~5~
+20~BA-MG~Matthias Ginter~6~
+20~BA-VG~Vincenzo Grifo~6~
+20~BA-DSC~Derry Scherhant~6~
+20~BA-BO~Bruno Ogbus~6~
+20~BA-CI~Cyriaque Irié~6~
+20~BA-YS~Yuito Suzuki~6~
+20~BA-NB~Niklas Beste~6~
+20~BA-PL~Philipp Lienhart~6~
+20~BA-SL~Sambi Lokonga~7~
+20~BA-NC~Nicolas Capaldo~7~
+20~BA-RP~Rayan Philippe~7~
+20~BA-WO~Warmed Omari~7~
+20~BA-FA~Fisnik Asllani~8~
+20~BA-AH~Adam Hložek~8~
+20~BA-WB~Wouter Burger~8~
+20~BA-AKR~Andrej Kramarić~8~
+20~BA-VC~Vladimír Coufal~8~
+20~BA-SE~Saïd El Mala~9~
+20~BA-RV~Rav van den Berg~9~
+20~BA-RA~Ragnar Ache~9~
+20~BA-IJ~Ísak Jóhannesson~9~
+20~BA-TH~Timo Hübers~9~
+20~BA-JTH~Jan Thielmann~9~
+20~BA-NSE~Nicolas Seiwald~10~
+20~BA-CB~Christoph Baumgartner~10~
+20~BA-AO~Assan Ouédraogo~10~
+20~BA-AN~Antonio Nusa~10~
+20~BA-YD~Yan Diomande~10~
+20~BA-RC~Rômulo Cardoso~10~
+20~BA-RR~Rocco Reitz~10~
+20~BA-MCU~Montrell Culbreath~11~
+20~BA-RAN~Robert Andrich~11~
+20~BA-AT~Axel Tape~11~
+20~BA-EPO~Ernest Poku~11~
+20~BA-MT~Malik Tillman~11~
+20~BA-IM~Ibrahim Maza~11~
+20~BA-EP~Exequiel Palacios~11~
+20~BA-CKO~Christian Kofane~11~
+20~BA-ET~Edmond Tapsoba~11~
+20~BA-KSA~Kaishu Sano~12~
+20~BA-NAM~Nadiem Amiri~12~
+20~BA-EM~Eric Martel~12~
+20~BA-PT~Phillip Tietz~12~
+20~BA-JL~Jae-Sung Lee~12~
+20~BA-KP~Kacper Potulski~12~
+20~BA-LM~Lennard Maloney~12~
+20~BA-RH~Robin Hack~13~
+20~BA-KST~Kevin Stöger~13~
+20~BA-HB~Hugo Bolin~13~
+20~BA-WM~Wael Mohya~13~
+20~BA-TKL~Tim Kleindienst~13~
+20~BA-IMA~Iaia Manco Danfa~13~
+20~BA-FH~Franck Honorat~13~
+20~BA-SMA~Shuto Machino~13~
+20~BA-JT~Jonathan Tah~14~
+20~BA-JM~Jamal Musiala~14~
+20~BA-LK~Lennart Karl~14~
+20~BA-LD~Luis Díaz~14~
+20~BA-HK~Harry Kane~14~
+20~BA-JK~Joshua Kimmich~14~
+20~BA-TBI~Tom Bischof~14~
+20~BA-DL~Dejan Ljubičić~16~
+20~BA-TBE~Timo Becker~16~
+20~BA-KKA~Kenan Karaman~16~
+20~BA-CHE~Chema~17~
+20~BA-AST~Angelo Stiller~17~
+20~BA-FJ~Finn Jeltsch~17~
+20~BA-BE~Bilal El Khannouss~17~
+20~BA-DUN~Deniz Undav~17~
+20~BA-JLW~Jamie Leweling~17~
+20~BA-DS~Dennis Seimen~17~
+20~BA-JV~Josha Vagnoman~17~
+20~BA-LDU~Luka Duric~15~
+20~BA-ATO~Ayodele Thomas~10~
+20~BA-FO~Francis Onyeka~4~
+20~BA-JLE~Justin Lerma~3~
+20~BA-YE~Yannick Eduardo~8~
+20~BA-ST~Steffen Tigges~15~
+20~BA-JAD~Junior Adamu~16~
+20~BA-NR~Nicolai Remberg~7~
+20~BA-CH~Conrad Harder~10~
+20~BA-JMK~Jordy Makengo~6~
+20~BA-PO~Patrick Osterhage~6~
+20~BA-DR~David Raum~10~
+20~BA-AKO~Abdoul Koné~10~
+20~BA-SKO~Samba Konaté~10~
+20~BA-MEA~Mertcan Ayhan~16~
+20~BA-LR~Luca Reggiani~3~
+21~BA-PSE~Paul Seguin~18~
+21~BA-MWI~Maximilian Wittek~20~
+21~BA-MPA~Mats Pannewig~20~
+21~BA-FNU~Fabian Nürnberger~23~
+21~BA-PP~Patric Pfeiffer~23~
+21~BA-PM~Patrick Mainka~27~
+21~BA-TS~Tim Siersleben~27~
+21~BA-MW~Marvin Wanitzek~29~
+21~BA-AB~Alexander Bernhardsson~30~
+21~BA-MKA~Martijn Kaars~34~
+21~BA-JI~Jackson Irvine~34~
+21~BA-AZ~Aaron Zehnter~35~
+21~BA-DP~Dzenan Pejcinovic~35~
+22~FSA-EB~Ezechiel Banzuzi~10~
+22~FSA-LK~Lennart Karl~14~
+22~FSA-YD~Yan Diomande~10~
+22~FSA-AM~Andrija Maksimović~10~
+22~FSA-SE~Saïd El Mala~9~
+22~FSA-FA~Fisnik Asllani~8~
+22~FSA-ARL~Alexander Røssing-Lelesiit~7~
+22~FSA-JBE~Jeanuël Belocian~11~
+22~FSA-FJ~Finn Jeltsch~17~
+22~FSA-WB~Wouter Burger~8~
+22~FSA-RC~Rômulo Cardoso~10~
+22~FSA-CH~Chema~17~
+22~FSA-ND~Noah Darvich~4~
+22~FSA-CK~Christian Kofane~11~
+23~LLA-GK~Gregor Kobel~3~
+23~LLA-YD~Yan Diomande~10~
+24~BLA-JK~Jürgen Kohler~3~
+24~BLA-MS~Matthias Sammer~3~
+24~BLA-UH~Uli Hoeneß~14~
+24~BLA-EM~Emile Mpenza~16~
+24~BLA-RV~Rudi Völler~2~
+24~BLA-KB~Krassimir Balakov~17~
+24~BLA-MP~Mladen Petrić~7~
+24~BLA-DH~Dietmar Hamann~14~
+24~BLA-JB~Jakub Blaszczykowski~3~
+24~BLA-MB~Mario Basler~28~
+24~BLA-AH~Aleksandr Hleb~17~
+24~BLA-KK~Kevin Kurányi~16~
+24~BLA-RO~Rainer Ohlhauser~14~
+24~BLA-CA~Cacau~17~
+24~BLA-GK~Gábor Király~18~
+24~BLA-ON~Oliver Neuville~13~
+24~BLA-DB~Dimitar Berbatov~11~
+24~BLA-MA~Marcelinho~18~
+24~BLA-WO~Wolfgang Overath~9~
+24~BLA-AM~Andreas Möller~5~
+25~COA-KF~Klaus Fischer~16~
+25~COA-EB~Erich Beer~18~
+25~COA-US~Uli Stielike~13~
+25~COA-DM~Dieter Müller~9~
+25~COA-BV~Berti Vogts~13~
+26~MWA-NB~Noahkai Banks~0~
+26~MWA-LB~Livan Burcu~1~R
+26~MWA-MF~Marco Friedl~2~
+26~MWA-SL~Senne Lynen~2~
+26~MWA-GK~Gregor Kobel~3~
+26~MWA-JR~Julian Ryerson~3~
+26~MWA-SG~Serhou Guirassy~3~
+26~MWA-KS~Kauã Santos~5~
+26~MWA-OH~Oscar Højlund~5~
+26~MWA-ME~Maximilian Eggestein~6~
+26~MWA-MG~Matthias Ginter~6~
+26~MWA-IM~Igor Matanović~6~
+26~MWA-NC~Nicolas Capaldo~7~
+26~MWA-OB~Oliver Baumann~8~
+26~MWA-AH~Adam Hložek~8~
+26~MWA-JSP~Jahmai Simpson-Pusey~9~
+26~MWA-MB~Marius Bülter~9~
+26~MWA-NS~Nicolas Seiwald~10~
+26~MWA-AN~Antonio Nusa~10~
+26~MWA-JB~Johan Bakayoko~10~
+26~MWA-RA~Robert Andrich~11~
+26~MWA-MT~Malik Tillman~11~
+26~MWA-MTE~Martin Terrier~11~
+26~MWA-JL~Jae-Sung Lee~12~
+26~MWA-AC~Anthony Caci~12~
+26~MWA-LU~Lukas Ullrich~13~
+26~MWA-TK~Tim Kleindienst~13~
+26~MWA-JST~Josip Stanišić~14~
+26~MWA-AP~Aleksandar Pavlović~14~
+26~MWA-LD~Luis Díaz~14~
+26~MWA-DL~Dejan Ljubičić~16~
+26~MWA-JLE~Jamie Leweling~17~
+26~MWA-JV~Josha Vagnoman~17~
+26~MWA-NN~Nikolas Nartey~17~
+26~MWA-NR~Nicolai Remberg~7~
+27~SBA-NS~Nico Schlotterbeck~3~
+27~SBA-RK~Robin Koch~5~
+27~SBA-CU~Can Uzun~5~
+27~SBA-SE~Saïd El Mala~9~
+27~SBA-YD~Yan Diomande~10~
+27~SBA-NA~Nadiem Amiri~12~
+27~SBA-DU~Deniz Undav~17~
+27~SBA-AG~Aleix García~11~
+28~BEA-MK~Mert Kömür~0~
+28~BEA-LQ~Leopold Querfeld~1~
+28~BEA-SM~Salim Musah~2~R
+28~BEA-SMB~Samuel Mbangula~2~
+28~BEA-FN~Felix Nmecha~3~
+28~BEA-JB~Jobe Bellingham~3~
+28~BEA-JG~Joane Gadou~3~
+28~BEA-YS~Yuito Suzuki~6~
+28~BEA-CI~Cyriaque Irié~6~
+28~BEA-SL~Sambi Lokonga~7~
+28~BEA-TL~Tim Lemperle~8~
+28~BEA-JT~Jan Thielmann~9~
+28~BEA-AO~Assan Ouédraogo~10~
+28~BEA-CH~Conrad Harder~10~
+28~BEA-AG~Aleix García~11~
+28~BEA-MBO~Marcelo Bordon~16~
+28~BEA-FO~Francis Onyeka~4~R
+28~BEA-EB~Eliesse Ben Seghir~11~
+28~BEA-KPO~Kacper Potulski~12~
+28~BEA-HB~Hugo Bolin~13~R
+28~BEA-JC~Jens Castrop~13~
+28~BEA-TB~Tom Bischof~14~
+28~BEA-AP~Aleksandar Pavlović~14~
+28~BEA-KKA~Kenan Karaman~16~
+28~BEA-TBE~Timo Becker~16~
+28~BEA-DS~Dennis Seimen~17~R
+28~BEA-YB~Yildiray Bastürk~20~
+28~BEA-JM~Johan Micoud~2~
+28~BEA-SE~Stefan Effenberg~13~
+28~BEA-PC~Papiss Demba Cissé~6~
+28~BEA-AM~Alexander Meier~5~
+28~BEA-MKA~Manfred Kaltz~7~
+28~BEA-MZ~Michael Zorc~3~
+28~BEA-EM~Emile Mpenza~16~
+28~BEA-OK~Oliver Kahn~14~
+28~BEA-FB~Fredi Bobic~17~
+28~BEA-DE~Dedê~3~
+29~VSA-JB~Jean-Mattéo Bahoya~5~
+29~VSA-DS~Derry Scherhant~6~
+29~VSA-LK~Lennart Karl~14~
+29~VSA-CH~Chema~17~
+29~VSA-TG~Tidiam Gomis~10~
+29~VSA-PT~Phillip Tietz~12~
+30~OFA-JN~Justin Njinmah~2~
+30~OFA-CC~Carney Chukwuemeka~3~
+30~OFA-FC~Farès Chaïbi~5~
+30~OFA-AK~Andrej Kramarić~8~
+30~OFA-IJ~Ísak Jóhannesson~9~
+30~OFA-RC~Rômulo Cardoso~10~
+30~OFA-IM~Ibrahim Maza~11~
+30~OFA-NA~Nadiem Amiri~12~
+30~OFA-GR~Giovanni Reyna~13~
+30~OFA-JK~Joshua Kimmich~14~
+30~OFA-JR~Julian Ryerson~3~
+30~OFA-AS~Angelo Stiller~17~
+30~OFA-PL~Philipp Lienhart~6~
+30~OFA-FR~Fabian Rieder~0~
+30~OFA-AKE~Aljoscha Kemlein~1~
+30~OFA-NB~Niklas Beste~6~
+30~OFA-DL~Dejan Ljubičić~16~
+30~OFA-BH~Benjamin Henrichs~10~
+31~BCR-PS~Philipp Sander~13~
+31~BCR-MHU~Mats Hummels~3~
+31~BCR-AKR~Andrej Kramarić~8~
+31~BCR-HB~Hugo Bolin~13~R
+31~BCR-NT~Nathan Tella~11~
+31~BCR-CB~Christoph Baumgartner~10~
+31~BCR-AKE~Aljoscha Kemlein~1~
+31~BCR-NC~Nnamdi Collins~5~
+31~BCR-FC~Farès Chaïbi~5~
+31~BCR-SL~Senne Lynen~2~
+31~BCR-NW~Nelson Weiper~12~
+31~BCR-AK~Ansgar Knauff~5~
+31~BCR-MMO~Max Moerstedt~8~
+31~BCR-TH~Timo Hübers~9~
+31~BCR-LMA~Lovro Majer~35~
+31~BCR-KT~Keke Topp~2~
+31~BCR-JM~Julián Malatini~2~
+31~BCR-AP~Aleksandar Pavlović~14~
+31~BCR-SM~Shuto Machino~13~
+31~BCR-ES~Ellyes Skhiri~5~
+31~BCR-NS~Nico Schlotterbeck~3~
+31~BCR-RH~Robin Hack~13~
+31~BCR-TT~Tiago Tomás~17~
+31~BCR-LK~Lukas Kübler~6~
+31~BCR-JV~Josha Vagnoman~17~
+31~BCR-PH~Philipp Hofmann~20~
+31~BCR-OH~Oscar Højlund~5~
+31~BCR-KF~Kilian Fischer~35~
+31~BCR-MGR~Marco Grüll~2~
+31~BCR-JH~Jonas Hofmann~11~
+31~BCR-RK~Rani Khedira~1~
+31~BCR-JS~Josip Stanišić~14~
+31~BCR-MZ~Michael Zorc~3~
+31~BCR-JN~Justin Njinmah~2~
+31~BCR-AM~Alexander Meier~5~
+31~BCR-MG~Mario Götze~5~
+31~BCR-IA~Ilyas Ansah~1~
+31~BCR-HK~Harry Kane~14~
+31~BCR-MO~Michael Olise~14~
+`;
+// ---- twee mappen: elke map heeft zijn eigen checklist, clubs, sets en indeling ----
+const PL={id:"pl",name:"Premier League",eyebrow:"Topps Flagship · Premier League 2026/27",short:"Flagship PL 26/27",prefix:"",raw:RAW,baseN:300,insTo:26,
+  SECS:["Future Stars","Base","Beast Mode","Nitro Boost","Flying the Flag","Stars of the Premier League","Retro Threads","8 Bit Ballers","Remember the Name","Chrome Classics","Gold Lion","True Gold Lion","Perfect 10","Vibes","Mayhem","On Fire","Golden Boot","Black Edge","Quasar","Billboard Material","Carpe Diem","Home Pitch","Perfect Storm","The Rise","All Kings","Ultra Beast Mode","Diamond Rookies","Chrome Classics Autographs","Perfect 10 Autographs","Vibes Autographs","Mayhem Autographs","On Fire Autographs","Golden Boot On-Card Autographs","Black Edge Autographs","Base Autographs","Future Stars Autographs","Stars of the PL Autographs","Dual Autographs","25 Years Champions Autographs","Marks of Excellence","Topps Autograph Relics","Premier Class Autograph Relics","Base Card Relics"],
+  TEAMS:[["Arsenal","ARS","#e0202b"],["Aston Villa","AVL","#7a1f45"],["AFC Bournemouth","BOU","#c8241b"],["Brighton & Hove Albion","BHA","#1f63c6"],["Chelsea","CHE","#1c4fb0"],["Crystal Palace","CRY","#2f58a8"],["Fulham","FUL","#2b2b2b"],["Leeds United","LEE","#d9ad00"],["Liverpool FC","LIV","#c8102e"],["Manchester City","MCI","#5aa6d9"],["Manchester United","MUN","#d9291c"],["Nottingham Forest","NFO","#c41d23"],["Sunderland","SUN","#e2232f"],["Brentford","BRE","#e30613"],["Everton","EVE","#24479f"],["Newcastle United","NEW","#2a2a2a"],["Tottenham Hotspur","TOT","#1b2a5c"],["Coventry City","COV","#3fb0d9"],["Ipswich Town","IPS","#2f5ba8"],["Hull City","HUL","#e8951f"]],
+  // kit: [shirt, trim, pattern, backdrop]
+  KITS:[["#e0202b","#ffffff","sleeves","#8e1118"],["#7a1f45","#94c3e6","sleeves","#3d0f24"],["#c8241b","#141414","stripes","#5a0e0a"],["#1f63c6","#ffffff","stripes","#0e3570"],["#1c4fb0","#ffffff","plain","#0d2a66"],["#c8282a","#1f4aa8","stripes","#1a2c5e"],["#f5f5f2","#141414","plain","#2b2b2b"],["#f5f5f2","#1d4ea0","plain","#2e3f6b"],["#c8102e","#ffffff","plain","#6c0718"],["#8cc4ea","#ffffff","plain","#2b6a95"],["#d9291c","#ffffff","plain","#6e130c"],["#c41d23","#ffffff","plain","#5f0c10"],["#e2232f","#ffffff","stripes","#6e1018"],["#e30613","#ffffff","stripes","#6d0309"],["#24479f","#ffffff","plain","#10244f"],["#141414","#ffffff","stripes","#1f1f1f"],["#f5f5f2","#1b2a5c","plain","#1b2a5c"],["#69c3e4","#ffffff","plain","#1f5e79"],["#2f5ba8","#ffffff","plain","#162f5e"],["#e8951f","#141414","stripes","#6f4406"]],
+  AUTOS:new Set([27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]), RELICS:new Set([40,41,42]),
+  SETCOL:{0:"#a37c17",2:"#0f5132",3:"#ff7a1a",4:"#1f5fa8",5:"#5b2d9e",6:"#a8301c",7:"#1e5bd8",8:"#5a6b73",9:"#1b2a5c",10:"#c9a227",11:"#a07a10",12:"#0e6b4c",13:"#d6457a",14:"#c2185b",15:"#e65100",16:"#b8901d",17:"#111111",18:"#4527a0",19:"#c0a000",20:"#7b1f1f",21:"#2e7d32",22:"#37597a",23:"#e07a3b",24:"#7a5a12",25:"#b71c1c",26:"#5b8fd1"},
+  FOIL:{10:"gold",11:"gold",16:"gold",24:"gold",9:"silver",26:"silver",6:"silver",17:"black",33:"black"}, gold:[32,38,39,41], black:[33],
+  BINDER_SETS:[2,3,4,5,6,7,8],
+  note:"Chrome Classics en Gold Lion passen er niet meer bij en horen in toploaders."};
+const BL={id:"bl",name:"Bundesliga",eyebrow:"Topps Flagship · Bundesliga 2026/27",short:"Flagship BL 26/27",prefix:"bl:",raw:RAW_BL,baseN:200,insTo:19,
+  SECS:["Future Stars", "Base", "Matchwinner", "Global Gladiators", "Beast Mode", "Stars of the Bundesliga", "Vision", "On Fire", "Chrome Icons", "Golden Spektrum", "Limited Edition", "Kinetic", "Ultra Beast Mode", "Home Pitch", "Prime Time", "TIFO", "All Kings", "Diamond Rookies", "Black Edge", "Golden Spektrum Redemptions", "Base Autographs", "2. Bundesliga Autographs", "Future Stars Autographs", "League Leaders Autographs", "Base Legend Autographs", "Class of 75/76 Autographs", "Matchwinner Autographs", "Stars of the Bundesliga Autographs", "Black Edge Autographs", "Vision Autographs", "On Fire Autographs", "Base Card Relics"],
+  TEAMS:[["FC Augsburg", "FCA", "#d41e2c"], ["1. FC Union Berlin", "FCU", "#eb1923"], ["SV Werder Bremen", "SVW", "#1d9053"], ["Borussia Dortmund", "BVB", "#f2c500"], ["SV Elversberg", "SVE", "#1f5fb0"], ["Eintracht Frankfurt", "SGE", "#e1000f"], ["Sport-Club Freiburg", "SCF", "#d8232a"], ["Hamburger SV", "HSV", "#0a5fb0"], ["TSG Hoffenheim", "TSG", "#1961ac"], ["1. FC Köln", "KOE", "#e2231a"], ["RB Leipzig", "RBL", "#dd0741"], ["Bayer 04 Leverkusen", "B04", "#e32221"], ["1. FSV Mainz 05", "M05", "#c3141e"], ["Borussia Mönchengladbach", "BMG", "#16864a"], ["FC Bayern München", "FCB", "#dc052d"], ["SC Paderborn 07", "SCP", "#1d4e9e"], ["FC Schalke 04", "S04", "#004d9d"], ["VfB Stuttgart", "VFB", "#e32219"], ["Hertha BSC", "BSC", "#005ca9"], ["DSC Arminia Bielefeld", "DSC", "#164194"], ["VfL Bochum 1848", "BOC", "#005ba5"], ["Eintracht Braunschweig", "EBS", "#f2b900"], ["FC Energie Cottbus", "FCE", "#d2232a"], ["SV Darmstadt 98", "SVD", "#1d4d9c"], ["SG Dynamo Dresden", "SGD", "#f0c000"], ["SpVgg Greuther Fürth", "SGF", "#138a44"], ["Hannover 96", "H96", "#159a42"], ["1. FC Heidenheim 1846", "FCH", "#e4001b"], ["1. FC Kaiserslautern", "FCK", "#d81e2b"], ["Karlsruher SC", "KSC", "#1d4f9e"], ["Holstein Kiel", "KSV", "#1e4ea3"], ["1. FC Magdeburg", "FCM", "#1a63b3"], ["1. FC Nürnberg", "FCN", "#9a1d2b"], ["VfL Osnabrück", "OSN", "#5b2a86"], ["FC St. Pauli", "STP", "#5a3a2a"], ["VfL Wolfsburg", "WOB", "#52ae32"]],
+  KITS:[["#d41e2c", "#ffffff", "stripes", "#590c12"], ["#eb1923", "#ffffff", "plain", "#620a0e"], ["#1d9053", "#ffffff", "plain", "#0c3c22"], ["#f2c500", "#141414", "plain", "#655200"], ["#1f5fb0", "#ffffff", "plain", "#0d2749"], ["#e1000f", "#ffffff", "plain", "#5e0006"], ["#d8232a", "#ffffff", "plain", "#5a0e11"], ["#0a5fb0", "#ffffff", "plain", "#042749"], ["#1961ac", "#ffffff", "plain", "#0a2848"], ["#e2231a", "#ffffff", "plain", "#5e0e0a"], ["#dd0741", "#ffffff", "plain", "#5c021b"], ["#e32221", "#ffffff", "plain", "#5f0e0d"], ["#c3141e", "#ffffff", "plain", "#51080c"], ["#16864a", "#ffffff", "plain", "#09381f"], ["#dc052d", "#ffffff", "plain", "#5c0212"], ["#1d4e9e", "#ffffff", "plain", "#0c2042"], ["#004d9d", "#ffffff", "plain", "#002041"], ["#e32219", "#ffffff", "plain", "#5f0e0a"], ["#005ca9", "#ffffff", "stripes", "#002646"], ["#164194", "#ffffff", "plain", "#091b3e"], ["#005ba5", "#ffffff", "plain", "#002645"], ["#f2b900", "#141414", "plain", "#654d00"], ["#d2232a", "#ffffff", "plain", "#580e11"], ["#1d4d9c", "#ffffff", "plain", "#0c2041"], ["#f0c000", "#141414", "plain", "#645000"], ["#138a44", "#ffffff", "plain", "#07391c"], ["#159a42", "#ffffff", "plain", "#08401b"], ["#e4001b", "#ffffff", "plain", "#5f000b"], ["#d81e2b", "#ffffff", "plain", "#5a0c12"], ["#1d4f9e", "#ffffff", "plain", "#0c2142"], ["#1e4ea3", "#ffffff", "plain", "#0c2044"], ["#1a63b3", "#ffffff", "plain", "#0a294b"], ["#9a1d2b", "#ffffff", "plain", "#400c12"], ["#5b2a86", "#ffffff", "plain", "#261138"], ["#5a3a2a", "#ffffff", "plain", "#251811"], ["#52ae32", "#ffffff", "plain", "#224915"]],
+  AUTOS:new Set([20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]), RELICS:new Set([31]),
+  SETCOL:{"0": "#a37c17", "2": "#1f5fa8", "3": "#7a1f1f", "4": "#0f5132", "5": "#5b2d9e", "6": "#2e7d8a", "7": "#e65100", "8": "#37597a", "9": "#c9a227", "10": "#8a6d1d", "11": "#d6457a", "12": "#0e6b4c", "13": "#2e7d32", "14": "#b71c1c", "15": "#4527a0", "16": "#7a5a12", "17": "#5b8fd1", "18": "#111111", "19": "#a07a10"},
+  FOIL:{"8": "silver", "9": "gold", "19": "gold", "18": "black"}, gold:[], black:[18, 28],
+  BINDER_SETS:[2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  note:"Ultra Beast Mode, Home Pitch, Prime Time, TIFO, All Kings, Diamond Rookies en Black Edge zijn short prints of jumbo-exclusief en horen in toploaders; trek je er een, dan is er plek over in de map."};
+const BINDERS={pl:PL,bl:BL};
+let B=PL,SECS,TEAMS,KITS,AUTOS,RELICS,SETCOL,FOIL,BINDER_SETS,CARDS=[],BASE=[],INS=[],HITS=[],SLOTS=[],SIDE_OF={};
+function setColor(s){if(SETCOL[s])return SETCOL[s];if(B.gold.includes(s))return"#c9a227";if(B.black.includes(s))return"#111111";return AUTOS.has(s)?"#2b2f38":"#3a3f4a"}
 
 // ---- binder layout: 40 sides x 12 pockets (4 cols x 3 rows) ----
-const COLS=4, ROWS=3, PER=COLS*ROWS, SIDES=40, BINDER_SETS=[2,3,4,5,6,7,8];
-const SLOTS=new Array(SIDES*PER).fill(null); // card per pocket index
-let pos=0;
-BASE.forEach(c=>{SLOTS[pos++]=c});
-for(const s of BINDER_SETS){if(pos%COLS)pos+=COLS-pos%COLS;for(const c of INS.filter(c=>c.sec===s))SLOTS[pos++]=c}
-const SIDE_OF={};SLOTS.forEach((c,i)=>{if(c)SIDE_OF[c.key]=i});
+const COLS=4, ROWS=3, PER=COLS*ROWS, SIDES=40;
+function loadBinder(id){B=BINDERS[id]||PL;({SECS,TEAMS,KITS,AUTOS,RELICS,SETCOL,FOIL,BINDER_SETS}=B);
+  CARDS=B.raw.trim().split("\n").map(l=>{const [s,code,name,team,rk,yr,sub]=l.split("~");const sec=+s;const t=team===undefined||team===""?null:+team;return{sec,code,name:name||"",team:t,rk:rk==="R",yr:yr||"",sub:sub||"",key:B.prefix+sec+"|"+code}});
+  {const seen={};CARDS.forEach(c=>{if(seen[c.key]){seen[c.key]++;c.key+="#"+seen[c.key]}else seen[c.key]=1})}
+  BASE=CARDS.filter(c=>c.sec<=1);INS=CARDS.filter(c=>c.sec>=2&&c.sec<=B.insTo);HITS=CARDS.filter(c=>c.sec>B.insTo);
+  SLOTS=new Array(SIDES*PER).fill(null);let pos=0; // card per pocket index
+  BASE.forEach(c=>{SLOTS[pos++]=c});
+  for(const s of BINDER_SETS){if(pos%COLS)pos+=COLS-pos%COLS;for(const c of INS.filter(c=>c.sec===s))SLOTS[pos++]=c}
+  SIDE_OF={};SLOTS.forEach((c,i)=>{if(c)SIDE_OF[c.key]=i});
+  document.documentElement.dataset.binder=B.id;document.title="Binder · "+B.name;
+  $("eyebrow").textContent=B.eyebrow;$("gBaseN").textContent=B.baseN;$("noteBinder").textContent=B.note;
+  document.querySelectorAll(".binders [data-binder]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.binder===B.id))}
 const sideLabel=i=>`Blad ${Math.floor(i/2)+1} ${i%2?"achter":"voor"}`;
 
 let owned={};
-let state={tab:"base",f:"all",q:"",club:null,dup:false,res:false,sale:false};
+let state={tab:"base",f:"all",q:"",club:null,dup:false,res:false,sale:false,binder:"pl"};
 const $=id=>document.getElementById(id);
-try{const p=JSON.parse(localStorage.getItem("binder-ui")||"{}");if(p.tab)state.tab=p.tab;if(p.f)state.f=p.f}catch(e){}
-function saveUi(){try{localStorage.setItem("binder-ui",JSON.stringify({tab:state.tab,f:state.f}))}catch(e){}}
+try{const p=JSON.parse(localStorage.getItem("binder-ui")||"{}");if(p.tab)state.tab=p.tab;if(p.f)state.f=p.f;if(BINDERS[p.binder])state.binder=p.binder}catch(e){}
+function saveUi(){try{localStorage.setItem("binder-ui",JSON.stringify({tab:state.tab,f:state.f,binder:state.binder}))}catch(e){}}
 const teamOf=c=>c.team==null?null:TEAMS[c.team];
 const cnt=c=>owned[c.key]||0;
 const RES="@", res=c=>!cnt(c)&&!!owned[RES+c.key];
 const SALE="$", sale=c=>cnt(c)>0&&!!owned[SALE+c.key];
+// te koop: alle dubbelen (alles boven het eerste exemplaar), plus kaarten met een €-merkje (dan ook het laatste exemplaar)
+const nSale=c=>sale(c)?cnt(c):Math.max(0,cnt(c)-1), forSale=c=>nSale(c)>0;
 const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 function matches(c){
   if(state.f==="miss"&&(cnt(c)||res(c)))return false;
   if(state.f==="res"&&!res(c))return false;
-  if(state.f==="sale"&&!sale(c))return false;
+  if(state.f==="sale"&&!forSale(c))return false;
   if(state.f==="have"&&!cnt(c))return false;
   if(state.club!=null&&c.team!==state.club)return false;
   if(state.q){const q=state.q.toLowerCase(),t=teamOf(c);
@@ -1417,7 +2320,7 @@ function hash(s){let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math.
 let AID=0;
 function cardSVG(c){
   const id="k"+(AID++), t=teamOf(c), kit=c.team!=null?KITS[c.team]:["#9aa0ab","#e8e8e8","plain","#4a4f58"];
-  const isBase=c.sec<=1, sc=isBase?(t?t[2]:"#555"):setColor(c.sec), foil=FOIL[c.sec]||([32,38,39,41].includes(c.sec)?"gold":"");
+  const isBase=c.sec<=1, sc=isBase?(t?t[2]:"#555"):setColor(c.sec), foil=FOIL[c.sec]||(B.gold.includes(c.sec)?"gold":B.black.includes(c.sec)?"black":"");
   const h=hash(c.name||c.code), flip=(h>>5)%2?1:-1;
   const frame=foil==="black"?"#0b0b0b":"#ffffff";
   const ink=foil==="black"?"#f3f3f3":"#15171b", sub=foil==="black"?"#9a9a9a":"#80848c";
@@ -1427,7 +2330,7 @@ function cardSVG(c){
   const foilFx=foil==="gold"?`<rect x="12" y="12" width="226" height="232" rx="7" fill="url(#${id}f)"/>`:foil==="silver"?`<rect x="12" y="12" width="226" height="232" rx="7" fill="url(#${id}f)" opacity=".8"/>`:"";
   const foilDef=foil==="gold"?`<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c4" stop-opacity=".55"/><stop offset=".5" stop-color="#fff3c4" stop-opacity="0"/><stop offset="1" stop-color="#5a4204" stop-opacity=".35"/></linearGradient>`
     :foil==="silver"?`<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".6"/><stop offset=".5" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient>`:"";
-  const label=isBase?(c.sec===0?"FUTURE STARS":""):SECS[c.sec].toUpperCase().replace(" AUTOGRAPHS"," AUTO").replace("STARS OF THE PREMIER LEAGUE","STARS OF THE PL");
+  const label=isBase?(c.sub||(c.sec===0?"FUTURE STARS":"")):SECS[c.sec].toUpperCase().replace(" AUTOGRAPHS"," AUTO").replace("STARS OF THE PREMIER LEAGUE","STARS OF THE PL").replace("STARS OF THE BUNDESLIGA","STARS OF THE BL").replace("GOLDEN SPEKTRUM REDEMPTIONS","GS REDEMPTION");
   const auto=AUTOS.has(c.sec)?`<path d="M58 222 C76 200 90 240 108 214 C118 200 128 236 142 212 C152 198 160 226 176 206 C182 200 190 210 196 202" fill="none" stroke="#ffffff" stroke-opacity=".92" stroke-width="3" stroke-linecap="round"/>`:"";
   const relic=RELICS.has(c.sec)?`<rect x="176" y="24" width="50" height="36" rx="5" fill="${shirt}" stroke="#ffffff" stroke-width="2.5"/>`:"";
   return `<svg viewBox="0 0 250 350" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>${foilDef}
@@ -1469,8 +2372,8 @@ function pocketHTML(c){const t=teamOf(c), n=cnt(c), nm=c.name||"Dual autograph";
 
 function renderStats(){
   const b=BASE.filter(cnt).length,i=INS.filter(cnt).length,h=HITS.filter(cnt).length,bind=SLOTS.filter(c=>c&&cnt(c)).length;
-  $("gBase").textContent=b;$("gBar").style.width=(b/300*100)+"%";$("gIns").textContent=i+"/"+INS.length;$("gHits").textContent=h;const rs=CARDS.filter(res).length;const sl=CARDS.filter(sale).length;$("gSale").textContent=sl;$("gSaleWrap").hidden=!sl;$("gRes").textContent=rs;$("gResWrap").hidden=!rs;$("gBind").textContent=bind;
-  $("tcBase").textContent=b+"/300";$("tcIns").textContent=i+"/"+INS.length;$("tcHits").textContent=h?h:"";
+  $("gBase").textContent=b;$("gBar").style.width=(b/B.baseN*100)+"%";$("gIns").textContent=i+"/"+INS.length;$("gHits").textContent=h;const rs=CARDS.filter(res).length;const sl=CARDS.reduce((t,c)=>t+nSale(c),0);$("gSale").textContent=sl;$("gSaleWrap").hidden=!sl;$("gRes").textContent=rs;$("gResWrap").hidden=!rs;$("gBind").textContent=bind;
+  $("tcBase").textContent=b+"/"+B.baseN;$("tcIns").textContent=i+"/"+INS.length;$("tcHits").textContent=h?h:"";
 }
 function renderClubs(){
   $("clubs").innerHTML=TEAMS.map((t,ix)=>{const cs=BASE.filter(c=>c.team===ix),n=cs.filter(cnt).length;
@@ -1485,7 +2388,7 @@ function renderPlan(){
     strip+=`<i class="${fill<1?"half":""}" style="--pc:${col};--p:${Math.round(fill*100)}%" title="${sideLabel(s)}: ${secs.map(x=>SECS[x]).join(" + ")} (${cs.length}/12)"></i>`}
   for(const s of [1,...BINDER_SETS]){const idx=SLOTS.map((c,i)=>c&&(c.sec<=1?1:c.sec)===s?i:-1).filter(i=>i>=0);if(!idx.length)continue;
     const a=Math.floor(idx[0]/PER),b=Math.floor(idx[idx.length-1]/PER);
-    legend+=`<span><b style="--pc:${s===1?"#15171b":setColor(s)}"></b>${s===1?"Basisset #1–300":esc(SECS[s])} <em>· ${a===b?sideLabel(a):sideLabel(a)+" t/m "+sideLabel(b)}</em></span>`}
+    legend+=`<span><b style="--pc:${s===1?"#15171b":setColor(s)}"></b>${s===1?"Basisset #1–"+B.baseN:esc(SECS[s])} <em>· ${a===b?sideLabel(a):sideLabel(a)+" t/m "+sideLabel(b)}</em></span>`}
   const used=SLOTS.filter(Boolean).length;
   $("plan").innerHTML=`<h2>Vulplan</h2><p>${used} van 480 vakken gebruikt, ${480-used} over. Elke set begint op een nieuwe rij; een rij is 4 vakken.</p><div class="strip">${strip}</div><div class="legend">${legend}<span><b style="--pc:var(--line)"></b>leeg</span></div>`;
 }
@@ -1506,7 +2409,7 @@ function setsHTML(list,from,to,box){
   const open=new Set([...box.querySelectorAll("details[open]")].map(d=>d.dataset.s));const filtered=state.q||state.club!=null||state.f!=="all";let html="";
   for(let s=from;s<=to;s++){const all=list.filter(c=>c.sec===s);if(!all.length)continue;const vis=all.filter(matches);if(filtered&&!vis.length)continue;
     const n=all.filter(cnt).length, pre=all[0].code.split(/[ -]/)[0];
-    const where=SIDE_OF[all[0].key]!=null?` · <b>${sideLabel(Math.floor(SIDE_OF[all[0].key]/PER))}</b>`:(s<=26?" · toploaders":"");
+    const where=SIDE_OF[all[0].key]!=null?` · <b>${sideLabel(Math.floor(SIDE_OF[all[0].key]/PER))}</b>`:(s<=B.insTo?" · toploaders":"");
     html+=`<details class="set${n===all.length?" done":""}" data-s="${s}"${open.has(String(s))||filtered?" open":""}><summary><span class="chip" style="--sc:${setColor(s)}"></span><div><div class="st">${esc(SECS[s])}</div><div class="meta">${all.length} kaarten · ${esc(pre)}${where}</div></div><div class="right"><span class="cnt">${n}/${all.length}</span><span class="track"><i style="width:${n/all.length*100}%"></i></span></div></summary><div class="cardgrid">${vis.map(pocketHTML).join("")}</div></details>`}
   return html||'<div class="empty">Geen kaarten met dit filter.</div>'}
 function render(){
@@ -1514,8 +2417,8 @@ function render(){
   ["base","ins","hits"].forEach(t=>{$("v-"+t).hidden=state.tab!==t;$("tab-"+t).setAttribute("aria-selected",state.tab===t)});
   document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===state.f));
   if(state.tab==="base"){renderClubs();renderPlan();renderBinder()}
-  else if(state.tab==="ins"){const b=$("insSets");b.innerHTML=setsHTML(INS,2,26,b)}
-  else{const b=$("hitSets");b.innerHTML=setsHTML(HITS,27,42,b)}
+  else if(state.tab==="ins"){const b=$("insSets");b.innerHTML=setsHTML(INS,2,B.insTo,b)}
+  else{const b=$("hitSets");b.innerHTML=setsHTML(HITS,B.insTo+1,SECS.length-1,b)}
 }
 
 // ---- backend: Supabase (gedeelde database, realtime, opslag) ----
@@ -1542,9 +2445,9 @@ window.addEventListener("online",flush);
 function toggleRes(key){if(owned[key]){toast("Die heb je al");return}
   const on=!owned[RES+key];if(on)owned[RES+key]=1;else delete owned[RES+key];render();saveLocal();queue({t:"owned",k:RES+key,n:on?1:0})}
 function toggleSale(key,sold){const n=owned[key]||0;if(!n){toast("Die heb je niet");return}
-  if(sold){if(!owned[SALE+key]){toast("Staat niet te koop");return}
-    const m=n-1;if(m)owned[key]=m;else delete owned[key];delete owned[SALE+key];
-    render();saveLocal();queue({t:"owned",k:key,n:m});queue({t:"owned",k:SALE+key,n:0});toast("Verkocht, één eraf");return}
+  if(sold){const marked=!!owned[SALE+key];if(n<2&&!marked){toast("Staat niet te koop");return}
+    const m=n-1;if(m)owned[key]=m;else delete owned[key];const clr=marked&&!m;if(clr)delete owned[SALE+key];
+    render();saveLocal();queue({t:"owned",k:key,n:m});if(clr)queue({t:"owned",k:SALE+key,n:0});toast("Verkocht, één eraf");return}
   const on=!owned[SALE+key];if(on)owned[SALE+key]=1;else delete owned[SALE+key];render();saveLocal();queue({t:"owned",k:SALE+key,n:on?1:0})}
 function toggle(key,dec){if(state.sale)return toggleSale(key,dec);if(state.res){if(!dec)toggleRes(key);return}
   const n=owned[key]||0;let m;
@@ -1578,19 +2481,19 @@ function setMode(m){const on=!state[m];state.dup=state.res=state.sale=false;stat
   toast(!on?"Tik = heb ik / heb ik niet":m==="dup"?"Tik = +1, vasthouden = −1":m==="res"?"Tik = besteld / niet besteld":"Tik = te koop / niet te koop, vasthouden = verkocht")}
 $("resMode").onclick=()=>setMode("res");$("dupMode").onclick=()=>setMode("dup");$("saleMode").onclick=()=>setMode("sale");
 function toast(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),2200)}
-$("copyDup").onclick=async()=>{const dups=CARDS.filter(c=>cnt(c)>1);
-  if(!dups.length){toast("Geen dubbelen");return}
-  const groups=new Map();dups.forEach(c=>{const g=c.sec<=1?"Basisset":SECS[c.sec];if(!groups.has(g))groups.set(g,[]);groups.get(g).push(c)});
-  const spare=dups.reduce((t,c)=>t+cnt(c)-1,0);
-  const txt="Dubbelen (Flagship PL 26/27), "+spare+" over:\n"+[...groups].map(([g,cs])=>"\n"+g+"\n"+cs.map(c=>{const t=teamOf(c),tm=t&&t[1]?" ("+t[1]+")":"";return c.code+" "+(c.name||"Dual autograph")+tm+(cnt(c)>2?" ×"+(cnt(c)-1):"")}).join("\n")).join("\n");
-  try{await navigator.clipboard.writeText(txt);toast(spare+" dubbelen gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
+$("copySale").onclick=async()=>{const list=CARDS.filter(forSale);
+  if(!list.length){toast("Niets te koop");return}
+  const groups=new Map();list.forEach(c=>{const g=c.sec<=1?"Basisset":SECS[c.sec];if(!groups.has(g))groups.set(g,[]);groups.get(g).push(c)});
+  const total=list.reduce((t,c)=>t+nSale(c),0);
+  const txt="Te koop ("+B.short+"), "+total+" kaarten:\n"+[...groups].map(([g,cs])=>"\n"+g+"\n"+cs.map(c=>{const t=teamOf(c),tm=t&&t[1]?" ("+t[1]+")":"";return c.code+" "+(c.name||"Dual autograph")+tm+(nSale(c)>1?" ×"+nSale(c):"")}).join("\n")).join("\n");
+  try{await navigator.clipboard.writeText(txt);toast(total+" kaarten gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
 $("copyMiss").onclick=async()=>{
   // alles wat nog mist in de map: basisset plus de insert-sets die in de map zitten, los van het open tabblad
   const miss=SLOTS.filter(c=>c&&!cnt(c)&&!res(c)&&(state.club==null||c.team===state.club));
   if(!miss.length){toast("Niets meer te zoeken");return}
   const groups=new Map();miss.forEach(c=>{const g=c.sec<=1?"Basisset":SECS[c.sec];if(!groups.has(g))groups.set(g,[]);groups.get(g).push(c)});
   const club=state.club!=null?", alleen "+TEAMS[state.club][0]:"";
-  const txt="Mis nog (Flagship PL 26/27"+club+"), "+miss.length+" kaarten:\n"+[...groups].map(([g,cs])=>"\n"+g+" ("+cs.length+")\n"+(g==="Basisset"?cs.map(c=>c.code).join(", "):cs.map(c=>c.code+" "+c.name).join("\n"))).join("\n");
+  const txt="Mis nog ("+B.short+club+"), "+miss.length+" kaarten:\n"+[...groups].map(([g,cs])=>"\n"+g+" ("+cs.length+")\n"+(g==="Basisset"?cs.map(c=>c.code).join(", "):cs.map(c=>c.code+" "+c.name).join("\n"))).join("\n");
   try{await navigator.clipboard.writeText(txt);toast(miss.length+" kaarten gekopieerd")}catch(e){toast("Kopiëren lukt hier niet")}};
 
 // ---- auth: magic link ----
@@ -1611,7 +2514,8 @@ $("pwForm").addEventListener("submit",async e=>{e.preventDefault();$("pwBtn").di
   $("pwBox").hidden=true;toast("Wachtwoord ingesteld")});
 $("logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
 function showLogin(on){$("login").hidden=!on;$("logout").hidden=on;$("setPw").hidden=on;if(on)$("pwBox").hidden=true}
-loadLocal();render();setSync(false,"Verbinden…");
+loadBinder(state.binder);loadLocal();render();setSync(false,"Verbinden…");
+document.querySelectorAll(".binders [data-binder]").forEach(b=>b.onclick=()=>{if(state.binder===b.dataset.binder)return;state.binder=b.dataset.binder;state.club=null;state.q="";$("q").value="";saveUi();loadBinder(state.binder);render();window.scrollTo({top:0})});
 // Supabase-aanroepen niet direct in deze callback doen: dat kan de auth-lock blokkeren.
 let subscribed=false;
 sb.auth.onAuthStateChange((ev,s)=>{session=s;setTimeout(()=>{
