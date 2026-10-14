@@ -164,9 +164,9 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(38px,6vw,64px);l
       <div class="sub">Vault X 12-pocket Exo-Tec · 20 bladen · 480 vakken</div>
     </div>
     <div class="prog">
-      <div class="big"><span id="gBase">0</span><small>/ <span id="gBaseN">300</span> basiskaarten</small></div>
+      <div class="big"><span id="gBind">0</span><small>/ <span id="gSlots">480</span> in de map</small></div>
       <div class="track"><i id="gBar" style="width:0%"></i></div>
-      <div class="meta"><span><span id="gIns">0</span> inserts · <span id="gHits">0</span> hits · <span id="gSaleWrap" hidden><span id="gSale">0</span> te koop · </span><span id="gResWrap" hidden><span id="gRes">0</span> besteld · </span><span id="gBind">0</span>/480 in de map</span><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">Laden…</span> · <button class="link" id="setPw" hidden>wachtwoord</button> · <button class="link" id="logout" hidden>uitloggen</button></span></div>
+      <div class="meta"><span><span id="gBase">0</span>/<span id="gBaseN">300</span> basis · <span id="gIns">0</span> inserts · <span id="gHits">0</span> hits · <span id="gSaleWrap" hidden><span id="gSale">0</span> te koop · </span><span id="gResWrap" hidden><span id="gRes">0</span> besteld · </span></span><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">Laden…</span> · <button class="link" id="setPw" hidden>wachtwoord</button> · <button class="link" id="logout" hidden>uitloggen</button></span></div>
     </div>
   </header>
 
@@ -2257,7 +2257,7 @@ const PL={id:"pl",name:"Premier League",eyebrow:"Topps Flagship · Premier Leagu
   AUTOS:new Set([27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]), RELICS:new Set([40,41,42]),
   SETCOL:{0:"#a37c17",2:"#0f5132",3:"#ff7a1a",4:"#1f5fa8",5:"#5b2d9e",6:"#a8301c",7:"#1e5bd8",8:"#5a6b73",9:"#1b2a5c",10:"#c9a227",11:"#a07a10",12:"#0e6b4c",13:"#d6457a",14:"#c2185b",15:"#e65100",16:"#b8901d",17:"#111111",18:"#4527a0",19:"#c0a000",20:"#7b1f1f",21:"#2e7d32",22:"#37597a",23:"#e07a3b",24:"#7a5a12",25:"#b71c1c",26:"#5b8fd1"},
   FOIL:{10:"gold",11:"gold",16:"gold",24:"gold",9:"silver",26:"silver",6:"silver",17:"black",33:"black"}, gold:[32,38,39,41], black:[33],
-  BINDER_SETS:[2,3,4,5,6,7,8],
+  BINDER_SETS:[2,3,4,5,6,7,8,16],
   note:"Chrome Classics en Gold Lion passen er niet meer bij en horen in toploaders."};
 const BL={id:"bl",name:"Bundesliga",eyebrow:"Topps Flagship · Bundesliga 2026/27",short:"Flagship BL 26/27",prefix:"bl:",raw:RAW_BL,baseN:200,insTo:19,
   SECS:["Future Stars", "Base", "Matchwinner", "Global Gladiators", "Beast Mode", "Stars of the Bundesliga", "Vision", "On Fire", "Chrome Icons", "Golden Spektrum", "Limited Edition", "Kinetic", "Ultra Beast Mode", "Home Pitch", "Prime Time", "TIFO", "All Kings", "Diamond Rookies", "Black Edge", "Golden Spektrum Redemptions", "Base Autographs", "2. Bundesliga Autographs", "Future Stars Autographs", "League Leaders Autographs", "Base Legend Autographs", "Class of 75/76 Autographs", "Matchwinner Autographs", "Stars of the Bundesliga Autographs", "Black Edge Autographs", "Vision Autographs", "On Fire Autographs", "Base Card Relics"],
@@ -2283,7 +2283,7 @@ function loadBinder(id){B=BINDERS[id]||PL;({SECS,TEAMS,KITS,AUTOS,RELICS,SETCOL,
   for(const s of BINDER_SETS){if(pos%COLS)pos+=COLS-pos%COLS;for(const c of INS.filter(c=>c.sec===s))SLOTS[pos++]=c}
   SIDE_OF={};SLOTS.forEach((c,i)=>{if(c)SIDE_OF[c.key]=i});
   document.documentElement.dataset.binder=B.id;document.title="Binder · "+B.name;
-  $("eyebrow").textContent=B.eyebrow;$("gBaseN").textContent=B.baseN;$("noteBinder").textContent=B.note;
+  $("eyebrow").textContent=B.eyebrow;$("gBaseN").textContent=B.baseN;$("gSlots").textContent=SLOTS.filter(Boolean).length;$("noteBinder").textContent=B.note;
   document.querySelectorAll(".binders [data-binder]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.binder===B.id))}
 const sideLabel=i=>`Blad ${Math.floor(i/2)+1} ${i%2?"achter":"voor"}`;
 
@@ -2372,7 +2372,7 @@ function pocketHTML(c){const t=teamOf(c), n=cnt(c), nm=c.name||"Dual autograph";
 
 function renderStats(){
   const b=BASE.filter(cnt).length,i=INS.filter(cnt).length,h=HITS.filter(cnt).length,bind=SLOTS.filter(c=>c&&cnt(c)).length;
-  $("gBase").textContent=b;$("gBar").style.width=(b/B.baseN*100)+"%";$("gIns").textContent=i+"/"+INS.length;$("gHits").textContent=h;const rs=CARDS.filter(res).length;const sl=CARDS.reduce((t,c)=>t+nSale(c),0);$("gSale").textContent=sl;$("gSaleWrap").hidden=!sl;$("gRes").textContent=rs;$("gResWrap").hidden=!rs;$("gBind").textContent=bind;
+  $("gBase").textContent=b;const slots=SLOTS.filter(Boolean).length;$("gSlots").textContent=slots;$("gBar").style.width=(bind/slots*100)+"%";$("gIns").textContent=i+"/"+INS.length;$("gHits").textContent=h;const rs=CARDS.filter(res).length;const sl=CARDS.reduce((t,c)=>t+nSale(c),0);$("gSale").textContent=sl;$("gSaleWrap").hidden=!sl;$("gRes").textContent=rs;$("gResWrap").hidden=!rs;$("gBind").textContent=bind;
   $("tcBase").textContent=b+"/"+B.baseN;$("tcIns").textContent=i+"/"+INS.length;$("tcHits").textContent=h?h:"";
 }
 function renderClubs(){
