@@ -1,4 +1,6 @@
 name: Pokemon stock watcher
+# Draait alleen vandaag: 4 opeenvolgende jobs van ~5,8 uur (GitHub-limiet is 6 uur per job),
+# het script stopt hard om 23:59 Nederlandse tijd. Geen cron, dus morgen start niets vanzelf.
 on:
   push:
     branches: [ccr-0e5f88f6-ooqi31]
@@ -8,14 +10,64 @@ concurrency:
   group: pokemon-watch
   cancel-in-progress: true
 jobs:
-  watch:
+  watch1:
     runs-on: ubuntu-latest
     timeout-minutes: 358
     steps:
       - uses: actions/checkout@v4
-      - name: Watch
+      - name: Watch (deel 1)
         env:
           NTFY_TOPIC: cyc-pkmn-f1c7cdfc49
           INTERVAL: "15"
           DURATION: "21000"
+          END_AT: "2026-11-11T23:59:00+01:00"
+          START_PUSH: "1"
+        run: python3 stock-watcher/watch.py
+
+  watch2:
+    needs: watch1
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 358
+    steps:
+      - uses: actions/checkout@v4
+      - name: Watch (deel 2)
+        env:
+          NTFY_TOPIC: cyc-pkmn-f1c7cdfc49
+          INTERVAL: "15"
+          DURATION: "21000"
+          END_AT: "2026-11-11T23:59:00+01:00"
+          START_PUSH: "0"
+        run: python3 stock-watcher/watch.py
+
+  watch3:
+    needs: watch2
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 358
+    steps:
+      - uses: actions/checkout@v4
+      - name: Watch (deel 3)
+        env:
+          NTFY_TOPIC: cyc-pkmn-f1c7cdfc49
+          INTERVAL: "15"
+          DURATION: "21000"
+          END_AT: "2026-11-11T23:59:00+01:00"
+          START_PUSH: "0"
+        run: python3 stock-watcher/watch.py
+
+  watch4:
+    needs: watch3
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 358
+    steps:
+      - uses: actions/checkout@v4
+      - name: Watch (deel 4)
+        env:
+          NTFY_TOPIC: cyc-pkmn-f1c7cdfc49
+          INTERVAL: "15"
+          DURATION: "21000"
+          END_AT: "2026-11-11T23:59:00+01:00"
+          START_PUSH: "0"
         run: python3 stock-watcher/watch.py

@@ -7,7 +7,7 @@ Alleen standaardbibliotheek. Instellingen via env:
   INTERVAL     seconden tussen checks (standaard 15)
   DURATION     hoe lang draaien in seconden (standaard 0 = oneindig)
 """
-import json, os, random, re, sys, time, urllib.request, urllib.error
+import datetime, json, os, random, re, sys, time, urllib.request, urllib.error
 from urllib.parse import urlparse
 
 BASE = "https://catchyourcards.nl"
@@ -18,6 +18,9 @@ PRODUCTS = {
 TOPIC = os.environ.get("NTFY_TOPIC", "cyc-pkmn-f1c7cdfc49")
 INTERVAL = float(os.environ.get("INTERVAL", "15"))
 DURATION = float(os.environ.get("DURATION", "0"))
+# Harde eindtijd (ISO 8601 met tijdzone), bv. 2026-11-11T23:59:00+01:00
+END_AT = os.environ.get("END_AT")
+START_PUSH = os.environ.get("START_PUSH", "1") == "1"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/130.0 Safari/537.36")
 
@@ -102,13 +105,18 @@ def status(slug):
 
 
 def main():
-    log(f"start, topic={TOPIC}, interval={INTERVAL}s")
-    notify("Pokemon-watcher draait", "Je krijgt een push zodra een box te koop is.",
-           BASE, priority="default")
+    end = datetime.datetime.fromisoformat(END_AT).timestamp() if END_AT else None
+    if end and time.time() >= end:
+        log("eindtijd al voorbij, niets te doen")
+        return
+    log(f"start, topic={TOPIC}, interval={INTERVAL}s, eind={END_AT}")
+    if START_PUSH:
+        notify("Pokemon-watcher draait", "Je krijgt een push zodra een box te koop is.",
+               BASE, priority="default")
     last = {s: "out" for s in PRODUCTS}
     last_alert = {s: 0.0 for s in PRODUCTS}
     t0 = time.time()
-    while not DURATION or time.time() - t0 < DURATION:
+    while (not DURATION or time.time() - t0 < DURATION) and not (end and time.time() >= end):
         for slug, name in PRODUCTS.items():
             st, detail = status(slug)
             log(f"{name}: {st} ({detail})")
