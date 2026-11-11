@@ -1,0 +1,21 @@
+name: Pokemon stock watcher
+on:
+  push:
+    branches: [ccr-0e5f88f6-ooqi31]
+    paths: [stock-watcher/**, .github/workflows/pokemon-watch.yml]
+  workflow_dispatch:
+concurrency:
+  group: pokemon-watch
+  cancel-in-progress: true
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 358
+    steps:
+      - uses: actions/checkout@v4
+      - name: Watch
+        env:
+          NTFY_TOPIC: cyc-pkmn-f1c7cdfc49
+          INTERVAL: "15"
+          DURATION: "21000"
+        run: python3 stock-watcher/watch.py
